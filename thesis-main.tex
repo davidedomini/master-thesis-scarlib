@@ -86,7 +86,7 @@ Starting from what was seen in the previous paragraph, the goal of this thesis i
     Scarlib, whose development has already started in \cite{scarlib}, is the tool that for us forms the basis of this toolchain.
     Its main purpose is to integrate the \emph{ScaFi} \cite{casadei2022scafi} (an implementation of aggregate computing) 
     and \emph{Alchemist} \cite{pianini2013chemical} (a bio-chemical based simulator) tools with \emph{Reinforcement Learning} 
-    to help develop experiments in simulated environments with offline learning.
+    to help develop experiments in \emph{simulated} environments with \emph{offline learning}.
 
 %
 \paragraph{Thesis Structure} 
@@ -100,6 +100,60 @@ Starting from what was seen in the previous paragraph, the goal of this thesis i
 \section{Cyber-Physical Swarms}
 %
 \section{Aggregate Computing}
+
+The advent of \emph{Collective Computing} and the proliferation of interconnected devices have given rise to novel 
+    paradigms that aim to address the challenges posed by the distributed nature of computing
+    systems. One such paradigm that has gained significant attention in recent years is 
+    \emph{aggregate computing (AC)} [8].
+
+AC is well grounded on \emph{field calculus}, and therefore adopts a model where the perspective is at a global level: 
+    a group of devices is seen as a global entity (i.e., the \emph{aggregate system}) that works at asynchronous 
+    rounds and exchanges messages with neighbours. 
+    A round is composed of three phases:
+    i) \emph{Context Building}, each node collects information from the 
+        neighborhood and sensors,
+    ii) \emph{Program Execution}, each node executes the aggregate program on the local context, and
+    iii) \emph{Export Sharing}, each node shares the export with the neighborhood.
+
+Interactions within the aggregate system are seen as a flow of information propagating through the 
+    collective of devices, rather than as local interactions of individual devices with their
+    peers and the environment. This approach offers a number of advantages:
+    i) the program can be defined in a composable and declarative manner, 
+    ii) it promotes the reuse of behaviours, and 
+    iii) the programmer is relieved from concerns regarding low-level aspects (e.g., failures, distribution, communication and more), 
+    as these are automatically handled by the middleware.
+%Considering the interactions within this system as a flow of information 
+%    propagating through a collective of devices, rather than as local interactions between devices and the 
+%    environment, offers significant advantages: i) the program can be defined in a composable and declarative
+%    manner, ii) it promotes the reuse of behaviours, and iii) the programmer is relieved from concerns regarding 
+%    low-level aspects (e.g., failures, distribution, communication and more), as these are automatically handled 
+%    by the middleware. %riformula tipo "le interazioni sono viste come... e questo porta i seguenti vantaggi..."
+
+In aggregate computing, information is represented by a distributed data structure known as computational field [50, 26],
+    which is an abstraction of space-time values where each device is mapped to a computational value.
+    The manipulation of these fields is derived from the Field Calculus [48], a computational model in which collective 
+    behaviours are expressed as algorithms that are the composition of computational fields.
+
+In recent times, several implementations of aggregate computing have been developed, and one particularly interesting 
+    implementation is ScaFi [13]. ScaFi is a Scala-based platform that offers the following features: 
+    i) a domain specific language (DSL) for specifying aggregate computation, 
+    ii) asimulation environment (through the Alchemist simulator [34]), 
+    iii) a middleware for executing and deploying aggregate programs, and 
+    iv) reusable library functionalities that serve as building blocks for constructing new aggregate programs. 
+    For example, the gradients abstraction that provides gradient functions [47, 7] used for the ongoing computation, 
+    across spatio-temporal dimension, of the self-healing field (i.e., a field able to self-adjust in case of changes 
+    in devices topology) that determines the minimum distances of individual nodes from a specified set of source 
+    nodes [13].
+
+    \begin{figure}[h!]
+        \centering
+        \includegraphics[width=0.7\textwidth]{figures/channel.png}
+        \caption{Channel example}
+        \label{fig:channel}
+      \end{figure}
+
+      \lstinputlisting[float,language=Scala,label={lst:channel-code}]{listings/Channel.scala}
+
 %
 \section{Reinforcement Learning}
 %
