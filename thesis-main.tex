@@ -185,7 +185,7 @@ Formally, a RL problem can be formulated as following \cite{RLSurvey}:
         and returns the scalar reward $r_{t+1}$.
         Finally, the agent, based on the reward obtained updates its knwoledge.
 
-    \begin{figure}[h!]
+    \begin{figure}[t]
         \centering
         \includegraphics[width=0.7\textwidth]{figures/rl.png}
         \caption{Reinforcement learning schema}
@@ -248,6 +248,17 @@ Several exploration strategies have been proposed in the literature to solve thi
 
 \paragraph{Deep Reinforcement Learning}
 
+
+Classical algorithms of reinforcement learning, when applied in \emph{real-world contexts}, suffer from the problem of \emph{state space explosion}.
+    This arises from an exceedingly large number of possible states, making the resolution of a given task \emph{computationally intractable}. 
+    For instance, in the game of chess, there can be around $100^{100k}$ possible games, a number much larger than 
+    the count of sand grains on Earth ($\approx 10^{23}$) and the number of atoms in the observable universe 
+    ($\approx 10^{81}$). 
+    For this reason, \emph{deep reinforcement learning} has been introduced, which involves utilizing deep neural networks
+    as approximators for the policy and/or the value function.
+
+
+    %spiega dqn
 \begin{figure*}[t]
     \begin{subfigure}[b]{0.49\textwidth}
         \centering
