@@ -5,6 +5,8 @@
 %%%%
 \documentclass[12pt,a4paper,openright,twoside]{book}
 \usepackage[utf8]{inputenc}
+\usepackage{subcaption}
+\newcommand{\fonte}[1]{{\color{gray} \small \hypersetup{citecolor=gray} Source: #1}}
 
 %\newcommand{\thesislang}{italian} % decommentare in caso di tesi in italiano
 \newcommand{\thesislang}{english} % commentare in caso di tesi in italiano
@@ -150,13 +152,118 @@ In recent times, several implementations of aggregate computing have been develo
         \includegraphics[width=0.7\textwidth]{figures/channel.png}
         \caption{Channel example}
         \label{fig:channel}
-      \end{figure}
+    \end{figure}
 
       \lstinputlisting[float,language=Scala,label={lst:channel-code}]{listings/Channel.scala}
 
 %
 \section{Reinforcement Learning}
 %
+
+``\emph{Reinforcement Learning (RL)} is the science of decision making. It is about learning the optimal behavior 
+    in a environment to obtain maximum reward" 
+    \footnote{\url{https://www.synopsys.com/ai/what-is-reinforcement-learning.html}}.
+    RL is a general framework, other than supervised and unsupervised learning, in which an \emph{agent} learns 
+    to behave within an \emph{environment} by performing some \emph{actions} and seeing the result they produce.
+    It is inspired by how humans and animals learn through the system of rewards and punishments: for each good action
+    the environment provides to the agent a positive reward, instead, for each bad action the agent gets a negative 
+    reward (also called penalty).
+
+Formally, a RL problem can be formulated as following \cite{RLSurvey}:
+    \begin{itemize}
+        \item Discrete time steps $t=0, 1, 2, ...$;
+        \item A discrete set of environment states $\mathcal{S}$;
+        \item A discrete set of agent actions $\mathcal{A}$;
+        \item A reinforcement signal;
+        \item A probabilistic policy $\pi$, that is a mapping function from states to actions;
+        \item The goal of the agent is to learn the optimal policy $\pi^*$ in order to maximize 
+                some long-run measure of reinforcement (e.g., the Infinite Horizon Discounted Model \cite{RLSurvey}).
+    \end{itemize}
+    First, at time $t$, the agent observes the state of the environment $s_t \in \mathcal{S}$
+        and chooses an action $a_t \in \mathcal{A}$ using the actual policy $\pi_t$. 
+        Thereafter, the environment: takes in the action $a_t$, emits the new state $s_{t+1} \in \mathcal{S}$ 
+        and returns the scalar reward $r_{t+1}$.
+        Finally, the agent, based on the reward obtained updates its knwoledge.
+
+    \begin{figure}[h!]
+        \centering
+        \includegraphics[width=0.7\textwidth]{figures/rl.png}
+        \caption{Reinforcement learning schema}
+        \fonte{\url{https://it.mathworks.com/discovery/reinforcement-learning.html}}
+        \label{fig:rl_schema}
+    \end{figure}
+
+    In order to find the optimal policy $\pi^*$, the agent tries to maximize the expected cumulative reward.
+        Since the environment is stochastic (i.e., the same action performed in the same state could lead to different 
+        results over time) the more you look into the future the more the outcome could diverge.
+        For this reason, it is common to use a model that takes less account of rewards that are far away in time 
+        than those that are close in time:
+        $$R_t = \sum_{i=t}^{\infty} \gamma^{i-t} \cdot R_{\pi(s_i)}(s_i, s_{i+1}) $$
+        This model is called \emph{Infinite Horizon Discounted Model}, the key aspect is the hyper-parameter $\gamma$.
+        It is a scalar weight in the range $[0;1]$, in this way, the further away the reward is in time, the smaller its weight.
+\paragraph{Markov Decision Process} 
+
+
+\paragraph{Exploration-exploitation dilemma}
+The \emph{exploration-exploitation dilemma} is a problem that comes from the definition of the RL process.
+    In order to increase its knowledge and build an optimal policy, the agent needs to \emph{explore} the environment 
+    in the hope of finding better actions. After some exploration, the agent might have found a set of 
+    apparently rewarding actions, but, how can the agent be sure that the found actions are actually the best? 
+    When should the agent continue to explore or else, when should it just \emph{exploit} its existing knwoledge?
+
+Several exploration strategies have been proposed in the literature to solve this problem, the simplest is the
+    \emph{$\epsilon$-greedy} strategy. The agent \emph{randomly explore} the environment with probability $\epsilon$
+    while \emph{exploit} the current optimal action with probability $1-\epsilon$.
+
+    $$
+    \pi(s)=
+    \begin{cases}
+        \pi^*(s) & \text{with probability $1-\epsilon$} \\
+        \text{\emph{random action}} & \text{with probability $\epsilon$}\\
+    \end{cases} 
+    $$ 
+
+    Usually, at the beginning of the learning process $\epsilon$ starts near to $1$ (i.e., more exploration) and then decreases
+    to $0$ as the agent learns more and more about the environment. 
+
+\paragraph{Main approaches} %Policy vs value based
+
+\begin{figure*}[t]
+    \begin{subfigure}[b]{0.49\textwidth}
+        \centering
+        \includegraphics[width=0.7\textwidth]{figures/policy-based-rl.png}
+        \caption{Policy based rl}
+        \label{fig:policy-based-rl}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.49\textwidth}
+        \centering
+        \includegraphics[width=0.7\textwidth]{figures/value-based-rl.png}
+        \caption{Value based rl}
+        \label{fig:value-based-rl}
+    \end{subfigure}
+\caption{Policy and value based algorithms visual comparison}\vspace{-10pt}
+\end{figure*}
+
+\paragraph{Q-Learning}
+
+\paragraph{Deep Reinforcement Learning}
+
+\begin{figure*}[t]
+    \begin{subfigure}[b]{0.49\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{figures/q-learning.pdf}
+        \caption{Q-Learning}
+        \label{fig:ql}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.49\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{figures/deepQL.pdf}
+        \caption{Deep Q-Learning}
+        \label{fig:dqn}
+    \end{subfigure}
+\caption{Q-Learning and Deep Q-Learning visual comparison}\vspace{-10pt}
+\end{figure*}
+
 \section{Multi-Agent Reinforcement Learning}
 
 %----------------------------------------------------------------------------------------
