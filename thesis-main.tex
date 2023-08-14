@@ -182,8 +182,12 @@ Formally, a RL problem can be formulated as following \cite{RLSurvey}:
     First, at time $t$, the agent observes the state of the environment $s_t \in \mathcal{S}$
         and chooses an action $a_t \in \mathcal{A}$ using the actual policy $\pi_t$. 
         Thereafter, the environment: takes in the action $a_t$, emits the new state $s_{t+1} \in \mathcal{S}$ 
-        and returns the scalar reward $r_{t+1}$.
+        and returns the scalar reward $r_{t+1}$ (\Cref{fig:rl_schema}).
         Finally, the agent, based on the reward obtained updates its knwoledge.
+    This formulation stems from \emph{Markov Decision Processes}, which is a mathematical framework for \emph{sequential decision making}. A very important property that these systems must adhere to is the \emph{Markov property}, which states ``\emph{the future is independent of the past given the present.}" In other words, it implies that the state transition function does not require the entire past trajectory but only the last state, namely: 
+    $$p(s_{t+1} | s_t, a_t, ..., s_0, a_0) = p(s_{t+1} | s_t, a_t)$$
+    It is important to note that the concept of state can always be extended to satisfy this property.
+
 
 \begin{figure}[t]
     \centering
@@ -193,16 +197,14 @@ Formally, a RL problem can be formulated as following \cite{RLSurvey}:
     \label{fig:rl_schema}
 \end{figure}
 
-    In order to find the optimal policy $\pi^*$, the agent tries to maximize the expected cumulative reward.
-        Since the environment is stochastic (i.e., the same action performed in the same state could lead to different 
-        results over time) the more you look into the future the more the outcome could diverge.
-        For this reason, it is common to use a model that takes less account of rewards that are far away in time 
-        than those that are close in time:
-        $$R_t = \sum_{i=t}^{\infty} \gamma^{i-t} \cdot R_{\pi(s_i)}(s_i, s_{i+1}) $$
-        This model is called \emph{Infinite Horizon Discounted Model}, the key aspect is the hyper-parameter $\gamma$.
-        It is a scalar weight in the range $[0;1]$, in this way, the further away the reward is in time, the smaller its weight.
-\paragraph{Markov Decision Process} 
-
+In order to find the optimal policy $\pi^*$, the agent tries to maximize the expected cumulative reward.
+    Since the environment is stochastic (i.e., the same action performed in the same state could lead to different 
+    results over time) the more you look into the future the more the outcome could diverge.
+    For this reason, it is common to use a model that takes less account of rewards that are far away in time 
+    than those that are close in time:
+    $$R_t = \sum_{i=t}^{\infty} \gamma^{i-t} \cdot R_{\pi(s_i)}(s_i, s_{i+1}) $$
+    This model is called \emph{Infinite Horizon Discounted Model}, the key aspect is the hyper-parameter $\gamma$.
+    It is a scalar weight in the range $[0;1]$, in this way, the further away the reward is in time, the smaller its weight.
 
 \paragraph{Exploration-exploitation dilemma}
 
@@ -272,7 +274,7 @@ An example of policy-based method is \emph{Proximal Policy Optimization (PPO)} \
     $$ \pi^{*}(s) = argmax_a Q(s,a) $$
 
 Another key aspect is how we can estimate the reward at the end of the process if we only know the current state 
-    and action, without knowing subsequent states. To achieve this, the \emph{Bellman equation} can be used. 
+    and action, without knowing the subsequent trajectory. To achieve this, the \emph{Bellman equation} can be used. 
     This equation defines, for a given transition $<s_t, a_t, s_{t+1}, r_{t+1}>$, the value $Q(s,a)$ recursively 
     as the sum of the immediate reward and the maximum expected cumulative reward from the subsequent state:
     $$ Q(s_t,a_t) =  r_{t+1} + \gamma \cdot max_a Q(s_{t+1}, a)$$
@@ -327,7 +329,7 @@ DQN, specifically, is the deep version of the Q-Learning algorithm, thus produci
 \label{fig:qlvsdqn}
 \end{figure*}
 
-When attempting to use neural networks to approximate, in this case, the Q-function, several problems arise. 
+When attempting to use neural networks to approximate the Q-function, several problems arise. 
     The first one is due to the high correlation that exists between two consecutive transitions within the same 
     episode. This correlation leads to a significant decrease in variance, causing the network to tend to forget 
     previous transitions as it overwrites them with newer ones. For instance, let's consider an agent's task to 
