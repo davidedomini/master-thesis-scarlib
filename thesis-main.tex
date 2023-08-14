@@ -205,6 +205,7 @@ Formally, a RL problem can be formulated as following \cite{RLSurvey}:
 
 
 \paragraph{Exploration-exploitation dilemma}
+
 The \emph{exploration-exploitation dilemma} is a problem that comes from the definition of the RL process.
     In order to increase its knowledge and build an optimal policy, the agent needs to \emph{explore} the environment 
     in the hope of finding better actions. After some exploration, the agent might have found a set of 
@@ -226,7 +227,20 @@ Several exploration strategies have been proposed in the literature to solve thi
     Usually, at the beginning of the learning process $\epsilon$ starts near to $1$ (i.e., more exploration) and then decreases
     to $0$ as the agent learns more and more about the environment. 
 
-\paragraph{Main approaches} %Policy vs value based
+\paragraph{Main approaches}
+
+In Reinforcement Learning, there are two main families of approaches that can be used to categorize the 
+    algorithms employed by an agent in finding the optimal policy. These are: 
+    i) policy-based methods, and 
+    ii) value-based methods.
+    Policy-based algorithms aim to directly learn a function that maps each state to the best action to take 
+    (or a probability distribution over a set of possible actions). On the other hand, value-based methods 
+    seek to learn a function that maps each possible state to an expected value of being in that state. 
+    This way, the agent can learn which states is more valuable and will take action that leads to it. 
+    This comparison is well illustrated in \Cref{fig:rl-methods}.
+
+An example of policy-based method is \emph{Proximal Policy Optimization (PPO)} \cite{ppo}, while an example of 
+    value based-method is \emph{Q-Learning} \cite{QL}
 
 \begin{figure*}[t]
     \begin{subfigure}[b]{0.49\textwidth}
@@ -241,13 +255,37 @@ Several exploration strategies have been proposed in the literature to solve thi
         \caption{Value based RL}
         \label{fig:value-based-rl}
     \end{subfigure}
-\caption{Policy and value based algorithms visual comparison}\vspace{-10pt}
+\caption{Policy and value based algorithms visual comparison}%\vspace{-10pt}
+\fonte{\url{https://www.lamsalashish.com.np/blog/reinforcement-learning}}
+\label{fig:rl-methods}
 \end{figure*}
 
 \paragraph{Q-Learning}
 
-\paragraph{Deep Reinforcement Learning}
+\emph{Q-Learning} is one of the most famous Reinforcement Learning algorithms from the value-based methods family. 
+    One of the key aspects of this algorithm is the \emph{Q-Table}, denoted as $Q(s,a)$. This table represents, 
+    for each possible state-action pair, the \emph{expected cumulative reward} that the agent will obtain by
+    taking action $a$ in state $s$ and subsequently following optimal actions. 
+    Thus, the Q-table at time step $t$, given a state $s_t$, an action $a_t$, and a policy $\pi_t$, is represented by:
+    $$ Q(s_t, a_t) = max_{\pi(s_t) = a_t} R_{t+1}$$
+    Starting from the Q-Table, one can easily define the \emph{optimal policy} as follows:
+    $$ \pi^{*}(s) = argmax_a Q(s,a) $$
 
+Another key aspect is how we can estimate the reward at the end of the process if we only know the current state 
+    and action, without knowing subsequent states. To achieve this, the \emph{Bellman equation} can be used. 
+    This equation defines, for a given transition $<s_t, a_t, s_{t+1}, r_{t+1}>$, the value $Q(s,a)$ recursively 
+    as the sum of the immediate reward and the maximum expected cumulative reward from the subsequent state:
+    $$ Q(s_t,a_t) =  r_{t+1} + \gamma \cdot max_a Q(s_{t+1}, a)$$
+
+The main idea of Q-Learning is to \emph{iteratively approximate} the Q-values, using the Bellman equation, as follows:
+$$ Q^{new}(s_t,a_t) = (1-\alpha) \cdot Q(s_t,a_t) + \alpha \cdot (r_{t+1} + \gamma \cdot max_a Q(s_{t+1}, a)) $$
+    Where $\alpha$ is the learning rate hyper-parameter that controls how much of the current Q-value and newly proposed
+    Q-value is considered.
+    At the beginning of the learning process, these Q-values will be practically random estimates and may be completely wrong. 
+    However, it has been demonstrated that as iterations progress, these Q-values will 
+    converge and represent the true Q-values.
+
+\paragraph{Deep Reinforcement Learning}
 
 Classical algorithms of reinforcement learning, when applied in \emph{real-world contexts}, suffer from the problem of \emph{state space explosion}.
     This arises from an exceedingly large number of possible states, making the resolution of a given task \emph{computationally intractable}. 
@@ -262,15 +300,6 @@ One of the most well-known Deep RL algorithms is DQN \cite{dqn}. This was develo
     approximators for the function to be learned is the ability to avoid hand-engineering the state space and instead 
     allow the network to learn the best features directly. For example, in the case of Atari games, this is achieved 
     by using convolutional layers and feeding the network with screen raw pixels.
-
-% DQN, nello specifico, è la versione deep dell'algoritmo Q-Learning, quindi produce come output un Q-Value per ogni 
-%     possibile azione [ref fig]. Questo fa sì che l'addestramento della rete neurale utilizzata sia un task di regressione in cui 
-%     può essere utilizzata come funzione di loss una square error loss: 
-%     $$ L = (y_t - \hat{y_t})^2 $$
-%     Dove $y_t$ è il valore reale e $\hat{y_t}$ è il valore predetto al tempo t. Siccome RL è un apprendimento di tipo 
-%     non-supervisionato e, quindi, non si hanno label il valore $y_t$ viene stimato utilizzando l'equazione di Bellman,
-%     portando la funzione di loss, per una transizione $<s_t, a_t, s_{t+1}, r_{t+1}>$, a diventare:
-%     $$ L = ( r_{t+1} + \gamma \cdot max_a Q(s_{t+1}, a) - Q(s_t, a_t))^2 $$
     
 DQN, specifically, is the deep version of the Q-Learning algorithm, thus producing a Q-Value output for each 
     possible action (\Cref{fig:qlvsdqn}). This makes the training of the utilized neural network a regression task 
