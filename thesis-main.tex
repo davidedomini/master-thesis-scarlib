@@ -355,6 +355,118 @@ A second issue that can be observed is referred to as the \emph{moving target pr
     $$ L = ( r_{t+1} + \gamma \cdot max_a \hat{Q}(s_{t+1}, a) - Q(s_t, a_t))^2 $$
 
 \section{Multi-Agent Reinforcement Learning}
+\emph{Multi-Agent Reinforcement Learning} is an extension of RL where multiple agents interact one another and 
+    with the environment. 
+    Usually, MARL is modelled as a \emph{Markov Game} (or Stochastic Game $\mathcal{S}$)~\cite{LITTMAN1994157} in
+    which we have:
+    \begin{itemize}
+        \item A tuple $\mathcal{S} = <N, S, \{A^i\}, P, \{R^i\}>$ with $i \in 1 \dots N$
+        \item The number of agents $N > 1$
+        \item The action space of the i-th agent $A^i$. The global action space is defined as $\mathbb{A} = A^1 \times A^2 \times \dots \times A^N$
+        \item A function describing the transition dynamics $P: S \times \mathbb{A} \rightarrow \mathcal{P}(S)$
+        \item The reward function $R^i: S \times \mathbb{A} \times S \rightarrow \mathbb{R}$ for each agent $i$ 
+    \end{itemize}
+
+\paragraph{Categorization}
+
+Based on the reward function used by the agents, MARL can be divided into two categories: 
+    i) \emph{cooperative}, where all the agents trying to maximize the same reward function (e.g., a group of robots
+    trying to clean a room); 
+    ii) \emph{competitive}, where, potentially, each agent has its own reward function that is conflictual with the other (e.g., a rock-paper-scissor game). 
+    Cooperative MARL can be further divided into two additional categories (based on the policy), namely: 
+    i) \emph{homogeneous}, where all the agents have the same capabilities, i.e., they use the same policy 
+    ii) \emph{heterogeneous}, where each agent may have its own policy, in this case, each agent tries to maximize the local policy following the global shared goal.
+
+In this thesis, we focus on a subset of MARL, namely: \emph{Many Agent Reinforcement Learning}~\cite{yang2021many}. The only
+    difference between the two approaches is in the number of agents involved. 
+    Typically, in Many Agent Reinforcement Learning the number of agents may range from a hundred to one or two
+    thousands whereas, in Multi Agent Reinforcement Learning, there are only a few tens~\cite{smac,marl-curricula}.
+    Moreover, we focus on cooperative homogeneous and heterogeneous learning.
+
+
+\paragraph{Execution model}
+   
+Another point to pay attention to is the system by which the training and execution of the various agents are carried out. This can be primarily categorized into three types (\Cref{fig:exmod}):
+    i) \emph{Centralized Training Centralized Execution (CTCE)}, in this type of system, there is a higher-level agent called \emph{Learner}, with a global perspective, whose task is to perform training and compute actions to be undertaken. The remaining agents, therefore, transmit their local environmental perceptions (i.e., the local state) to the learner agent, which is responsible for merging these perceptions to reconstruct the global state. Once reconstructed, it selects the action to take in accordance with the current policy and evaluates the reward function for policy updates;
+    ii) \emph{Centralized Training Decentralized Execution (CTDE)}, in this type of system, a learner agent with a global perspective executes the training algorithm. Once the policy is updated, it is sent to each agent, which can interact with the environment and take actions in accordance with it;
+    iii) \emph{Decentralized Training Decentralized Execution (DTDE)}, in this type of system, each agent has its own local policy and can only observe a portion of the environment. Each agent, therefore, takes actions based on its perception of the environment and updates its own local reward function accordingly.
+
+\begin{figure*}[t]
+    \begin{subfigure}[b]{0.32\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{figures/CTCE.png}
+        \caption{CTCE}
+        \label{fig:ctce}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.32\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{figures/CTDE.png}
+        \caption{CTDE}
+        \label{fig:ctde}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.32\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{figures/DTDE.png}
+        \caption{DTDE}
+        \label{fig:dtde}
+    \end{subfigure}
+    \caption{Execution model comparison}\vspace{-10pt}
+    \label{fig:exmod}
+\end{figure*}
+
+\paragraph{Challenges}
+
+% Il MARL è un campo molto promettente e che sta avendo sempre più attenzione negli ultimi anni, nonostante questo 
+%     ci sono ancora diverse challenge da affrontare e che rendono complessa la sua applicazione in contesti complessi,
+%     alcune di queste sono:
+%     i) Environment parzialmente osservabili, In environment di una certa complessità (quindi
+%     escludendo i toy-environment) gli agenti non possono avere una rappresentazione com-
+%     pleta del mondo che li circonda nè possono avere accesso allo stato degli altri agenti
+%     presenti. Questo porta l’environment a non soddisfare la condizione di Markov
+%     ii) non stazionarietà, Questo problema deriva dalla presenza di molteplici agenti che cercano di imparare contemporaneamente: dal punto di vista di un singolo agente, l'environment diventa non-stazionario.
+%     iii) Comunicazione fra agenti, questa è una feature ritenuta molto importante
+%     in letteratura. In particolare, il problema non affronta solo il cosa un agente deve comu-
+%     nicare ma anche con chi deve comunicare e quando.
+%     iv) La coordinazione è una feature essenziale nei sistemi cooperativi, in
+%     quanto è necessario che gli agenti raggiungano un consenso sulle azioni da intraprendere.
+%     Se questo non avviene in fase di learning, si può arrivare a scegliere una policy sub-
+%     ottima. La coordinazione può essere ottenuta mediante comunicazione, come descritto
+%     nella sezione precedente, oppure implicitamente: ogni agente costruisce un proprio mod-
+%     ello dei restanti agenti, cercando di comprendere i pattern comportamentali e inferire la
+%     prossima azione.
+%     v) Il Credit Assignment Problem si riferisce al problema di
+%     associare un reward ad un’azione intrapresa da un dato agente. Questa associazione
+%     è necessaria, in fase di learning, per capire l’efficacia di un’azione intrapresa e riuscire
+%     a massimizzare la funzione di reward nel tempo. Alcuni studi [5] mostrano come, in caso di agenti indipendenti, questi non siano in grado di distinguere gli effetti derivanti
+%     dal comportamento stocastico dell’environment dalle azioni intraprese dagli altri agenti.
+%     Inoltre, la complessità di questo problema aumenta considerando due ulteriori vincoli: a natura del Reinforcement Learning, per cui, non si deve capire solo l’impatto di
+%     una singola azione ma di una sequenza di azioni nel tempo e  la parziale osservabilità degli environment
+%     vi) La scalabilità di questi sistemi è influenzata dai problemi descritti prece-
+%     dentemente in questa sezione. Effettuare il training di un agente è di per sé difficile:
+%     aumentando il numero di agenti del sistema, questa complessità aumenta esponenzial-
+%     mente. Oltretutto, la scalabilità del sistema è determinata anche dalla robustezza di un
+%     agente a fronte di un cambiamento nel comportamento degli altri agenti. In letteratura
+%     sono presenti alcune tecniche, in fase di esplorazione, utili a rafforzare la scalabilità come,
+%     ad esempio, knowledge reuse, regolarizzazione, adversarial training ed altre ancora
+
+MARL is a highly promising field that has been garnering increasing attention in recent years. Nevertheless, there are still several challenges that complicate its application in complex contexts. Some of these challenges include:
+\begin{enumerate}
+   
+
+    \item  \emph{Partially Observable Environments}: in environments of significant complexity, agents cannot have a complete representation of the surrounding environment nor access the state of other present agents.
+   
+    \item \emph{Non-Stationarity}: this issue arises due to multiple agents simultaneously learning and changing the environment. From the perspective of an individual agent, the environment becomes non-stationary.
+   
+    \item  \emph{Agent Communication}: communication among agents is a crucial feature in the literature. The problem not only addresses what an agent should communicate but also with whom and when.
+   
+    \item  \emph{Coordination}: coordination is essential in cooperative systems, as agents must reach a consensus on the actions to take. Failure to coordinate during learning can lead to suboptimal policies. Coordination can be achieved through communication or implicitly, with each agent constructing its own model of other agents' behavior to infer their next actions.
+   
+    \item  \emph{Credit Assignment Problem}: this refers to associating a reward with an action taken by a specific agent. This association is crucial for learning to understand the effectiveness of an action and maximizing the reward function over time.
+   
+    \item  \emph{Scalability}: the scalability of these systems is influenced by the challenges outlined in this section. Training a single agent is inherently challenging; as the number of agents in the system increases, the complexity grows exponentially. Additionally, scalability is determined by an agent's robustness in the face of changes in the behavior of other agents. Literature presents exploration techniques to enhance scalability, such as knowledge reuse, regularization, adversarial training, and others.
+\end{enumerate}
+
+\section{Simulation}
 
 %----------------------------------------------------------------------------------------
 \chapter{Requirements} 
