@@ -147,14 +147,14 @@ In recent times, several implementations of aggregate computing have been develo
     in devices topology) that determines the minimum distances of individual nodes from a specified set of source 
     nodes [13].
 
-    \begin{figure}[h!]
-        \centering
-        \includegraphics[width=0.7\textwidth]{figures/channel.png}
-        \caption{Channel example}
-        \label{fig:channel}
-    \end{figure}
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.7\textwidth]{figures/channel.png}
+    \caption{Channel example}
+    \label{fig:channel}
+\end{figure}
 
-      \lstinputlisting[float,language=Scala,label={lst:channel-code}]{listings/Channel.scala}
+\lstinputlisting[float,language=Scala,label={lst:channel-code}]{listings/Channel.scala}
 
 %
 \section{Reinforcement Learning}
@@ -185,13 +185,13 @@ Formally, a RL problem can be formulated as following \cite{RLSurvey}:
         and returns the scalar reward $r_{t+1}$.
         Finally, the agent, based on the reward obtained updates its knwoledge.
 
-    \begin{figure}[t]
-        \centering
-        \includegraphics[width=0.7\textwidth]{figures/rl.png}
-        \caption{Reinforcement learning schema}
-        \fonte{\url{https://it.mathworks.com/discovery/reinforcement-learning.html}}
-        \label{fig:rl_schema}
-    \end{figure}
+\begin{figure}[t]
+    \centering
+    \includegraphics[width=0.7\textwidth]{figures/rl.png}
+    \caption{Agent-environment interactions}
+    \fonte{\url{https://it.mathworks.com/discovery/reinforcement-learning.html}}
+    \label{fig:rl_schema}
+\end{figure}
 
     In order to find the optimal policy $\pi^*$, the agent tries to maximize the expected cumulative reward.
         Since the environment is stochastic (i.e., the same action performed in the same state could lead to different 
@@ -232,13 +232,13 @@ Several exploration strategies have been proposed in the literature to solve thi
     \begin{subfigure}[b]{0.49\textwidth}
         \centering
         \includegraphics[width=0.7\textwidth]{figures/policy-based-rl.png}
-        \caption{Policy based rl}
+        \caption{Policy based RL}
         \label{fig:policy-based-rl}
     \end{subfigure}
     \begin{subfigure}[b]{0.49\textwidth}
         \centering
         \includegraphics[width=0.7\textwidth]{figures/value-based-rl.png}
-        \caption{Value based rl}
+        \caption{Value based RL}
         \label{fig:value-based-rl}
     \end{subfigure}
 \caption{Policy and value based algorithms visual comparison}\vspace{-10pt}
@@ -257,8 +257,30 @@ Classical algorithms of reinforcement learning, when applied in \emph{real-world
     For this reason, \emph{deep reinforcement learning} has been introduced, which involves utilizing deep neural networks
     as approximators for the policy and/or the value function.
 
+One of the most well-known Deep RL algorithms is DQN \cite{dqn}. This was developed by DeepMind in 2013 and was initially
+    used to train an agent capable of playing Atari video games. One of the advantages of using neural networks as 
+    approximators for the function to be learned is the ability to avoid hand-engineering the state space and instead 
+    allow the network to learn the best features directly. For example, in the case of Atari games, this is achieved 
+    by using convolutional layers and feeding the network with screen raw pixels.
 
-    %spiega dqn
+% DQN, nello specifico, è la versione deep dell'algoritmo Q-Learning, quindi produce come output un Q-Value per ogni 
+%     possibile azione [ref fig]. Questo fa sì che l'addestramento della rete neurale utilizzata sia un task di regressione in cui 
+%     può essere utilizzata come funzione di loss una square error loss: 
+%     $$ L = (y_t - \hat{y_t})^2 $$
+%     Dove $y_t$ è il valore reale e $\hat{y_t}$ è il valore predetto al tempo t. Siccome RL è un apprendimento di tipo 
+%     non-supervisionato e, quindi, non si hanno label il valore $y_t$ viene stimato utilizzando l'equazione di Bellman,
+%     portando la funzione di loss, per una transizione $<s_t, a_t, s_{t+1}, r_{t+1}>$, a diventare:
+%     $$ L = ( r_{t+1} + \gamma \cdot max_a Q(s_{t+1}, a) - Q(s_t, a_t))^2 $$
+    
+DQN, specifically, is the deep version of the Q-Learning algorithm, thus producing a Q-Value output for each 
+    possible action (\Cref{fig:qlvsdqn}). This makes the training of the utilized neural network a regression task 
+    in which a squared error loss can be employed as the loss function:
+    $$ L = (y_t - \hat{y_t})^2 $$
+    Where $y_t$ represents the actual value and $\hat{y_t}$ is the predicted value at time t. Since RL is an 
+    unsupervised learning, and therefore labels are not available, the value $y_t$ is estimated using the 
+    Bellman equation, transforming the loss function for a transition $<s_t, a_t, s_{t+1}, r_{t+1}>$ into:
+    $$ L = ( r_{t+1} + \gamma \cdot max_a Q(s_{t+1}, a) - Q(s_t, a_t))^2 $$
+
 \begin{figure*}[t]
     \begin{subfigure}[b]{0.49\textwidth}
         \centering
@@ -273,7 +295,33 @@ Classical algorithms of reinforcement learning, when applied in \emph{real-world
         \label{fig:dqn}
     \end{subfigure}
 \caption{Q-Learning and Deep Q-Learning visual comparison}\vspace{-10pt}
+\label{fig:qlvsdqn}
 \end{figure*}
+
+When attempting to use neural networks to approximate, in this case, the Q-function, several problems arise. 
+    The first one is due to the high correlation that exists between two consecutive transitions within the same 
+    episode. This correlation leads to a significant decrease in variance, causing the network to tend to forget 
+    previous transitions as it overwrites them with newer ones. For instance, let's consider an agent's task to 
+    learn to play a level-based video game; this issue implies that while the agent tries to learn how to navigate 
+    the second level, it might forget how to behave in the first level. The most common solution is to employ an 
+    \emph{experience replay} (i.e., a buffer), where all transitions $<s_t, a_t, s_{t+1}, r_{t+1}>$ are stored. 
+    When updating weights, a random mini-batch is sampled from this buffer, breaking the correlation between consecutive
+    transitions. Furthermore, since a transition can be used in multiple weight updates, this approach also 
+    improves data efficiency.
+
+A second issue that can be observed is referred to as the \emph{moving target problem}. This stems from the fact that,
+    when updating the network's weights, both the predicted values and the target values are estimated using the 
+    same neural network. This leads to a strong correlation between the target values and the network's weights, 
+    introducing significant oscillations during training. To address this problem, two distinct neural networks 
+    with identical architecture are employed: 
+    i) \emph{the action network $Q$}, used to determine the agent's actions, which is updated every $u$ steps; 
+    ii) \emph{the target network $\hat{Q}$}, used to calculate the target values, updated every $c$ steps. 
+    Typically, $c >> u$, and the \emph{target network's} weight update involves replacing the existing weights with 
+    those from the \emph{action network}.
+    Since the target values are generated using an older set of weights, a delay is introduced between the 
+    moment the $Q$ network is updated and the moment it starts to affects the target values.
+    This delay reduces the likelihood of divergence and oscillations. The loss function becomes:
+    $$ L = ( r_{t+1} + \gamma \cdot max_a \hat{Q}(s_{t+1}, a) - Q(s_t, a_t))^2 $$
 
 \section{Multi-Agent Reinforcement Learning}
 
