@@ -100,6 +100,49 @@ Starting from what was seen in the previous paragraph, the goal of this thesis i
 %----------------------------------------------------------------------------------------
 
 \section{Cyber-Physical Swarms}
+
+%trova qualche cit per i sistemi naturali 
+
+\emph{Cyber-physical swarms (CPSW}) are an extension of swarm systems in which both logical and
+    physical agents coexist. Swarms are systems that draw inspiration from natural systems such as ant colonies 
+    and bird flocks \cite{tan2013swarm, roy2014nature, bonabeau1999swarm}, where a myriad devices (agents) interact among themselves and with the surrounding 
+    environment to achieve a common goal. A fundamental characteristic of these systems is that the local 
+    interaction among individual devices usually consists of simple behaviors, but from this emerges a more 
+    complex collective behavior that leads to the resolution of the given task. Examples of these systems (\Cref{fig:cpsw}) are a fleet of drones tasked with monitoring a park to 
+    oversee adverse events (e.g., fires), or a set of wearable devices to manage crowd congestion in a specific area during a public event.
+
+\begin{figure*}[t]
+    \begin{subfigure}[b]{0.49\textwidth}
+        \centering
+        \includegraphics[width=0.7\textwidth]{figures/swarm2.jpeg}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.49\textwidth}
+        \centering
+        \includegraphics[width=0.6\textwidth]{figures/swarm3.jpeg}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.49\textwidth}
+        \centering
+        \includegraphics[width=0.7\textwidth]{figures/smartcity2.jpeg}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.49\textwidth}
+        \centering
+        \includegraphics[width=0.7\textwidth]{figures/crowd.png}
+    \end{subfigure}
+    \caption{CPSW examples}%\vspace{-10pt}
+    \label{fig:cpsw}
+\end{figure*}
+
+
+Swarms have been extensively studied due to a series of significant advantages, namely:
+    i) \emph{cost}: the devices used are typically simpler than a single device that could solve the task individually, resulting in lower costs;
+    ii) \emph{fault-tolerance}: simpler devices are less prone to failures, and there is no single point of failure;
+    iii) \emph{scalability}: the system can be easily scaled by adding or removing devices;
+    iv) \emph{robustness}: the system can handle the loss of some devices;
+    v) \emph{flexibility}: the same system can solve different tasks.
+
+
+
+
 %
 \section{Aggregate Computing}
 
@@ -270,7 +313,7 @@ An example of policy-based method is \emph{Proximal Policy Optimization (PPO)} \
     taking action $a$ in state $s$ and subsequently following optimal actions. 
     Thus, the Q-table at time step $t$, given a state $s_t$, an action $a_t$, and a policy $\pi_t$, is represented by:
     $$ Q(s_t, a_t) = max_{\pi(s_t) = a_t} R_{t+1}$$
-    Starting from the Q-Table, one can easily define the \emph{optimal policy} as follows:
+    Starting from the Q-Table, it is possible to define the \emph{optimal policy} as follows:
     $$ \pi^{*}(s) = argmax_a Q(s,a) $$
 
 Another key aspect is how we can estimate the reward at the end of the process if we only know the current state 
@@ -373,7 +416,7 @@ Based on the reward function used by the agents, MARL can be divided into two ca
     i) \emph{cooperative}, where all the agents trying to maximize the same reward function (e.g., a group of robots
     trying to clean a room); 
     ii) \emph{competitive}, where, potentially, each agent has its own reward function that is conflictual with the other (e.g., a rock-paper-scissor game). 
-    Cooperative MARL can be further divided into two additional categories (based on the policy), namely: 
+    Cooperative MARL, with respect to the policy, can be further divided into two additional categories, namely: 
     i) \emph{homogeneous}, where all the agents have the same capabilities, i.e., they use the same policy 
     ii) \emph{heterogeneous}, where each agent may have its own policy, in this case, each agent tries to maximize the local policy following the global shared goal.
 
@@ -415,39 +458,6 @@ Another point to pay attention to is the system by which the training and execut
 \end{figure*}
 
 \paragraph{Challenges}
-
-% Il MARL è un campo molto promettente e che sta avendo sempre più attenzione negli ultimi anni, nonostante questo 
-%     ci sono ancora diverse challenge da affrontare e che rendono complessa la sua applicazione in contesti complessi,
-%     alcune di queste sono:
-%     i) Environment parzialmente osservabili, In environment di una certa complessità (quindi
-%     escludendo i toy-environment) gli agenti non possono avere una rappresentazione com-
-%     pleta del mondo che li circonda nè possono avere accesso allo stato degli altri agenti
-%     presenti. Questo porta l’environment a non soddisfare la condizione di Markov
-%     ii) non stazionarietà, Questo problema deriva dalla presenza di molteplici agenti che cercano di imparare contemporaneamente: dal punto di vista di un singolo agente, l'environment diventa non-stazionario.
-%     iii) Comunicazione fra agenti, questa è una feature ritenuta molto importante
-%     in letteratura. In particolare, il problema non affronta solo il cosa un agente deve comu-
-%     nicare ma anche con chi deve comunicare e quando.
-%     iv) La coordinazione è una feature essenziale nei sistemi cooperativi, in
-%     quanto è necessario che gli agenti raggiungano un consenso sulle azioni da intraprendere.
-%     Se questo non avviene in fase di learning, si può arrivare a scegliere una policy sub-
-%     ottima. La coordinazione può essere ottenuta mediante comunicazione, come descritto
-%     nella sezione precedente, oppure implicitamente: ogni agente costruisce un proprio mod-
-%     ello dei restanti agenti, cercando di comprendere i pattern comportamentali e inferire la
-%     prossima azione.
-%     v) Il Credit Assignment Problem si riferisce al problema di
-%     associare un reward ad un’azione intrapresa da un dato agente. Questa associazione
-%     è necessaria, in fase di learning, per capire l’efficacia di un’azione intrapresa e riuscire
-%     a massimizzare la funzione di reward nel tempo. Alcuni studi [5] mostrano come, in caso di agenti indipendenti, questi non siano in grado di distinguere gli effetti derivanti
-%     dal comportamento stocastico dell’environment dalle azioni intraprese dagli altri agenti.
-%     Inoltre, la complessità di questo problema aumenta considerando due ulteriori vincoli: a natura del Reinforcement Learning, per cui, non si deve capire solo l’impatto di
-%     una singola azione ma di una sequenza di azioni nel tempo e  la parziale osservabilità degli environment
-%     vi) La scalabilità di questi sistemi è influenzata dai problemi descritti prece-
-%     dentemente in questa sezione. Effettuare il training di un agente è di per sé difficile:
-%     aumentando il numero di agenti del sistema, questa complessità aumenta esponenzial-
-%     mente. Oltretutto, la scalabilità del sistema è determinata anche dalla robustezza di un
-%     agente a fronte di un cambiamento nel comportamento degli altri agenti. In letteratura
-%     sono presenti alcune tecniche, in fase di esplorazione, utili a rafforzare la scalabilità come,
-%     ad esempio, knowledge reuse, regolarizzazione, adversarial training ed altre ancora
 
 MARL is a highly promising field that has been garnering increasing attention in recent years. Nevertheless, there are still several challenges that complicate its application in complex contexts. Some of these challenges include:
 \begin{enumerate}
