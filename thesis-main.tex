@@ -149,9 +149,9 @@ Swarms have been extensively studied due to a series of significant advantages, 
 The advent of \emph{Collective Computing} and the proliferation of interconnected devices have given rise to novel 
     paradigms that aim to address the challenges posed by the distributed nature of computing
     systems. One such paradigm that has gained significant attention in recent years is 
-    \emph{aggregate computing (AC)} [8].
+    \emph{aggregate computing (AC)} \cite{AC}.
 
-AC is well grounded on \emph{field calculus}, and therefore adopts a model where the perspective is at a global level: 
+AC adopts a model where the perspective is at a \emph{global level}: 
     a group of devices is seen as a global entity (i.e., the \emph{aggregate system}) that works at asynchronous 
     rounds and exchanges messages with neighbours. 
     A round is composed of three phases:
@@ -160,6 +160,14 @@ AC is well grounded on \emph{field calculus}, and therefore adopts a model where
     ii) \emph{Program Execution}, each node executes the aggregate program on the local context, and
     iii) \emph{Export Sharing}, each node shares the export with the neighborhood.
 
+
+\begin{figure}[t]
+    \centering
+    \includegraphics[width=0.7\textwidth]{figures/deviceactor.pdf}
+    \caption{Device actor model}
+    \label{fig:device-actor}
+\end{figure}
+
 Interactions within the aggregate system are seen as a flow of information propagating through the 
     collective of devices, rather than as local interactions of individual devices with their
     peers and the environment. This approach offers a number of advantages:
@@ -167,16 +175,11 @@ Interactions within the aggregate system are seen as a flow of information propa
     ii) it promotes the reuse of behaviours, and 
     iii) the programmer is relieved from concerns regarding low-level aspects (e.g., failures, distribution, communication and more), 
     as these are automatically handled by the middleware.
-%Considering the interactions within this system as a flow of information 
-%    propagating through a collective of devices, rather than as local interactions between devices and the 
-%    environment, offers significant advantages: i) the program can be defined in a composable and declarative
-%    manner, ii) it promotes the reuse of behaviours, and iii) the programmer is relieved from concerns regarding 
-%    low-level aspects (e.g., failures, distribution, communication and more), as these are automatically handled 
-%    by the middleware. %riformula tipo "le interazioni sono viste come... e questo porta i seguenti vantaggi..."
 
-In aggregate computing, information is represented by a distributed data structure known as computational field [50, 26],
+In aggregate computing, information is represented by a distributed data structure known as 
+    \emph{computational field} \cite{VIROLI2019100486, 1316820},
     which is an abstraction of space-time values where each device is mapped to a computational value.
-    The manipulation of these fields is derived from the Field Calculus [48], a computational model in which collective 
+    The manipulation of these fields is derived from the \emph{Field Calculus} \cite{viroli2016higher}, a computational model in which collective 
     behaviours are expressed as algorithms that are the composition of computational fields.
 
 In recent times, several implementations of aggregate computing have been developed, and one particularly interesting 
