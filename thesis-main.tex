@@ -6,7 +6,11 @@
 \documentclass[12pt,a4paper,openright,twoside]{book}
 \usepackage[utf8]{inputenc}
 \usepackage{subcaption}
+\usepackage{listings}
 \newcommand{\fonte}[1]{{\color{gray} \small \hypersetup{citecolor=gray} Source: #1}}
+
+\input{scala-def}
+\lstset{language=scafi}
 
 %\newcommand{\thesislang}{italian} % decommentare in caso di tesi in italiano
 \newcommand{\thesislang}{english} % commentare in caso di tesi in italiano
@@ -159,6 +163,11 @@ AC adopts a model where the perspective is at a \emph{global level}:
         neighborhood and sensors,
     ii) \emph{Program Execution}, each node executes the aggregate program on the local context, and
     iii) \emph{Export Sharing}, each node shares the export with the neighborhood.
+    Each device is seen as an actor that has a set of responsibilities (\Cref{fig:device-actor}): first, it is equipped with 
+    \emph{sensors} that allow it to detect certain characteristics of the environment and \emph{actuators} that allow 
+    it to interact with it; furthermore, it must \emph{execute the collective program} specification 
+    (asynchronously according to its clock) and keep track of the \emph{local state}. Lastly, it is equipped with 
+    a \emph{communication mechanism} that enables it to exchange messages with other devices in its neighborhood.
 
 
 \begin{figure}[t]
@@ -183,15 +192,23 @@ In aggregate computing, information is represented by a distributed data structu
     behaviours are expressed as algorithms that are the composition of computational fields.
 
 In recent times, several implementations of aggregate computing have been developed, and one particularly interesting 
-    implementation is ScaFi [13]. ScaFi is a Scala-based platform that offers the following features: 
+    implementation is ScaFi \cite{CASADEI2022101248}. ScaFi is a Scala-based platform that offers the following features: 
     i) a domain specific language (DSL) for specifying aggregate computation, 
-    ii) asimulation environment (through the Alchemist simulator [34]), 
+    ii) asimulation environment (through the Alchemist simulator \cite{alchemist}), 
     iii) a middleware for executing and deploying aggregate programs, and 
     iv) reusable library functionalities that serve as building blocks for constructing new aggregate programs. 
-    For example, the gradients abstraction that provides gradient functions [47, 7] used for the ongoing computation, 
+    For example, the gradients abstraction that provides gradient functions \cite{viroli2018engineering, beal2008fast} used for the ongoing computation, 
     across spatio-temporal dimension, of the self-healing field (i.e., a field able to self-adjust in case of changes 
     in devices topology) that determines the minimum distances of individual nodes from a specified set of source 
-    nodes [13].
+    nodes \cite{CASADEI2022101248}.
+
+An example of how ScaFi works is shown in \Cref{fig:channel} and \Cref{lst:channel}, the goal is create a channel given 
+    a source, a destination and a width. To reach this goal is it possible to define the computation as a pure function 
+    over fields that by itself exploits and composes the following functions:
+    i) \texttt{gradient}, which takes as input a field of Booleans and computes in output a field of Integers with the 
+        mininum distance, for each point, from a given source represented by the values set to true in the input;
+    ii) \texttt{distance}, which computes the distance between two sources, and
+    iii) \texttt{dilate}, which takes as input a field of Booleans and stretches the source by a given width.
 
 \begin{figure}[h!]
     \centering
@@ -200,7 +217,16 @@ In recent times, several implementations of aggregate computing have been develo
     \label{fig:channel}
 \end{figure}
 
-\lstinputlisting[float,language=Scala,label={lst:channel-code}]{listings/Channel.scala}
+\begin{lstlisting}[caption={Channel example code}, label={lst:channel}]
+def channel(
+    source: Boolean, 
+    destination: Boolean, 
+    width: Double
+): Double {
+    dilate(gradient(source) + gradient(destination) 
+        <= distance(source, destination), width)
+}
+\end{lstlisting}
 
 %
 \section{Reinforcement Learning}
