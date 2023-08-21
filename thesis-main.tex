@@ -10,6 +10,7 @@
 \newcommand{\fonte}[1]{{\color{gray} \small \hypersetup{citecolor=gray} Source: #1}}
 
 \input{scala-def}
+\input{yaml-def}
 \lstset{language=scafi}
 
 %\newcommand{\thesislang}{italian} % decommentare in caso di tesi in italiano
@@ -108,8 +109,8 @@ Starting from what was seen in the previous paragraph, the goal of this thesis i
 %trova qualche cit per i sistemi naturali 
 
 \emph{Cyber-physical swarms (CPSW}) are an extension of swarm systems in which both logical and
-    physical agents coexist. Swarms are systems that draw inspiration from natural systems such as ant colonies 
-    and bird flocks \cite{tan2013swarm, roy2014nature, bonabeau1999swarm}, where a myriad devices (agents) interact among themselves and with the surrounding 
+    physical agents coexist. Swarms draw inspiration from natural systems such as ant colonies 
+    and bird flocks \cite{tan2013swarm, roy2014nature, bonabeau1999swarm}. In these systems a myriad devices (agents) interact among themselves and with the surrounding 
     environment to achieve a common goal. A fundamental characteristic of these systems is that the local 
     interaction among individual devices usually consists of simple behaviors, but from this emerges a more 
     complex collective behavior that leads to the resolution of the given task. Examples of these systems (\Cref{fig:cpsw}) are a fleet of drones tasked with monitoring a park to 
@@ -165,7 +166,7 @@ AC adopts a model where the perspective is at a \emph{global level}:
     iii) \emph{Export Sharing}, each node shares the export with the neighborhood.
     Each device is seen as an actor that has a set of responsibilities (\Cref{fig:device-actor}): first, it is equipped with 
     \emph{sensors} that allow it to detect certain characteristics of the environment and \emph{actuators} that allow 
-    it to interact with it; furthermore, it must \emph{execute the collective program} specification 
+    it to interact with the environment; furthermore, it must \emph{execute the collective program} specification 
     (asynchronously according to its clock) and keep track of the \emph{local state}. Lastly, it is equipped with 
     a \emph{communication mechanism} that enables it to exchange messages with other devices in its neighborhood.
 
@@ -507,6 +508,73 @@ MARL is a highly promising field that has been garnering increasing attention in
 
 \section{Simulation}
 
+In science and engineering, the use of \emph{simulators} plays a key role. These simulators enable the experimentation 
+    with complex and expensive systems (such as cyber-physical swarms), offering a virtual 
+    environment in which to conduct tests, analyses, and in-depth studies rapidly, under controlled and 
+    repeatable conditions.
+    In this project, the \emph{Alchemist} \cite{alchemist} simulator has been taken as a reference.
+
+Alchemist is a \emph{meta-simulator} designed for simulating \emph{complex distributed systems} in a rich variety of scenarios 
+    like swarm robotics \cite{Casadei2021}, large-scale sensor networks \cite{Aguzzi_2022},
+    crowd simulation \cite{Beal2015}, path planning, and even morphogenesis of multi-cellular systems.
+
+This simulator is ``meta" \emph{by design}, this stems from the fact that it is based on general abstractions that
+    can be mapped to specific use cases (i.e., \emph{incarnations}). The meta-model is inspired by biochemistry
+    and consists of a set of \emph{nodes} that exist in an \emph{environment} and are linked together by 
+    \emph{relationship} rules.
+    Each node contains a sequence of \emph{molecules} and \emph{reactions}. 
+    A \emph{molecule} represents a variable, which acts as a container for data. 
+    \emph{Reactions} instead are events that occur based on a set of \emph{conditions}, and are fired according 
+    to a time distribution, producing an effect that is described as an action. 
+    This abstraction allows the simulator to be flexible and adaptable to a variety of use cases and node
+    numbers (it could support thousands of nodes), while maintaining a consistent underlying structure
+
+Alchemist features four incarnations: biochemistry, sapere, protelis, and ScaFi, 
+    each with a different way of modeling molecules and actions.
+    In this project, the \emph{ScaFi} incarnation has been taken as a reference.
+    It supports the ScaFi Scala DSL and has been used in distributed peer-to-peer chats and 
+    situated problem-solving
+
+Alchemist offers an straightforward method for defining simulations. The process
+    requires a YAML file that includes essential parameters, such as the incarnation
+    type, neighbor connection model, and node deployment. In Figure 2, we have
+    provided an example YAML file that creates a simulation using the ScaFi incarnation (first row). It also defines the neighborhood relationship based on fixed
+    distances (0.5 in this case), placing nodes in a fixed grid of size 10x10 starting
+    at -(5,5) and ending at (5,5), with a node-to-node distance of 0.25. Finally, it
+    loads the ScaFi program called ``program", which is evaluated at each node with
+    a frequency of 1.
+
+\begin{figure*}
+    \centering
+    \begin{subfigure}[b]{0.49\textwidth}
+        \centering
+        \begin{lstlisting}[language=yaml]
+    incarnation: scafi
+    network-model:
+        type: ConnectWithinDistance
+        parameters: [0.5]
+    deployments:
+        type: Grid
+        parameters: [-5,-5,5,5,0.25,0.25]
+        /*dynamics of the simulation*/
+        programs: 
+            - program:
+            - time-distribution: 1
+                type: Event
+                actions: 
+                - type: RunScafiProgram
+                    parameters: [program]
+            - program: send
+    \end{lstlisting}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.49\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{figures/alchemist.png}
+    \end{subfigure}
+    \caption{An Alchemist simulation example.}
+    \label{fig:alchemist}
+    \end{figure*}
 %----------------------------------------------------------------------------------------
 \chapter{Requirements} 
 \label{chap:requirements}
