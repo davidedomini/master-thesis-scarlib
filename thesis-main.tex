@@ -55,7 +55,7 @@ Optional. Max 1 page.
 %----------------------------------------------------------------------------------------
 
 
-\paragraph{Thesis motivation} % TODO --- Riformulare e approfondire meglio
+\paragraph{Thesis motivation}
 
 Significant technological advancements have paved the way for the emergence of a field known as \emph{Collective Computing} 
     \cite{abowd2016beyond}, with \emph{Cyber-Physical Swarms (CPSW)} \cite{schranz2021swarm} as a noteworthy branch within it.
@@ -82,6 +82,8 @@ such as \emph{Multi-Agent Reinforcement Learning} (MARL) \cite{busoniu2008compre
 to enable devices to learn directly from experience and/or data. These approaches also present several challenges, including: non-stationarity 
 \cite{hernandez2017survey}, communication and scalability.
 
+The idea of this thesis is to be able to pursue a hybrid approach that succeeds in exploiting the potential of both 
+    of these approaches while trying to minimize drawbacks.
 %
 \paragraph{Thesis objectives}
 
@@ -105,10 +107,8 @@ Starting from what was seen in the previous paragraph, the goal of this thesis i
 
 \section{Cyber-Physical Swarms}
 
-%trova qualche cit per i sistemi naturali 
-
 \emph{Cyber-physical swarms (CPSW}) are an extension of swarm systems in which both logical and
-    physical agents coexist. Swarms draw inspiration from natural systems such as ant colonies 
+    physical agents coexist. Swarms draw inspiration from \emph{natural systems} such as ant colonies 
     and bird flocks \cite{tan2013swarm, roy2014nature, bonabeau1999swarm}. In these systems a myriad devices (agents) interact among themselves and with the surrounding 
     environment to achieve a common goal. A fundamental characteristic of these systems is that the local 
     interaction among individual devices usually consists of simple behaviors, but from this emerges a more 
@@ -132,7 +132,7 @@ Starting from what was seen in the previous paragraph, the goal of this thesis i
         \centering
         \includegraphics[width=0.7\textwidth]{figures/crowd.png}
     \end{subfigure}
-    \caption{CPSW examples}%\vspace{-10pt}
+    \caption{Some examples of Cyber-Physical Swarms.}%\vspace{-10pt}
     \label{fig:cpsw}
 \end{figure*}
 
@@ -143,8 +143,6 @@ Swarms have been extensively studied due to a series of significant advantages, 
     iii) \emph{scalability}: the system can be easily scaled by adding or removing devices;
     iv) \emph{robustness}: the system can handle the loss of some devices;
     v) \emph{flexibility}: the same system can solve different tasks.
-
-
 
 
 %
@@ -173,7 +171,7 @@ AC adopts a model where the perspective is at a \emph{global level}:
 \begin{figure}[t]
     \centering
     \includegraphics[width=0.7\textwidth]{figures/deviceactor.pdf}
-    \caption{Device actor model}
+    \caption{Device actor model in AC.}
     \label{fig:device-actor}
 \end{figure}
 
@@ -182,7 +180,7 @@ Interactions within the aggregate system are seen as a flow of information propa
     peers and the environment. This approach offers a number of advantages:
     i) the program can be defined in a composable and declarative manner, 
     ii) it promotes the reuse of behaviours, and 
-    iii) the programmer is relieved from concerns regarding low-level aspects (e.g., failures, distribution, communication and more), 
+    iii) the developer is relieved from concerns regarding low-level aspects (e.g., failures, distribution, communication and more), 
     as these are automatically handled by the middleware.
 
 In aggregate computing, information is represented by a distributed data structure known as 
@@ -192,9 +190,9 @@ In aggregate computing, information is represented by a distributed data structu
     behaviours are expressed as algorithms that are the composition of computational fields.
 
 In recent times, several implementations of aggregate computing have been developed, and one particularly interesting 
-    implementation is ScaFi \cite{CASADEI2022101248}. ScaFi is a Scala-based platform that offers the following features: 
+    implementation is \emph{ScaFi} \cite{CASADEI2022101248}. ScaFi is a Scala-based platform that offers the following features: 
     i) a domain specific language (DSL) for specifying aggregate computation, 
-    ii) asimulation environment (through the Alchemist simulator \cite{alchemist}), 
+    ii) a simulation environment through the Alchemist simulator \cite{alchemist}, 
     iii) a middleware for executing and deploying aggregate programs, and 
     iv) reusable library functionalities that serve as building blocks for constructing new aggregate programs. 
     For example, the gradients abstraction that provides gradient functions \cite{viroli2018engineering, beal2008fast} used for the ongoing computation, 
@@ -204,7 +202,7 @@ In recent times, several implementations of aggregate computing have been develo
 
 An example of how ScaFi works is shown in \Cref{fig:channel} and \Cref{lst:channel}, the goal is create a channel given 
     a source, a destination and a width. To reach this goal is it possible to define the computation as a pure function 
-    over fields that by itself exploits and composes the following functions:
+    over fields that exploits and composes the following functions:
     i) \texttt{gradient}, which takes as input a field of Booleans and computes in output a field of Integers with the 
         mininum distance, for each point, from a given source represented by the values set to true in the input;
     ii) \texttt{distance}, which computes the distance between two sources, and
@@ -213,11 +211,11 @@ An example of how ScaFi works is shown in \Cref{fig:channel} and \Cref{lst:chann
 \begin{figure}[h!]
     \centering
     \includegraphics[width=0.7\textwidth]{figures/channel.png}
-    \caption{Channel example}
+    \caption{A ScaFi AC program example. This algorithm representation is obtained from the code in \Cref{lst:channel}}.
     \label{fig:channel}
 \end{figure}
 
-\begin{lstlisting}[caption={Channel example code}, label={lst:channel}]
+\begin{lstlisting}[caption={A ScaFi AC program example. The algorithm implements a channel between a source and a destination.}, label={lst:channel}]
 def channel(
     source: Boolean, 
     destination: Boolean, 
@@ -264,7 +262,7 @@ Formally, a RL problem can be formulated as following \cite{RLSurvey}:
 \begin{figure}[t]
     \centering
     \includegraphics[width=0.7\textwidth]{figures/rl.png}
-    \caption{Agent-environment interactions}
+    \caption{Agent-environment interactions.}
     \fonte{\url{https://it.mathworks.com/discovery/reinforcement-learning.html}}
     \label{fig:rl_schema}
 \end{figure}
@@ -305,8 +303,8 @@ Several exploration strategies have been proposed in the literature to solve thi
 
 In Reinforcement Learning, there are two main families of approaches that can be used to categorize the 
     algorithms employed by an agent in finding the optimal policy. These are: 
-    i) policy-based methods, and 
-    ii) value-based methods.
+    i) \emph{policy-based} methods, and 
+    ii) \emph{value-based} methods.
     Policy-based algorithms aim to directly learn a function that maps each state to the best action to take 
     (or a probability distribution over a set of possible actions). On the other hand, value-based methods 
     seek to learn a function that maps each possible state to an expected value of being in that state. 
@@ -329,14 +327,14 @@ An example of policy-based method is \emph{Proximal Policy Optimization (PPO)} \
         \caption{Value based RL}
         \label{fig:value-based-rl}
     \end{subfigure}
-\caption{Policy and value based algorithms visual comparison}%\vspace{-10pt}
+\caption{Policy and value based algorithms visual comparison.}%\vspace{-10pt}
 \fonte{\url{https://www.lamsalashish.com.np/blog/reinforcement-learning}}
 \label{fig:rl-methods}
 \end{figure*}
 
 \paragraph{Q-Learning}
 
-\emph{Q-Learning} is one of the most famous Reinforcement Learning algorithms from the value-based methods family. 
+\emph{Q-Learning} is one of the most famous Reinforcement Learning algorithm from the value-based methods family. 
     One of the key aspects of this algorithm is the \emph{Q-Table}, denoted as $Q(s,a)$. This table represents, 
     for each possible state-action pair, the \emph{expected cumulative reward} that the agent will obtain by
     taking action $a$ in state $s$ and subsequently following optimal actions. 
@@ -482,7 +480,7 @@ Another point to pay attention to is the system by which the training and execut
         \caption{DTDE}
         \label{fig:dtde}
     \end{subfigure}
-    \caption{Execution model comparison}\vspace{-10pt}
+    \caption{MARL execution model comparison.}\vspace{-10pt}
     \label{fig:exmod}
 \end{figure*}
 
@@ -583,12 +581,6 @@ Alchemist offers an straightforward method for defining simulations. The process
 %----------------------------------------------------------------------------------------
 \chapter{Design} 
 \label{chap:design}
-%----------------------------------------------------------------------------------------
-
-
-%----------------------------------------------------------------------------------------
-\chapter{Implementation} 
-\label{chap:implementation}
 %----------------------------------------------------------------------------------------
 
 
