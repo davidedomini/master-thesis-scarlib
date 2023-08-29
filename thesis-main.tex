@@ -607,15 +607,65 @@ Alchemist offers an straightforward method for defining simulations. The process
 \chapter{Requirements} 
 \label{chap:requirements}
 %----------------------------------------------------------------------------------------
+This chapter first introduces the domain model of CPSW and MARL, 
+    and then presents the framework requirements. Finally, some scenarios
+    are explained to provide a reference context.
 
 \section{Domain model}
 
 \section{Framework requirements}
+This section describes the requirements that the project must satisfy. 
+\begin{itemize}
+    \item \emph{Business Requirements}: specify the characteristics that the system must possess in order to be correct;
+    \item \emph{User Requirements}: express the needs of the users and describe the actions that the user should be able 
+        to perform while interacting with the system;
+    \item \emph{Functional Requirements}: concern the functionalities that the system must make available to the user. 
+        Their definition should be based on the user requirements extracted previously;
+    \item \emph{Non-Functional Requirements}: concern the functionalities that the system does not necessarily have 
+        to possess in order to be functional and correct.
+
+\end{itemize}
 
 \subsection*{Business requirements}
+The business requirements specify the characteristics that the system must have to be correct. Those identified for ScaRLib are:
+\begin{itemize}
+    \item Enable the development of CMARL systems for JVM-based environments through a high-level specification;
+    \item Allow the expression of agent logic through aggregate programming;
+    \item Enable logging of various learning metrics;
+    \item Allow for the addition of new learning algorithms;
+    \item Allow for the visualization of agents acting over time to perform an initial evaluation of learned policies.
+\end{itemize}
+
 \subsection*{User requirements}
+The user requirements express the needs of the users and describe the actions that the user must be able to perform by interacting with the system.
+    From the previous domain analysis that was carried out, we can identify the following user requirements:
+\begin{itemize}
+    \item Define your own components by implementing the abstractions offered by the framework;
+    \item Monitor the learning progress by visualizing charts of selected metrics;
+    \item Use a GUI to visualize the execution of agents, both during training and testing.
+\end{itemize}
+
 \subsection*{Functional requirements}
+The functional requirements relate to the functionalities that the system must make available to the user. 
+    To define them, it is necessary to rely on the user requirements extracted previously.
+\begin{itemize}
+    \item Specify custom components, namely: state, reward function, environment and action space;
+    \item Specify a custom neural network to approximate the Q-function;
+    \item Log information related to the training process;
+    \item Take snapshots of policies to have a history of the training process;
+    \item Visualize logged data in charts;
+    \item Allow for visualization of agents in both training and testing phases using a GUI;
+    \item Specify the learning system through a DSL;
+    \item Express the computation of the environment state through aggregate programming.
+\end{itemize}
+
 \subsection*{Non-functional requirements}
+Non-functional requirements concern the functionalities that the system does not necessarily have to possess in order to ensure that it is correct.
+The following non-functional requirements have been identified within the system to be developed:
+\begin{itemize}
+    \item It must be cross-platform, therefore it must be executable on any operating system capable of supporting Java version 17 or later;
+    \item The interface used to display the graphs must be updatable at every moment of the training in order to monitor its progress in real time.
+\end{itemize}
 
 \section{Scenarios}
 
