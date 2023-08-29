@@ -484,7 +484,7 @@ In this thesis, we focus on a subset of MARL, namely: \emph{Many Agent Reinforce
     Moreover, we focus on cooperative homogeneous and heterogeneous learning.
 
 
-\paragraph{Execution model}
+\paragraph{Training and execution model}
    
 Another point to pay attention to is the system by which the training and execution of the various agents are carried out. This can be primarily categorized into three types (\Cref{fig:exmod}):
     i) \emph{Centralized Training Centralized Execution (CTCE)}, in this type of system, there is a higher-level agent called \emph{Learner}, with a global perspective, whose task is to perform training and compute actions to be undertaken. The remaining agents, therefore, transmit their local environmental perceptions (i.e., the local state) to the learner agent, which is responsible for merging these perceptions to reconstruct the global state. Once reconstructed, it selects the action to take in accordance with the current policy and evaluates the reward function for policy updates;
