@@ -57,9 +57,10 @@ Optional. Max 1 page.
 
 \paragraph{Thesis motivation}
 
-Significant technological advancements have paved the way for the emergence of a field known as \emph{Collective Computing} 
+Significant technological advancements have paved the way for the emergence of a field known as \emph{collective computing} 
     \cite{abowd2016beyond}, with \emph{Cyber-Physical Swarms (CPSW)} \cite{schranz2021swarm} as a noteworthy branch within it.
-    The latter consist of myriad devices that interact with the environment and exchange information among themselves. 
+    The latter consist of myriad devices that interact with the environment and exchange information among themselves,
+    examples of such systems include swarms of drones and large-scale IoT systems.
     A crucial aspect of these systems is that a more complex collective behavior emerges from the interaction between 
     individual agents that leads to the resolution of various tasks.
     Among all aspects related to CPSW, our focus lies on properties like \emph{collective intelligence} \cite{tumer2004survey} 
@@ -68,9 +69,9 @@ Significant technological advancements have paved the way for the emergence of a
     that are part of them.
 
 This progress has been driven by research in various related fields such as: multi-agent systems \cite{dorri2018multi},
-     coordination \cite{yang2022overview}, distributed artificial intelligence \cite{bond2014readings}, and many others. 
-     Additionally, it has a profound impact on a wide range of applied domains, including: smart cities \cite{zedadra2019swarm}, 
-     swarm robotics \cite{brambilla2013swarm}, large-scale IoT systems \cite{uslu2023role}, and more.
+    coordination \cite{yang2022overview}, distributed artificial intelligence \cite{bond2014readings}, and many others. 
+    Additionally, it has a profound impact on a wide range of applied domains, including: smart cities \cite{zedadra2019swarm}, 
+    swarm robotics \cite{brambilla2013swarm}, large-scale IoT systems \cite{uslu2023role}, and more.
 
 A crucial aspect to consider in CPSW is how individual devices are programmed and achieve coordination to perform assigned tasks. 
 Novel approaches -- like \emph{aggregate computing} \cite{viroli2018field} -- have focused on manually developing
@@ -78,7 +79,7 @@ controllers from a global perspective. However, this approach has some drawbacks
 and efficient programs for complex tasks, they may be error-prone and lack of generality.
 
 On the other hand, there exists approaches that leverage various artificial intelligence (AI) techniques, 
-such as \emph{Multi-Agent Reinforcement Learning} (MARL) \cite{busoniu2008comprehensive},
+such as \emph{Multi-Agent Reinforcement Learning} (MARL) \cite{busoniu2008comprehensive, marlsurvey},
 to enable devices to learn directly from experience and/or data. These approaches also present several challenges, including: non-stationarity 
 \cite{hernandez2017survey}, communication and scalability.
 
@@ -155,12 +156,12 @@ The advent of \emph{Collective Computing} and the proliferation of interconnecte
 
 AC adopts a model where the perspective is at a \emph{global level}: 
     a group of devices is seen as a global entity (i.e., the \emph{aggregate system}) that works at asynchronous 
-    rounds and exchanges messages with neighbours. 
+    \emph{rounds} and exchanges messages with neighbours. 
     A round is composed of three phases:
-    i) \emph{Context Building}, each node collects information from the 
+    i) \emph{context building}, each node collects information from the 
         neighborhood and sensors,
-    ii) \emph{Program Execution}, each node executes the aggregate program on the local context, and
-    iii) \emph{Export Sharing}, each node shares the export with the neighborhood.
+    ii) \emph{program execution}, each node executes the aggregate program on the local context, and
+    iii) \emph{export sharing}, each node shares the export with the neighborhood.
     Each device is seen as an actor that has a set of responsibilities (\Cref{fig:device-actor}): first, it is equipped with 
     \emph{sensors} that allow it to detect certain characteristics of the environment and \emph{actuators} that allow 
     it to interact with the environment; furthermore, it must \emph{execute the collective program} specification 
@@ -244,12 +245,12 @@ Formally, a RL problem can be formulated as following \cite{RLSurvey}:
         \item Discrete time steps $t=0, 1, 2, ...$;
         \item A discrete set of environment states $\mathcal{S}$;
         \item A discrete set of agent actions $\mathcal{A}$;
-        \item A reinforcement signal;
-        \item A probabilistic policy $\pi$, that is a mapping function from states to actions;
-        \item The goal of the agent is to learn the optimal policy $\pi^*$ in order to maximize 
-                some long-run measure of reinforcement (e.g., the Infinite Horizon Discounted Model \cite{RLSurvey}).
+        \item A reward signal;
+        \item A probabilistic policy $\pi$, that is a mapping function from states to actions.
     \end{itemize}
-    First, at time $t$, the agent observes the state of the environment $s_t \in \mathcal{S}$
+    The goal of the agent is to learn the optimal policy $\pi^*$ in order to maximize 
+        some long-run measure of reinforcement (e.g., the Infinite Horizon Discounted Model \cite{RLSurvey}).
+        First, at time $t$, the agent observes the state of the environment $s_t \in \mathcal{S}$
         and chooses an action $a_t \in \mathcal{A}$ using the actual policy $\pi_t$. 
         Thereafter, the environment: takes in the action $a_t$, emits the new state $s_{t+1} \in \mathcal{S}$ 
         and returns the scalar reward $r_{t+1}$ (\Cref{fig:rl_schema}).
@@ -341,7 +342,7 @@ An example of policy-based method is \emph{Proximal Policy Optimization (PPO)} \
     Thus, the Q-table at time step $t$, given a state $s_t$, an action $a_t$, and a policy $\pi_t$, is represented by:
     $$ Q(s_t, a_t) = max_{\pi(s_t) = a_t} R_{t+1}$$
     Starting from the Q-Table, it is possible to define the \emph{optimal policy} as follows:
-    $$ \pi^{*}(s) = argmax_a Q(s,a) $$
+    $$ \pi^{*}(s) = argmax_a Q^{*}(s,a) $$
 
 Another key aspect is how we can estimate the reward at the end of the process if we only know the current state 
     and action, without knowing the subsequent trajectory. To achieve this, the \emph{Bellman equation} can be used. 
@@ -350,7 +351,36 @@ Another key aspect is how we can estimate the reward at the end of the process i
     $$ Q(s_t,a_t) =  r_{t+1} + \gamma \cdot max_a Q(s_{t+1}, a)$$
 
 The main idea of Q-Learning is to \emph{iteratively approximate} the Q-values, using the Bellman equation, as follows:
-$$ Q^{new}(s_t,a_t) = (1-\alpha) \cdot Q(s_t,a_t) + \alpha \cdot (r_{t+1} + \gamma \cdot max_a Q(s_{t+1}, a)) $$
+\[
+Q(s_t,a_t) = 
+    \underbrace{
+        (1-\alpha) 
+    }_\text{Learning Rate}   
+    \cdot 
+    \underbrace{
+        Q(s_t,a_t) 
+    }_\text{Old Value}
+    + 
+    \underbrace{
+        \alpha
+    }_\text{Learning Rate}
+    \cdot 
+    \overbrace{
+        (
+        \underbrace{
+            r_{t+1}
+        }_\text{Reward}
+        + 
+        \underbrace{
+            \gamma
+        }_\text{Discount Factor}
+        \cdot 
+        \underbrace{
+        max_a Q(s_{t+1}, a)
+        }_\text{Maximum Future Reward}
+        )
+    }^\text{Learned Value}
+\]
     Where $\alpha$ is the learning rate hyper-parameter that controls how much of the current Q-value and newly proposed
     Q-value is considered.
     At the beginning of the learning process, these Q-values will be practically random estimates and may be completely wrong. 
