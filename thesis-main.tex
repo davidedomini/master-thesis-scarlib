@@ -643,20 +643,30 @@ This section describes the requirements that the project must satisfy.
 \subsection*{Business requirements}
 The business requirements specify the characteristics that the system must have to be correct. Those identified for ScaRLib are:
 \begin{itemize}
-    \item Enable the development of CMARL systems for JVM-based environments through a high-level specification;
-    \item Allow the expression of agent logic through aggregate programming;
-    \item Enable logging of various learning metrics;
-    \item Allow for the addition of new learning algorithms;
-    \item Allow for the visualization of agents acting over time to perform an initial evaluation of learned policies.
+    \item The framework must enable the development of CMARL systems for JVM-based environments 
+        through a high-level specification;
+    \item The framework should support different training and execution models;
+    \item The framework should be extensible and modular to allow  the integration of:
+    \begin{itemize}
+        \item different learning algorithms;
+        \item different simulators;
+        \item different deep learning frameworks.
+    \end{itemize}
 \end{itemize}
 
 \subsection*{User requirements}
 The user requirements express the needs of the users and describe the actions that the user must be able to perform by interacting with the system.
     From the previous domain analysis that was carried out, we can identify the following user requirements:
 \begin{itemize}
-    \item Define your own components by implementing the abstractions offered by the framework;
-    \item Monitor the learning progress by visualizing charts of selected metrics;
-    \item Use a GUI to visualize the execution of agents, both during training and testing.
+    \item It should be possible to configure the learning system through a \emph{DSL};
+    \item It should be possible to define a custom \emph{environment};
+    \item It should be possible to define a custom \emph{state space};
+    \item It should be possible to define a custom \emph{action space};
+    \item It should be possible to define a custom \emph{reward function};
+    \item It should be possible to define a custom \emph{neural network} to approximate the policy/value-function;
+    \item It should be possible to define some of the agent logic through \emph{aggregate programming};
+    \item It should be possible to log information related to the training process;
+    \item It should be possible to visualize the execution of agents, both during training and testing.
 \end{itemize}
 
 \subsection*{Functional requirements}
@@ -677,8 +687,11 @@ The functional requirements relate to the functionalities that the system must m
 Non-functional requirements concern the functionalities that the system does not necessarily have to possess in order to ensure that it is correct.
 The following non-functional requirements have been identified within the system to be developed:
 \begin{itemize}
-    \item It must be cross-platform, therefore it must be executable on any operating system capable of supporting Java version 17 or later;
-    \item The interface used to display the graphs must be updatable at every moment of the training in order to monitor its progress in real time.
+    \item The framework should provide an easy and clean API;
+    \item The framework must be cross-platform, therefore it must be executable on any operating 
+        system capable of supporting Java version 17 or later;
+    \item The framework should be extensible and modular allowing the user to customize some of its 
+        components (e.g., the simulator or the learning algorithm).
 \end{itemize}
 
 \section{Scenarios}
