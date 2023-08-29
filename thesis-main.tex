@@ -7,6 +7,7 @@
 \usepackage[utf8]{inputenc}
 \usepackage{subcaption}
 \usepackage{listings}
+\usepackage{tabularx}
 \newcommand{\fonte}[1]{{\color{gray} \small \hypersetup{citecolor=gray} Source: #1}}
 
 \input{scala-def}
@@ -607,11 +608,24 @@ Alchemist offers an straightforward method for defining simulations. The process
 \chapter{Requirements} 
 \label{chap:requirements}
 %----------------------------------------------------------------------------------------
-This chapter first introduces the domain model of CPSW and MARL, 
+This chapter first introduces the domain model of the \emph{hybrid AC-MARL} approach to engineer CPSWs, 
     and then presents the framework requirements. Finally, some scenarios
     are explained to provide a reference context.
 
 \section{Domain model}
+The proposed \emph{hybrid} approach between \emph{AC} and \emph{MARL} aims to combine the strengths of the two 
+    approaches to engineer CPSWs.
+    The idea is to leverage AC to define \emph{structural} rules of the swarm (e.g., leader election \cite{pianini2022self}) 
+    while using MARL to define \emph{behavioral} rules (e.g., the choice of an action by an agent).
+    Harnessing machine learning allows for the definition of more complex and adaptive behaviors, 
+    which would be challenging to achieve through programmatic methods.
+
+To accurately define the domain, a \emph{Domain-Driven Design} \cite{evans2004domain} approach was used. 
+    First, the \emph{ubiquitous language}, as presented in \Cref{tab:ul}, was defined. 
+    This associates a precise definition with each term of the domain, thereby 
+    eliminating potential \emph{ambiguities}, which are common given the breadth of the MARL domain.
+
+\input{UL-table.tex}
 
 \section{Framework requirements}
 This section describes the requirements that the project must satisfy. 

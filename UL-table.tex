@@ -1,0 +1,37 @@
+\begin{table}
+    \centering
+    \begin{tabularx}{\textwidth}{lX}
+        \hline
+        \textbf{\emph{Concept}} & \textbf{\emph{Definition}} \\
+        \hline
+        Environment & The context in which the \emph{agents} are immersed and operate,
+                        it is a representation of the task to be solved.
+                        It is capable of interacting with the agents, providing information
+                        about its current \emph{state}, receiving the \emph{actions} that one or more agents
+                        wish to execute, and returning the corresponding \emph{reward}. \\
+        \hline
+        Agent       & An entity that interacts within an \emph{environment} and with other \emph{agents}
+                        in order to learn the optimal \emph{actions} sequence to maximize a \emph{reward} signal. 
+                        It is equipped with \emph{sensors}, \emph{actuators} and a \emph{communication mechanism}. \\
+        \hline
+        State       & A representation of the \emph{environment} at a given time, 
+                        including any relevant information that an \emph{agent} can perceive 
+                        or use to make decisions about its \emph{actions}. \\
+        \hline
+        Action      & A decision or choice made by an \emph{agent} in response to the current 
+                        state of the \emph{environment}. \\
+        \hline
+        System      & A collection of \emph{agents} that interact within a shared \emph{environment}. 
+                        It defines the training and execution flow of the agents. \\
+        \hline
+        Policy      & A function that maps the current \emph{state} of the \emph{environment} to a probability 
+                        distribution over the set of possible \emph{actions} that the \emph{agent} 
+                        can take in that \emph{state}. The policy specifies the \emph{agent's} behavior 
+                        or strategy in response to different \emph{states} of the \emph{environment}, 
+                        and it is learned through a process of trial and error using the 
+                        \emph{reward} signal as feedback. \\
+        \hline
+    \end{tabularx}
+    \caption{Hybrid AC-MARL approach ubiquitous language}
+    \label{tab:ul}
+\end{table}
