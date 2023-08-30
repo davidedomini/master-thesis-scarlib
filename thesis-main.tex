@@ -672,9 +672,18 @@ The user requirements express the needs of the users and describe the actions th
 \subsection*{Functional requirements}
 The functional requirements relate to the functionalities that the system must make available to the user. 
     To define them, it is necessary to rely on the user requirements extracted previously.
-% \begin{itemize}
-%     \item 
-% \end{itemize}
+\begin{itemize}
+    \item The framework must allow the user to define their own \emph{experiment}, this includes: 
+            i) the environment, 
+            ii) the state space, 
+            iii) the action space, and
+            iv) the reward function;
+    \item The framework must allow the user to define their own \emph{learning algorithm};
+    \item The framework must allow the user to define their own \emph{neural network} to approximate the policy/value-function;
+    \item The framework must allow the user to define their own \emph{agent logic} through aggregate programming;
+    \item The framework must allow the user to log information related to the training process;
+    \item The framework must allow the user to visualize the execution of agents, both during training and testing.
+\end{itemize}
 
 \subsection*{Non-functional requirements}
 Non-functional requirements concern the functionalities that the system does not necessarily have to possess in order to ensure that it is correct.
