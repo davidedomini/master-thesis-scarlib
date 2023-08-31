@@ -603,7 +603,8 @@ Alchemist offers an straightforward method for defining simulations. The process
     \end{subfigure}
     \caption{An Alchemist simulation example.}
     \label{fig:alchemist}
-    \end{figure*}
+\end{figure*}
+
 %----------------------------------------------------------------------------------------
 \chapter{Requirements} 
 \label{chap:requirements}
@@ -624,6 +625,18 @@ To accurately define the domain, a \emph{Domain-Driven Design} \cite{evans2004do
     First, the \emph{ubiquitous language}, as presented in \Cref{tab:ul}, was defined. 
     This associates a precise definition with each term of the domain, thereby 
     eliminating potential \emph{ambiguities}, which are common given the breadth of the MARL domain.
+
+The \emph{environment} is the context in which \emph{agents} are immersed and operate, cooperating to solve the assigned task. 
+    Agents interact with the environment by receiving the \emph{state} it is in before choosing which \emph{action} to perform,
+    but they are also equipped with \emph{sensors} through which they can perceive certain features of the context they are in, 
+    such as the number of other agents in the neighborhood and the distance from them.
+    Each agent chooses which action to take based on its own behavior \emph{policy}. This policy is updated in accordance 
+    with the \emph{system} that encompasses the agents themselves and the environment. This system is one of the key abstractions 
+    and defines the execution flow of agents. For example, in a \emph{CTDE (Centralized Training and Decentralized Execution)}
+    system, agents rely on a centralized learner that updates the policy as experience is accumulated and then also 
+    distributes the new policy to each agent. On the other hand, in a \emph{DTDE (Decentralized Training and Decentralized 
+    Execution)} system, each agent is responsible for its own policy, potentially resulting in each agent having a 
+    different policy from all the others.
 
 \input{UL-table.tex}
 
