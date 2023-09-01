@@ -733,7 +733,60 @@ A final example entails the use of \emph{wearable devices} (e.g., smartwatches) 
 \label{chap:design}
 %----------------------------------------------------------------------------------------
 
+This chapter presents the design decisions for modelling the domain and implementing 
+    the framework. It introduces the key details of each module, followed by a discussion
+    of the interactions between them.
 
+\section{Framework architecture}
+
+% Questo framework è stato progettato per supportare lo sviluppo di sistemi CMARL in ambienti JVM-based 
+%     attraverso delle specifiche ad alto livello. 
+%     Per arrivare a questo obiettivo il tool è stato diviso in tre moduli principali, ovvero:
+%     i) scarlib-core: implementa i concetti principali del dominio CMARL astraendo dai dettagli 
+%         implementativi di basso livello,
+%     ii) dsl-core: fornisce un linguaggio ad alto livello per la specifica di un sistema CMARL, e 
+%     iii) alchemist-scafi: fornisce i bindings fra scarlib e i due tool Alchemist e ScaFi in modo da poter
+%         eseguire esperimenti in un ambiente simulato sfruttando aggregate computing.
+
+% La modularizzazione del framework porta diversi vantaggi, da un lato permette all'utente finale di poter utilizzare
+%     solo i componenti che gli sono realmente utili, dall'altro permette di poter estendere e modificare il framework 
+%     in modo semplice. Ad esempio, ScaRLib, per via degli attuali bisogni, ha già implementato il modulo alchemist-scafi,
+%     se un utente volesse utilizzare un simulatore diverso da alchemist (e.g., FlameGPU) sarebbe sufficiente non importare
+%     tale modulo ed implementare un nuovo environment personalizzato che si basi su tale simulatore.
+
+The framework has been devised to aid the development of CMARL systems in JVM-based environments through high-level 
+    specifications. For this purpose, the tool is divided into three primary modules (\Cref{fig:mainmodules}), namely:
+    i) \texttt{scarlib-core}:  which captures the core concepts of the CMARL domain by abstracting low-level 
+        implementation details,
+    ii) \texttt{dsl-core}: which provides a high-level language for specifying a CMARL system, and
+    iii) \texttt{alchemist-scafi}: which provides bindings between ScaRLib and the Alchemist and ScaFi tools, enabling 
+        experiments in a simulated environment using aggregate computing.
+
+    One aspect to consider is the \texttt{pytorch} sub-module upon which \texttt{scarlib-core} relies. This sub-module serves as 
+    a learning engine used to conduct training and optimization of neural networks utilised by the RL algorithms. 
+    It's worth noting that, if required, an alternative substitute module that has similar functionality can be used instead.
+
+The modularisation of the framework brings various benefits. On the one hand, the framework makes it possible 
+    for the user to select only those components that are necessary for him. On the other hand, this makes it 
+    easy to extend and modify the framework. For instance, ScaRLib, due to the actual need, has already 
+    integrated the \texttt{alchemist-scafi} module. If a user wants to use another simulator instead of Alchemist 
+    (e.g., FlameGPU \cite{flame} or VMAS \cite{bettini2022vmas}), he simply has to disable the import of this module and build a fresh, 
+    custom environment based on his chosen simulator.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.7\textwidth]{figures/scarlib-modules.pdf}
+    \caption{ScaRLib main modules.}
+    \label{fig:mainmodules}
+\end{figure}
+
+\subsection*{ScaRLib Core}
+
+\subsection*{DSL Core}
+
+\subsection*{Alchemist-ScaFi}
+
+\section{Modules interactions}
 
 %----------------------------------------------------------------------------------------
 \chapter{Implementation} 
