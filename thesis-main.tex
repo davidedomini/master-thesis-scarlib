@@ -739,21 +739,6 @@ This chapter presents the design decisions for modelling the domain and implemen
 
 \section{Framework architecture}
 
-% Questo framework è stato progettato per supportare lo sviluppo di sistemi CMARL in ambienti JVM-based 
-%     attraverso delle specifiche ad alto livello. 
-%     Per arrivare a questo obiettivo il tool è stato diviso in tre moduli principali, ovvero:
-%     i) scarlib-core: implementa i concetti principali del dominio CMARL astraendo dai dettagli 
-%         implementativi di basso livello,
-%     ii) dsl-core: fornisce un linguaggio ad alto livello per la specifica di un sistema CMARL, e 
-%     iii) alchemist-scafi: fornisce i bindings fra scarlib e i due tool Alchemist e ScaFi in modo da poter
-%         eseguire esperimenti in un ambiente simulato sfruttando aggregate computing.
-
-% La modularizzazione del framework porta diversi vantaggi, da un lato permette all'utente finale di poter utilizzare
-%     solo i componenti che gli sono realmente utili, dall'altro permette di poter estendere e modificare il framework 
-%     in modo semplice. Ad esempio, ScaRLib, per via degli attuali bisogni, ha già implementato il modulo alchemist-scafi,
-%     se un utente volesse utilizzare un simulatore diverso da alchemist (e.g., FlameGPU) sarebbe sufficiente non importare
-%     tale modulo ed implementare un nuovo environment personalizzato che si basi su tale simulatore.
-
 The framework has been devised to aid the development of CMARL systems in JVM-based environments through high-level 
     specifications. For this purpose, the tool is divided into three primary modules (\Cref{fig:mainmodules}), namely:
     i) \texttt{scarlib-core}:  which captures the core concepts of the CMARL domain by abstracting low-level 
@@ -802,10 +787,71 @@ The modularisation of the framework brings various benefits. On the one hand, th
 \section{License}
 
 %----------------------------------------------------------------------------------------
-\chapter{Validation} % possible chapter for Projects
+\chapter{Validation} 
 \label{chap:validation}
 %----------------------------------------------------------------------------------------
+To test the functionalities of the framework, a series of experiments were created using selected 
+    features from well-known problems in literature. This allowed for a large number of 
+    agents to be involved and non-trivial coordination tasks to be undertaken.
 
+\section{Cohesion and collision}
+
+\paragraph{Description}
+The aim of this experiment is to create a flock of drones with the task of avoiding \emph{collisions}
+    and maintaining a \emph{cohesive} movement pattern. The goal is to learn a policy that guides each
+    agent's movement based on the distances from neighbors.
+    This problem is well-known in the literature as \emph{flocking} \cite{DBLP:conf/siggraph/Reynolds87,inverserl}.
+
+In our study, we examine an unbounded 2D environment where every agent has a set number of neighbours 
+    (the five nearest, a hyper-parameter that is configurable), and can move in eight directions 
+    (the four cardinal points and the four diagonals). The state of the environment is reconstructed 
+    through aggregate computing, using ScaFi, as follows:
+\begin{lstlisting}
+    val state = foldhoodPlus(Seq.empty)(_ ++ _)(Set(nbrVector))
+\end{lstlisting}    
+In the code above: 
+    i) \texttt{nbrVector} represents relative distances to neighbours, 
+    ii) \texttt{foldhoodPlus} is a ScaFi function that iterates over all neighbours, and
+    iii) \texttt{++} is the concatenation operation between sequences.
+ 
+A crucial aspect of this task involves defining the \emph{reward function}. 
+    The aim is to learn a policy that enables agents, initially placed randomly within the environment, 
+    to approach one another and reach a specific \emph{target distance} $\delta$ (set in advance as a parameter of the 
+    experiment) without any collisions occurring. In this case, a function composed of two components 
+    was selected. The \emph{collision factor} kicks in when the distance is less than the target distance:
+
+    \begin{equation}
+        \label{eq:collision-factor}
+        \begin{split}
+            \text{collision} = \begin{cases}
+                0 & \text{if } d > \delta \\
+                \exp\left(-\frac{d}{\delta}\right) & \text{otherwise}
+            \end{cases}
+        \end{split}
+    \end{equation}
+    Following this function, the distance $d$ from the nearest neighbour is \emph{exponentially weighted}, 
+    causing agents to move away from each other.
+    The second element aims to enhance \emph{cohesion}. Considering the neighbour with the longest distance $D$, 
+    the reward function is defined as follows:
+    \begin{equation}
+        \text{cohesion} = \begin{cases}
+            0 & \text{if } d < \delta \\
+            -(D - \delta) & \text{otherwise}
+        \end{cases}
+    \end{equation}
+    The overall reward function is defined as the sum of these two factors $(cohesion + collision)$ as shown in \Cref{fig:cc-rf}.
+
+    \begin{figure}[t]
+        \centering
+        \includegraphics[width=0.6\textwidth]{figures/ccreward.pdf}
+        \caption{Cohesion-Collision reward function: the red vertical line represents the target distance $d$.
+            The portion of the graph to the right of the red line represents the influence of the cohesion term,
+            while the left one represents the influence of the collision term.
+        }
+        \label{fig:cc-rf}
+    \end{figure}
+
+\paragraph{Results}
 
 %----------------------------------------------------------------------------------------
 \chapter{\conclusionsname}
