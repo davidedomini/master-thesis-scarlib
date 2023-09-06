@@ -1,0 +1,17 @@
+@startuml
+interface Environment {
+}
+
+class AlchemistEnvironment {}
+
+abstract ScafiProgram {
++ main(): Unit
+- computeState(): State
+}
+
+object AlchemistSimulationSpecification
+
+Environment <|-- AlchemistEnvironment
+AlchemistEnvironment --> AlchemistSimulationSpecification : reads
+AlchemistEnvironment --> ScafiProgram : uses
+@enduml

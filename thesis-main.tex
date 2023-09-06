@@ -772,7 +772,7 @@ The \texttt{scarlib-core} module contains the essential abstractions of the refe
     \begin{figure*}[t]
         \centering
         \includegraphics[width=\textwidth]{figures/uml-core.png}
-        \caption{Scarlib Core UML class diagram.}
+        \caption{Scarlib Core module UML class diagram.}
         \label{fig:uml-core}
     \end{figure*}
     A system serves as a generic representation of a collection of agents interacting with each other and with a shared 
@@ -819,6 +819,22 @@ Furthermore, the module provides a pre-implemented version of the DQN \cite{dqn}
 \subsection*{DSL Core}
 
 \subsection*{Alchemist-ScaFi}
+
+The \texttt{alchemist-scafi} (\Cref{fig:alchemist-scafi}) module has been designed to provide integration between the \texttt{scarlib-core} module 
+    and the two tools \emph{Alchemist} \cite{alchemist} and \emph{ScaFi} \cite{casadei2022scafi}. 
+    In addition to the \texttt{scarlib-core} module, this module provides an environment that implements bindings 
+    with the Alchemist simulator. This way, the user only needs to provide a YAML file containing the 
+    simulation specification they want to execute. 
+    Another component is the abstract class \texttt{ScafiProgram}, which represents the logic of the agents. 
+    In this case, the user only needs to implement the \texttt{computeState} method, specifying through \emph{aggregate 
+    computing} how to reconstruct the state that will be returned to the various agents.
+
+\begin{figure*}[t]
+    \centering
+    \includegraphics[width=0.8\textwidth]{figures/alchemist-scafi-uml.png}
+    \caption{Alchemist-Scafi module UML class diagram.}
+    \label{fig:alchemist-scafi}
+\end{figure*}
 
 \section{Modules interactions}
 
