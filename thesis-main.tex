@@ -852,6 +852,152 @@ A crucial aspect of this task involves defining the \emph{reward function}.
     \end{figure}
 
 \paragraph{Results}
+The experiment's training involved conducting 1000 \emph{epochs}, each with 100 \emph{episodes}, using 50 \emph{agents}, an 
+    \emph{environment} measuring 50x50 metres and a \emph{target distance} $\delta$ set to 2 metres. The training was conducted 
+    using both \emph{CTDE} and \emph{DTDE} processes.
+
+\Cref{fig:cc-results} shows the \emph{multi-objective} nature of the problem. In fact, cohesion and collision are two \emph{adverse signals},
+    and the system had to find a \emph{balance} between these two values. The graphs show that the learning algorithm optimizes one signal 
+    at a time, with cohesion tending towards zero and collision increasing. Nonetheless, after $500$ epochs in CTDE simulation, 
+    it is possible to see that the system had already found a balance between these two factors. 
+    Instead, in the case of DTDE learning, convergence can be observed after approximately $50$ epochs, 
+    which is due to the presence of a larger number of policies.
+
+To verify the \emph{homogenous policy} learned using the CTDE process, $16$ simulations were conducted, each with agents randomly 
+    positioned and varying the seeds. Given the homogenous nature of the policy learned with CTDE, we also varied the \emph{number 
+    of agents} by conducting simulations with $50$, $100$ and $200$ agents. According to our \emph{hypotheses}, 
+    this should not impact the \emph{quality} of the learned policy and its \emph{performance}.
+    \Cref{fig:simulation-snapshots} displays screenshots from a simulation with $50$ and $200$ agents, illustrating how they gradually form \emph{cohesive clusters} 
+    over time. \Cref{fig:test} shows the performance of the learned policy with $50$, $100$ and $200$ agents. From these graphs, it can 
+    be observed that the \emph{performance does not change significantly} with varying numbers of agents, and the system is able to 
+    maintain approximately a distance $\delta$ between the agents.
+
+    \begin{figure*}[t]
+        \centering
+        \begin{subfigure}[b]{0.32\textwidth}
+            \centering
+            \includegraphics[width=\textwidth]{figures/reward-ctde.pdf}
+            %\caption{Total average reward}
+            %\label{fig:reward-cc}
+        \end{subfigure}
+        \hfill
+        \begin{subfigure}[b]{0.32\textwidth}
+            \centering
+            \includegraphics[width=\textwidth]{figures/collision-ctde.pdf}
+            %\caption{Average collision factor}
+            %\label{fig:collision-cc}
+        \end{subfigure}
+        \hfill
+        \begin{subfigure}[b]{0.32\textwidth}
+            \centering
+            \includegraphics[width=\textwidth]{figures/cohesion-ctde.pdf}
+            %\caption{Average cohesion factor}
+            %\label{fig:cohesion-cc}
+        \end{subfigure}
+        \par\bigskip
+        \begin{subfigure}[b]{0.32\textwidth}
+            \centering
+            \includegraphics[width=\textwidth]{figures/reward-dtde.pdf}
+            \caption{Total average reward}
+            \label{fig:reward-dcc}
+        \end{subfigure}
+        \hfill
+        \begin{subfigure}[b]{0.32\textwidth}
+            \centering
+            \includegraphics[width=\textwidth]{figures/collision-dtde.pdf}
+            \caption{Average collision factor}
+            \label{fig:collision-dcc}
+        \end{subfigure}
+        \hfill
+        \begin{subfigure}[b]{0.32\textwidth}
+            \centering
+            \includegraphics[width=\textwidth]{figures/cohesion-dtde.pdf}
+            \caption{Average cohesion factor}
+            \label{fig:cohesion-dcc}
+        \end{subfigure}
+    \caption{Cohesion and collision experiment results. The y-axis represents the reward value.
+    The x-axis represents the total number of episodes.
+    The first three graphs show the results of the CDTE learning process, while the last three show the results of the DTDE learning process.}
+    \label{fig:cc-results}
+    \end{figure*}
+    
+    \begin{figure*}[t]
+        \centering
+        \begin{subfigure}[b]{0.25\textwidth}
+            \centering
+            \fbox{\includegraphics[width=\textwidth]{figures/1.png}}
+            \caption{}
+        \end{subfigure}
+        \hfill
+        \begin{subfigure}[b]{0.25\textwidth}
+            \centering
+            \fbox{\includegraphics[width=\textwidth]{figures/4.png}}
+            \caption{}
+        \end{subfigure}
+        \hfill
+        \begin{subfigure}[b]{0.25\textwidth}
+            \centering
+            \fbox{\includegraphics[width=\textwidth]{figures/7.png}}
+            \caption{}
+        \end{subfigure}
+        \par
+        \begin{subfigure}[b]{0.25\textwidth}
+            \centering
+            \fbox{\includegraphics[width=\textwidth]{figures/1-large.png}}
+            \caption{}
+        \end{subfigure}
+        \hfill
+        \begin{subfigure}[b]{0.25\textwidth}
+            \centering
+            \fbox{\includegraphics[width=\textwidth]{figures/3-large.png}}
+            \caption{}
+            \label{fig:sim2}
+        \end{subfigure}
+        \hfill
+        \begin{subfigure}[b]{0.25\textwidth}
+            \centering
+            \fbox{\includegraphics[width=\textwidth]{figures/4-large.png}}
+            \caption{}
+            \label{fig:sim3}
+        \end{subfigure}
+    \caption{Snapshots of the learned policy, the time flow is from left to right. 
+    In the first row, there are 50 agents, whereas in the second row, there are 200 agents.
+    In the last step of the simulation, the agents converged to a distance of approximately $\delta$.}
+    \label{fig:simulation-snapshots}
+    \end{figure*}
+    
+    \begin{figure*}[h!]
+        \centering
+        \begin{subfigure}[b]{0.32\textwidth}
+            \centering
+            \includegraphics[width=\textwidth]{figures/data-50.pdf}
+            \caption{50 agents}
+        \end{subfigure}
+        \hfill
+        \begin{subfigure}[b]{0.32\textwidth}
+            \centering
+            \includegraphics[width=\textwidth]{figures/data-100.pdf}
+            \caption{100 agents}
+        \end{subfigure}
+        \hfill
+        \begin{subfigure}[b]{0.32\textwidth}
+            \centering
+            \includegraphics[width=\textwidth]{figures/data-200.pdf}
+            \caption{200 agents}
+        \end{subfigure}
+    \caption{The performance of the learned policy. 
+    The y-axis represents the distance between the agents.
+    The x-axis represents the time.
+    The green line is equal to $\delta$.
+    In the charts, as the number of agents varies, the performance of the learned policy is similar.
+    Moreover, the minimum (blue line) distance between the agents is always greater than $\delta$.
+    The average distance (orange line) stays close to 2 * $\delta$ (after convergence).
+    }
+    \label{fig:test}
+    \end{figure*}
+
+\section{GPU Cluster}
+% Describe how the experiments were run on the GPU cluster
 
 %----------------------------------------------------------------------------------------
 \chapter{\conclusionsname}
