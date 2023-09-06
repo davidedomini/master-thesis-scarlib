@@ -746,16 +746,16 @@ The framework has been devised to aid the development of CMARL systems in JVM-ba
     ii) \texttt{dsl-core}: which provides a high-level language for specifying a CMARL system, and
     iii) \texttt{alchemist-scafi}: which provides bindings between ScaRLib and the Alchemist and ScaFi tools, enabling 
         experiments in a simulated environment using aggregate computing.
-
     One aspect to consider is the \texttt{pytorch} sub-module upon which \texttt{scarlib-core} relies. This sub-module serves as 
-    a learning engine used to conduct training and optimization of neural networks utilised by the RL algorithms. 
-    It's worth noting that, if required, an alternative substitute module that has similar functionality can be used instead.
+    a \emph{learning engine} to conduct training and optimization of neural networks utilised by the RL algorithms. 
+    It's worth noting that, if required, an alternative substitute module (e.g., DL4J \footnote{\url{https://deeplearning4j.konduit.ai/}})
+    that has similar functionality can be used instead.
 
 The modularisation of the framework brings various benefits. On the one hand, the framework makes it possible 
     for the user to select only those components that are necessary for him. On the other hand, this makes it 
     easy to extend and modify the framework. For instance, ScaRLib, due to the actual need, has already 
     integrated the \texttt{alchemist-scafi} module. If a user wants to use another simulator instead of Alchemist 
-    (e.g., FlameGPU \cite{flame} or VMAS \cite{bettini2022vmas}), he simply has to disable the import of this module and build a fresh, 
+    (e.g., FlameGPU \cite{flame} or VMAS \cite{bettini2022vmas}), he simply has to disable the import of this module and build a fresh 
     custom environment based on his chosen simulator.
 
 \begin{figure}
@@ -766,6 +766,55 @@ The modularisation of the framework brings various benefits. On the one hand, th
 \end{figure}
 
 \subsection*{ScaRLib Core}
+
+The \texttt{scarlib-core} module contains the essential abstractions of the reference domain, including the necessary data structures 
+    and learning algorithms. It has been conceptualised around several key components (\Cref{fig:uml-core}), the central one being the \emph{system}.
+    \begin{figure*}[t]
+        \centering
+        \includegraphics[width=\textwidth]{figures/uml-core.png}
+        \caption{Scarlib Core UML class diagram.}
+        \label{fig:uml-core}
+    \end{figure*}
+    A system serves as a generic representation of a collection of agents interacting with each other and with a shared 
+    environment, trained to optimise a reward signal conveyed by a reward function. The tool offers two pre-implemented 
+    systems that are widely used in literature \cite{Du2020}, namely the \texttt{CTDESystem} and \texttt{DTDESystem}. The distinction between them is based
+    on the training of the different agents. To understand their dynamics better, it is useful to study their internal details. 
+    Both systems undergo a training process that includes a specific number of \emph{epochs}, each of which comprises numerous \emph{episodes}. 
+    Within a single episode, at a generic time step $t$, agents interact with the environment and receive the state $s_t$. 
+    They choose which action $a_t$ to take based on this and the current policy $\pi_t$. The environment then gathers the 
+    actions of all agents and returns a new state $s_{t+1}$ and the corresponding reward $r_{t+1}$. 
+    When using a \texttt{CTDESystem}, the agents are trained in a centralised way, involving a specialised agent, called the \emph{Learner}, 
+    that gathers the experience of all the other agents to update the policy, and then the updated policy is distributed to all 
+    the agents,  resulting in a \emph{homogeneous} system. 
+    Conversely, when using a \texttt{DTDESystem}, each agent assumes responsibility for individual policy training,
+    thus making the policies different from each other, resulting in a \emph{heterogeneous} system. 
+    The behaviors of these systems are depicted in \Cref{fig:systems}.
+    
+    \begin{figure*}[t]
+        \centering
+        \begin{subfigure}[b]{0.49\textwidth}
+            \centering
+            \includegraphics[width=\textwidth]{figures/ctdesystem.pdf}
+            \caption{CTDE System}
+        \end{subfigure}
+        \begin{subfigure}[b]{0.49\textwidth}
+            \centering
+            \includegraphics[width=\textwidth]{figures/DTDE.pdf}
+            \caption{DTDE System}
+        \end{subfigure}
+    \caption{Examples of developed System dynamics. 
+    On the left, there is the centralized system, 
+    where a learner with a global view of the system 
+    updates the policy shared with all agents. 
+    %
+    On the right, there is a decentralized system, 
+    where each agent has a local policy and a local policy.}
+    \label{fig:systems}
+    \end{figure*}
+
+Furthermore, the module provides a pre-implemented version of the DQN \cite{dqn} learning algorithm, which can be used 
+    to train the agents. Alternatively, a user can define their own custom learning algorithm by creating a
+    new class that extends the trait \texttt{Learner}.
 
 \subsection*{DSL Core}
 

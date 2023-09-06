@@ -1,0 +1,42 @@
+@startuml
+interface Learner {
++ record(state: State, action: Action, reward: Double, newState: State): Unit
++ improve(): Unit
++ snapshot(episode: Integer, agentID: Integer): Unit
++ getPolicy(): Policy
+}
+
+class DeepQLearner {}
+
+interface Action {}
+
+interface State {}
+
+interface RewardFunction {
++ compute(currentState: State, action: Action, newState: State): Double
+}
+
+interface Environment {
++ step(action: Action, agentID: Integer): Future[(Double, State)]
++ observe(agentID: Integer): State
++ reset(): Unit
+}
+
+interface Agent {
++ step(): Unit
++ notifyNewPolicy(policy: Policy): Unit
+}
+
+interface System {
++ learn(episodes: Integer, episodeLength: Integer): Unit
++ runTest(episodeLength: Int, policy: NeuralNetworkSnapshot): Unit 
+}
+
+Learner <|-- DeepQLearner
+Environment o-- Action
+Environment o-- State
+Environment o-- RewardFunction
+System o-- Agent
+System o-- Environment
+System o-- Learner
+@enduml
