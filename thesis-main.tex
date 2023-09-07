@@ -903,8 +903,71 @@ In this project \emph{Gradle} \footnote{\url{https://gradle.org/}} was used as t
     strong software projects. Whether building, testing or deploying applications, Gradle streamlines 
     and automates these tasks to enhance productivity and allow developers to concentrate on 
     writing superior code.
+    Most of the Gradle configuration is in the \texttt{build.gradle.kts} file.
+    For example, it's possible to specify a dependency on an third-party library as shown below:
+\begin{lstlisting}
+dependencies {
+    implementation("it.unibo.alchemist:alchemist-incarnation-scafi:25.14.6")
+}
+\end{lstlisting}
+    Another crucial aspect is the ability to define custom tasks, allowing for a series of actions
+    to be carried out during the build stage. For instance, the following task creates a jar
+    file that holds the documentation of the program's code.
+\begin{lstlisting}
+val scaladocJar by tasks.registering(Jar::class) {
+    dependsOn("scaladoc")
+    val destinationDirectory = tasks.named<ScalaDoc>("scaladoc").get().destinationDir
+    from(destinationDirectory)
+    archiveClassifier.set("docs-${project.name}")
+}
+\end{lstlisting}
 
 \subsection*{Continuous integration}
+\emph{Continuous Integration (CI)} is a software development technique that involves regularly integrating code modifications into a 
+    shared repository following automated building and testing procedures. 
+    Its significance lies in its ability to optimise the development workflow by pinpointing and resolving problems early on 
+    in the development cycle. CI ensures that modifications made by multiple developers do not cause any conflicts or bugs. 
+    This improves code quality, reduces integration issues, and ultimately speeds up the software delivery. 
+    By automating these processes, CI not only saves time but also encourages collaboration and motivates developers 
+    to write reliable and maintainable code. This results in a more efficient and robust software development pipeline.
+
+In this project \emph{GitHub Actions} \footnote{\url{https://docs.github.com/en/actions}} were used to implement CI. 
+    GitHub Actions is a \emph{CI/CD service}, integrated into GitHub, that allows developers to automate their software development workflows. 
+    GitHub Actions is based on the concept of \emph{workflows}, which are a series of jobs that are executed when a specific event occurs. 
+    For example, a workflow can be triggered when a pull request is opened or when a commit is pushed to the repository. 
+    Workflows are defined in a YAML file called \texttt{.github/workflows/main.yml}. 
+    The following is an example of a workflow that is triggered when a commit is pushed to the \texttt{main} branch. It is composed 
+    of one job named \texttt{build} that runs on a \texttt{ubuntu} machine. The job consists of four steps: first it checks out the code, 
+    then it sets up the Node.js environment, then it installs project dependencies, and finally it runs the tests.
+
+\begin{lstlisting}
+name: Simple Pipeline
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@v2
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: '14'
+
+    - name: Install Dependencies
+      run: npm install
+
+    - name: Run Tests
+      run: npm test
+\end{lstlisting}
+
 \subsection*{Versioning and releasing}
 
 \section{License}
