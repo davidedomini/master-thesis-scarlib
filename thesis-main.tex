@@ -970,6 +970,25 @@ jobs:
 
 \subsection*{Versioning and releasing}
 
+\emph{Software versioning} refers to the process of assigning a unique identifier to a software state. 
+    The identifier is typically an alphanumeric sequence of characters separated by dots, slashes, or dashes.
+    In this project, to distinguish different versions of the software, we decided to follow the guidelines 
+    proposed by \emph{Semantic Versioning} \footnote{\url{https://semver.org/}}. 
+    Consequently, the software version is represented by three numbers separated by a dot: \texttt{MAJOR.MINOR.PATCH}.
+
+The correct version to be associated with the software state is based on the saved commits, 
+    which were written following the Conventional Commit approach. In particular, we used the following approach:
+    \begin{itemize}
+        \item \textbf{MAJOR} release: any commit type and scope that causes a breaking change;
+        \item \textbf{MINOR} release: any commit with type \texttt{feat};
+        \item \textbf{PATCH} release: any commit with type \texttt{fix}, \texttt{doc}, \texttt{perf}, \texttt{revert}.
+    \end{itemize}
+
+With regard to the \emph{release} of the software, on the other hand, it was decided to publish the various versions 
+    on the \emph{Maven Central repository} \footnote{\url{https://central.sonatype.com/}}, so as to make the framework easily available and importable for all users.  
+    The release process, following good devops practices, was also fully automated.
+
+
 \section{License}
 
 %----------------------------------------------------------------------------------------
