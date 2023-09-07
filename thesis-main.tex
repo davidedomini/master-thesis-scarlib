@@ -870,8 +870,40 @@ The management of the codebase was carried out using the renowned \emph{Decentra
     The \texttt{master} branch is used for \emph{releases}, while the \texttt{develop} branch is used for \emph{ongoing development}. 
     Additionally, for each feature, a branch named \texttt{feature/feature-name} is created, which is then merged 
     into the \texttt{develop} branch once the feature is completed.
-
+    Furthermore, to ensure a standardized way of writing commit messages, 
+        the \emph{Conventional Commits} \footnote{\url{https://www.conventionalcommits.org/en/v1.0.0/}} 
+        approach was adopted. A commit is therefore written in the following format: \texttt{<type>[<optional scope>]: <description>}.
+        Some examples of commit types are \texttt{feat}, \texttt{fix}, \texttt{docs} and \texttt{style}.
 \subsection*{Build automation}
+
+\emph{Build automation} aims to automate the \emph{management of dependencies}, \emph{compilation}, and 
+    \emph{distribution} of a software project.
+    Firstly, build automation decreases human errors during source code compilation by eliminating potential 
+    sources of errors from manual omissions or configuration mistakes. This increases the software's reliability 
+    and accelerates the development cycle, enabling developers to concentrate on more creative tasks and 
+    problem-solving instead of manual compilation.
+    Additionally, build automation aids in the regulation of \emph{project dependencies} and \emph{version control}, 
+    permitting developers to explicitly and systematically establish the necessary libraries and resources 
+    for the application and guaranteeing that they persistently maintain the accurate versions.
+    Finally, build automation facilitates \emph{continuous integration and continuous delivery (CI/CD)},
+    which are essential for timely releases of new features and bug fixes. 
+    Through automation, it is possible to implement \emph{automated testing} and continuous deployment processes, 
+    decreasing release times and enhancing the overall quality of the software.
+
+In this project \emph{Gradle} \footnote{\url{https://gradle.org/}} was used as the build automation tool. 
+    It is a powerful and versatile tool extensively used in the software development industry. 
+    It supplies a flexible and efficient approach to regulate and automate different aspects of the build 
+    process for projects of all sizes and complexities. One of Gradle's notable advantages is its backing 
+    for multiple programming languages and platforms, which renders it a preferred choice for both 
+    Java-based applications and a wide variety of other technologies. With Gradle, 
+    developers are able to establish and adapt build scripts by utilising a Kotlin-based DSL 
+    (Domain Specific Language), providing considerable versatility and expressiveness. 
+    Gradle also performs exceedingly well in dependency management, allowing developers to simply 
+    declare and manage project dependencies, making it an essential tool for building and maintaining 
+    strong software projects. Whether building, testing or deploying applications, Gradle streamlines 
+    and automates these tasks to enhance productivity and allow developers to concentrate on 
+    writing superior code.
+
 \subsection*{Continuous integration}
 \subsection*{Versioning and releasing}
 
