@@ -12,6 +12,8 @@
 
 \input{scala-def}
 \input{yaml-def}
+\input{kotlin-def}
+
 \lstset{language=scafi}
 
 %\newcommand{\thesislang}{italian} % decommentare in caso di tesi in italiano
@@ -905,7 +907,7 @@ In this project \emph{Gradle} \footnote{\url{https://gradle.org/}} was used as t
     writing superior code.
     Most of the Gradle configuration is in the \texttt{build.gradle.kts} file.
     For example, it's possible to specify a dependency on an third-party library as shown below:
-\begin{lstlisting}
+\begin{lstlisting}[language=kotlin]
 dependencies {
     implementation("it.unibo.alchemist:alchemist-incarnation-scafi:25.14.6")
 }
@@ -913,7 +915,7 @@ dependencies {
     Another crucial aspect is the ability to define custom tasks, allowing for a series of actions
     to be carried out during the build stage. For instance, the following task creates a jar
     file that holds the documentation of the program's code.
-\begin{lstlisting}
+\begin{lstlisting}[language=kotlin]
 val scaladocJar by tasks.registering(Jar::class) {
     dependsOn("scaladoc")
     val destinationDirectory = tasks.named<ScalaDoc>("scaladoc").get().destinationDir
@@ -940,7 +942,7 @@ In this project \emph{GitHub Actions} \footnote{\url{https://docs.github.com/en/
     of one job named \texttt{build} that runs on a \texttt{ubuntu} machine. The job consists of four steps: first it checks out the code, 
     then it sets up the Node.js environment, then it installs project dependencies, and finally it runs the tests.
 
-\begin{lstlisting}
+\begin{lstlisting}[language=yaml]
 name: Simple Pipeline
 
 on:
