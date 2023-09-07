@@ -848,7 +848,29 @@ The \texttt{alchemist-scafi} (\Cref{fig:alchemist-scafi}) module has been design
 %----------------------------------------------------------------------------------------
 
 \section{DevOps techniques}
+
+\emph{DevOps} techniques are fundamental to the development of a project for several reasons. On the one hand, 
+    they make it possible to improve code quality while keeping work organised, promoting testing and 
+    ensuring continuous integration of the various components being developed, while systematically 
+    tracking released versions. On the other hand, they make it easier to maintain high productivity 
+    by avoiding downtime and automating repetitive and tedious tasks that can be performed more efficiently 
+    by a computer than by a human, leaving more time for critical features.
+
 \subsection*{Repository management}
+The management of the codebase was carried out using the renowned \emph{Decentralized Version Control System (DVCS)} git \cite{spinellis2012git}, 
+    specifically leveraging the \emph{GitHub} \footnote{\url{https://github.com/}} hosting service. To ensure standardized and consistent tool usage, 
+    avoiding errors and compatibility issues, the \emph{GitFlow} methodology was chosen.
+    GitFlow is a branching model that involves the use of two main branches: \texttt{master} and \texttt{develop} (\Cref{fig:gitflow}).
+    \begin{figure*}[t]
+        \centering
+        \includegraphics[width=0.8\textwidth]{figures/gitflow.png}
+        \caption{GitFlow.}
+        \label{fig:gitflow}
+    \end{figure*}
+    The \texttt{master} branch is used for \emph{releases}, while the \texttt{develop} branch is used for \emph{ongoing development}. 
+    Additionally, for each feature, a branch named \texttt{feature/feature-name} is created, which is then merged 
+    into the \texttt{develop} branch once the feature is completed.
+
 \subsection*{Build automation}
 \subsection*{Continuous integration}
 \subsection*{Versioning and releasing}
