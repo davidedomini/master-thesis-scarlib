@@ -823,6 +823,45 @@ The \texttt{dsl-core} module is dedicated to implementing a \emph{Domain Specifi
     define the high-level configuration of the experiment to run. This module is the simplest of the three, 
     consisting of a series of \emph{contextual functions} that make the definition of the learning system 
     fluent and straightforward.
+    The decision to implement a DSL, which essentially serves as a \emph{facade} for the abstractions defined 
+    by the framework, was made to enable the identification of simple configuration errors at \emph{compile time} rather than waiting
+    for execution to intercept them.
+
+Let's take the example of a user who wants to define his own learning system for the experiment he wants to run 
+    with the DSL. First of all, the basic components must be defined. To start with, a reward 
+    function must be defined.
+    \begin{lstlisting}
+class MyRewardFunction extends CollectiveRewardFunction:
+    override def computeReward(state: State, action: Action, nextState: State): Double = ...
+    \end{lstlisting}
+    Afterward, it will be necessary to define the action space, which can be done as follows, 
+    leveraging Scala's \emph{product types}:
+    \begin{lstlisting}
+sealed trait CustomAction extends Action
+object CustomActionSpace:
+    case object A extends CustomAction
+    case object B extends CustomAction
+    case object C extends CustomAction
+    def all: Seq[CustomAction] = Seq(A, B, C)
+    \end{lstlisting}
+Final refinements required include: 
+    i) choosing the class of the Alchemist environment to instantiate, 
+    ii) defining the number of agents living in the chosen environment, and 
+    iii) defining the size of the buffer in which the memory will be stored.
+    Finally, everything can be combined to create the configuration of the learning system through the DSL 
+    as follows:
+    \begin{lstlisting}
+val system = learningSystem {
+    rewardFunction { new MyRewardFunction() }
+    actions { CustomActionSpace.all}
+    dataset { ReplayBuffer[State, Action](10000) }
+    agents { 50 } // select the number of agent
+    environment {
+        // select a specific environment
+        "it.unibo.scarlib.experiments.myEnvironment"
+    }
+}
+    \end{lstlisting}
 
 \subsection*{Alchemist-ScaFi}
 
@@ -837,7 +876,7 @@ The \texttt{alchemist-scafi} (\Cref{fig:alchemist-scafi}) module has been design
 
 \begin{figure*}[t]
     \centering
-    \includegraphics[width=0.8\textwidth]{figures/alchemist-scafi-uml.png}
+    \includegraphics[width=0.7\textwidth]{figures/alchemist-scafi-uml.png}
     \caption{Alchemist-Scafi module UML class diagram.}
     \label{fig:alchemist-scafi}
 \end{figure*}
@@ -905,9 +944,23 @@ Originally, Scala was designed as a language intended for seamless interoperabil
 
 \subsection*{Asynchronous programming}
 
+
 \subsection*{ScalaPy}
 
 \subsection*{PyTorch}
+
+\emph{PyTorch} \cite{imambi2021pytorch} has become a groundbreaking framework for training \emph{deep neural networks}, providing a 
+    potent and adaptable platform which has won over both researchers and developers in the field of deep learning. 
+    PyTorch's dynamic computation graph, sophisticated design, and user-friendly interface distinguish it from the rest, 
+    making it an indispensable tool for building and training neural networks.
+    At the heart of PyTorch's appeal is its \emph{dynamic computation graph}, a sharp contrast to the static graphs seen in many 
+    other deep learning frameworks. This dynamic nature allows developers to define and revise computational graphs as
+    needed, empowering dynamic control flow and simplifying debugging. Researchers find this feature particularly useful 
+    in implementing complex models, encouraging experimentation and streamlining prototyping.
+    PyTorch's capacity to harness \emph{GPU acceleration} is effortless, allowing for the training of deep neural networks on 
+    \emph{high-performance hardware}. \emph{Autograd}, an automatic differentiation engine, effectively calculates 
+    gradients for optimization algorithms based on gradients such as \emph{stochastic gradient descent} \cite{amari1993backpropagation}. 
+    This characteristic streamlines the implementation of custom loss functions and intricate optimization strategies.
 
 \section{DevOps techniques}
 
