@@ -844,6 +844,23 @@ The \texttt{alchemist-scafi} (\Cref{fig:alchemist-scafi}) module has been design
 
 \section{Component interactions}
 
+The \emph{interaction} among the various components depends on the selected \emph{training and execution model}. 
+    The framework provides two pre-implemented models: \texttt{CTDESystem} and \texttt{DTDESystem}. 
+    The interaction flow for the CTDE model is illustrated in \Cref{fig:ctde-sequence}, while that for the DTDE model is shown in
+    \Cref{fig:dtde-sequence}. In general, the main interaction takes place between the agents and the environment, in both models: 
+    initially, the agent observes the state of the environment and, based on this observation, 
+    makes a query to its policy to choose an action to execute. When the action is received, the environment computes 
+    the new state and returns a reward and the new state to the agent.
+    At this point, the most significant difference between the two systems becomes evident. In the case of CTDE, the agent collects its experience 
+    in a centralized Learner that takes responsibility for updating the policy following the implemented learning algorithm. Conversely, in the case of 
+    DTDE, each agent interfaces directly with its own learner. In the former case, the policies of various agents will be homogeneous, 
+    whilst in the latter case, each agent will have its own policy.
+
+An important aspect to note regarding Figures \ref{fig:ctde-sequence} and \ref{fig:dtde-sequence} is that they represent a simplification of what actually happens. 
+    In fact, only one agent is illustrated, while in reality, the number of agents is much greater than $1$. Both systems manage agents \emph{concurrently}, 
+    leveraging asynchronous programming to enable parallel execution. The environment, in order to compute the new state,
+     must wait to collect the actions of all agents for the current time step.
+
 \begin{figure*}[t]
     \centering
     \includegraphics[width=\textwidth]{figures/CTDE-System-Sequence-Diagram.png}
