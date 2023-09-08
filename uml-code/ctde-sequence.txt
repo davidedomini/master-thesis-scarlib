@@ -1,0 +1,37 @@
+@startuml
+participant User
+participant Learner
+participant System
+participant Agent
+participant Environment
+
+
+User -> System : learn(episodes, episodeLength)
+
+loop episode < max_episodes
+
+System -> Environment : reset()
+
+loop time < max_episode_length
+
+System -> Agent: notifyNewPolicy(Policy)
+System -> Agent: step()
+Agent -> Environment: observe()
+Agent <-- Environment: State
+Agent -> Agent: getAction(State)
+activate Agent
+Agent --> Agent: Action
+deactivate Agent
+
+Agent -> Environment : step(Action, agentID)
+Agent <-- Environment : NewState, Reward
+System <-- Agent: Experience<State, Action, Reward, NewState>
+System -> Learner : improvePolicy()
+System <-- Learner : Policy
+
+end
+
+System -> Learner : snapshot()
+
+end
+@enduml
