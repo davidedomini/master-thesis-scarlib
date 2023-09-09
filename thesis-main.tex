@@ -1052,7 +1052,10 @@ dependencies {
 \begin{lstlisting}[language=kotlin]
 val scaladocJar by tasks.registering(Jar::class) {
     dependsOn("scaladoc")
-    val destinationDirectory = tasks.named<ScalaDoc>("scaladoc").get().destinationDir
+    val destinationDirectory = tasks
+            .named<ScalaDoc>("scaladoc")
+            .get()
+            .destinationDir
     from(destinationDirectory)
     archiveClassifier.set("docs-${project.name}")
 }
