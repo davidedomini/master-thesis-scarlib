@@ -153,83 +153,169 @@ Swarms have been extensively studied due to a series of significant advantages, 
 %
 \section{Aggregate Computing}
 
-The advent of \emph{Collective Computing} and the proliferation of interconnected devices have given rise to novel 
-    paradigms that aim to address the challenges posed by the distributed nature of computing
-    systems. One such paradigm that has gained significant attention in recent years is 
-    \emph{aggregate computing (AC)} \cite{AC}.
+\paragraph{Context}
+Over the last few years, there has been a definite trend in the development of computational devices: 
+    they have been getting smaller, more potent, and less expensive. We have moved from using a 
+    single mainframe computer that is shared by an entire department at a company or university, 
+    to using numerous individual devices like smartphones, smartwatches, and others, all interconnected
+    with one another. This phenomenon has led to a range of opportunities, but it has also introduced 
+    new challenges when it comes to engineering these \emph{complex distributed systems}. It soon became clear 
+    that conventional microprogramming approaches, which involve programming each device separately, lacked of 
+    \emph{modularity} and \emph{reusability}. For this reason, attempts have been made to introduce novel paradigms, including 
+    macroprogramming, which shifts focus onto the \emph{collective of devices}, considering their neighbourhood 
+    relations and interactions.
+    One such paradigm that has gained significant attention in recent years is \emph{aggregate computing (AC)} \cite{AC}.
 
-AC adopts a model where the perspective is at a \emph{global level}: 
-    a group of devices is seen as a global entity (i.e., the \emph{aggregate system}) that works at asynchronous 
-    \emph{rounds} and exchanges messages with neighbours. 
-    A round is composed of three phases:
-    i) \emph{context building}, each node collects information from the 
-        neighborhood and sensors,
-    ii) \emph{program execution}, each node executes the aggregate program on the local context, and
-    iii) \emph{export sharing}, each node shares the export with the neighborhood.
-    Each device is seen as an actor that has a set of responsibilities (\Cref{fig:device-actor}): first, it is equipped with 
-    \emph{sensors} that allow it to detect certain characteristics of the environment and \emph{actuators} that allow 
-    it to interact with the environment; furthermore, it must \emph{execute the collective program} specification 
-    (asynchronously according to its clock) and keep track of the \emph{local state}. Lastly, it is equipped with 
-    a \emph{communication mechanism} that enables it to exchange messages with other devices in its neighborhood.
+\paragraph{Field calculus}
+\emph{Field calculus (FC)} \cite{fieldcalculus} has been designed to be a minimal core calculus aimed at capturing the essential 
+    aspects of languages that make use of \emph{computational fields}, somewhat similarly to what $\lambda$-calculus does for 
+    representing the essence functional programming. 
+    The computational model of FC proposes that a program \textbf{P} is executed by a network of devices $\delta$, with a concept 
+    of \emph{neighborhood relation} representing physical or logical proximity. An example of such a network is shown in \Cref{fig:random-network}. 
+    This notion of neighborhood is used to represent devices capable of direct communication, such as sensors within a broadcast range. 
+    In addition to this, the computational model also defines the concept of a \emph{computational field} $\phi$. These fields are 
+    a distributed data structure that maps each device, at a given time, to a value.
 
-
-\begin{figure}[t]
+\begin{figure*}[t]
     \centering
-    \includegraphics[width=0.7\textwidth]{figures/deviceactor.pdf}
-    \caption{Device actor model in AC.}
-    \label{fig:device-actor}
-\end{figure}
+    \includegraphics[width=0.7\textwidth]{figures/random-network-black.png}
+    \caption{A random network of devices generated using ScaFi Web. 
+        Each blue dot represents a device, and each line represents a neighbour relation.}
+    \label{fig:random-network}
+\end{figure*}
 
-Interactions within the aggregate system are seen as a flow of information propagating through the 
-    collective of devices, rather than as local interactions of individual devices with their
-    peers and the environment. This approach offers a number of advantages:
-    i) the program can be defined in a composable and declarative manner, 
-    ii) it promotes the reuse of behaviours, and 
-    iii) the developer is relieved from concerns regarding low-level aspects (e.g., failures, distribution, communication and more), 
-    as these are automatically handled by the middleware.
+A key aspect of FC is that the program (or specification) \textbf{P} can be interpreted both 
+    \emph{locally} and \emph{globally}. Locally, it is viewed as a description of computation on 
+    an individual device, which is executed in asynchronous \emph{computational rounds}. 
+    Each round consists of three phases:
+    i) \emph{context building}, each device collects information from the 
+         neighborhood and sensors,
+    ii) \emph{program execution}, each device executes the aggregate program on the local context, and
+    iii) \emph{export sharing}, each device shares the export with the neighborhood.
+    When a device completes a round, it is said ``\emph{the device $\phi$ fires}".
+    Globally, on the other hand, a given expression \textsf{e} specifies a mapping that associates, 
+    for each round of each device, the value \textsf{e} assumes at that specific space-time event.
+    This dualism inherently enables the alignment of each device's individual behaviour with the 
+    emerging global behaviour of the entire network of devices.
 
-In aggregate computing, information is represented by a distributed data structure known as 
-    \emph{computational field} \cite{VIROLI2019100486, 1316820},
-    which is an abstraction of space-time values where each device is mapped to a computational value.
-    The manipulation of these fields is derived from the \emph{Field Calculus} \cite{viroli2016higher}, a computational model in which collective 
-    behaviours are expressed as algorithms that are the composition of computational fields.
+\Cref{fig:fc-syntax} gives the basic \emph{abstract syntax} of field calculus. Following this syntax 
+    a program P is defined as a sequence of function declarations $\bar{F}$ followed by the main 
+    expression $e$. An expression can be: 
+    \begin{itemize}
+        \item A variable $x$ (e.g., a function parameter)
+        \item A value $v$. It can be of two types:
+        \begin{itemize}
+            \item A \emph{local} value $l$ (e.g., a Boolean or an Integer);
+            \item A \emph{neighbouring (field)} value $\phi$. It represents a collection of values 
+                from neighbors that maps, for each device, the set of neighbour devices $\delta$
+                (including the device itself) to local values $l$ (e.g., a map of neighbours to the distances 
+                to those neighbours).
+        \end{itemize}
+        \item A function call $f(\bar{e})$ to either a user-declared function or a built-in function;
+        \item A \emph{branching expression} that splits the system into two sub-region depending on 
+            how each device evaluates the condition;
+        \item The \texttt{nbr} construct, that defines a neighbouring value field $\phi$ that maps 
+            each neighbor with its latest available result of evaluating $e$;
+        \item The \texttt{rep} construct, which models state evolution over time.
+    \end{itemize}
 
-In recent times, several implementations of aggregate computing have been developed, and one particularly interesting 
-    implementation is \emph{ScaFi} \cite{CASADEI2022101248}. ScaFi is a Scala-based platform that offers the following features: 
-    i) a domain specific language (DSL) for specifying aggregate computation, 
-    ii) a simulation environment through the Alchemist simulator \cite{alchemist}, 
-    iii) a middleware for executing and deploying aggregate programs, and 
-    iv) reusable library functionalities that serve as building blocks for constructing new aggregate programs. 
-    For example, the gradients abstraction that provides gradient functions \cite{viroli2018engineering, beal2008fast} used for the ongoing computation, 
-    across spatio-temporal dimension, of the self-healing field (i.e., a field able to self-adjust in case of changes 
-    in devices topology) that determines the minimum distances of individual nodes from a specified set of source 
-    nodes \cite{CASADEI2022101248}.
+    \begin{figure*}[t]
+        \centering
+        \includegraphics[width=0.8\textwidth]{figures/FC-abstract-syntax.png}
+        \caption{Field calculus abstract syntax. From \cite{fieldcalculus}.}
+        \label{fig:fc-syntax}
+    \end{figure*}
 
-An example of how ScaFi works is shown in \Cref{fig:channel} and \Cref{lst:channel}, the goal is create a channel given 
-    a source, a destination and a width. To reach this goal is it possible to define the computation as a pure function 
-    over fields that exploits and composes the following functions:
-    i) \texttt{gradient}, which takes as input a field of Booleans and computes in output a field of Integers with the 
-        mininum distance, for each point, from a given source represented by the values set to true in the input;
-    ii) \texttt{distance}, which computes the distance between two sources, and
-    iii) \texttt{dilate}, which takes as input a field of Booleans and stretches the source by a given width.
+In addition to the syntax explained for FC, there is an expanded version for \emph{higher-order FC}. 
+    Here, functions are considered \emph{first-class values} and programmers are able to pass functions as parameters 
+    to other functions. This allows for the addition or modification of existing code within the network.
 
-\begin{figure}[h!]
-    \centering
-    \includegraphics[width=0.7\textwidth]{figures/channel.png}
-    \caption{A ScaFi AC program example. This algorithm representation is obtained from the code in \Cref{lst:channel}}.
-    \label{fig:channel}
-\end{figure}
+One final important aspect of field calculus is its ability to formally demonstrate the 
+    validity of significant properties, including:
+    \emph{global coherence}, \emph{self-stabilisation} \cite{viroli2018engineering}, 
+    \emph{space-time universality} \cite{audrito2018space}, and \emph{eventual consistency} \cite{beal2017self}.
 
-\begin{lstlisting}[caption={A ScaFi AC program example. The algorithm implements a channel between a source and a destination.}, label={lst:channel}]
-def channel(
-    source: Boolean, 
-    destination: Boolean, 
-    width: Double
-): Double {
-    dilate(gradient(source) + gradient(destination) 
-        <= distance(source, destination), width)
-}
-\end{lstlisting}
+\paragraph{Agregate computing}
+
+\paragraph{ScaFi}
+
+% The advent of \emph{Collective Computing} and the proliferation of interconnected devices have given rise to novel 
+%     paradigms that aim to address the challenges posed by the distributed nature of computing
+%     systems. One such paradigm that has gained significant attention in recent years is 
+%     \emph{aggregate computing (AC)} \cite{AC}.
+
+% AC adopts a model where the perspective is at a \emph{global level}: 
+%     a group of devices is seen as a global entity (i.e., the \emph{aggregate system}) that works at asynchronous 
+%     \emph{rounds} and exchanges messages with neighbours. 
+%     A round is composed of three phases:
+%     i) \emph{context building}, each node collects information from the 
+%         neighborhood and sensors,
+%     ii) \emph{program execution}, each node executes the aggregate program on the local context, and
+%     iii) \emph{export sharing}, each node shares the export with the neighborhood.
+%     Each device is seen as an actor that has a set of responsibilities (\Cref{fig:device-actor}): first, it is equipped with 
+%     \emph{sensors} that allow it to detect certain characteristics of the environment and \emph{actuators} that allow 
+%     it to interact with the environment; furthermore, it must \emph{execute the collective program} specification 
+%     (asynchronously according to its clock) and keep track of the \emph{local state}. Lastly, it is equipped with 
+%     a \emph{communication mechanism} that enables it to exchange messages with other devices in its neighborhood.
+
+
+% \begin{figure}[t]
+%     \centering
+%     \includegraphics[width=0.7\textwidth]{figures/deviceactor.pdf}
+%     \caption{Device actor model in AC.}
+%     \label{fig:device-actor}
+% \end{figure}
+
+% Interactions within the aggregate system are seen as a flow of information propagating through the 
+%     collective of devices, rather than as local interactions of individual devices with their
+%     peers and the environment. This approach offers a number of advantages:
+%     i) the program can be defined in a composable and declarative manner, 
+%     ii) it promotes the reuse of behaviours, and 
+%     iii) the developer is relieved from concerns regarding low-level aspects (e.g., failures, distribution, communication and more), 
+%     as these are automatically handled by the middleware.
+
+% In aggregate computing, information is represented by a distributed data structure known as 
+%     \emph{computational field} \cite{VIROLI2019100486, 1316820},
+%     which is an abstraction of space-time values where each device is mapped to a computational value.
+%     The manipulation of these fields is derived from the \emph{Field Calculus} \cite{viroli2016higher}, a computational model in which collective 
+%     behaviours are expressed as algorithms that are the composition of computational fields.
+
+% In recent times, several implementations of aggregate computing have been developed, and one particularly interesting 
+%     implementation is \emph{ScaFi} \cite{CASADEI2022101248}. ScaFi is a Scala-based platform that offers the following features: 
+%     i) a domain specific language (DSL) for specifying aggregate computation, 
+%     ii) a simulation environment through the Alchemist simulator \cite{alchemist}, 
+%     iii) a middleware for executing and deploying aggregate programs, and 
+%     iv) reusable library functionalities that serve as building blocks for constructing new aggregate programs. 
+%     For example, the gradients abstraction that provides gradient functions \cite{viroli2018engineering, beal2008fast} used for the ongoing computation, 
+%     across spatio-temporal dimension, of the self-healing field (i.e., a field able to self-adjust in case of changes 
+%     in devices topology) that determines the minimum distances of individual nodes from a specified set of source 
+%     nodes \cite{CASADEI2022101248}.
+
+% An example of how ScaFi works is shown in \Cref{fig:channel} and \Cref{lst:channel}, the goal is create a channel given 
+%     a source, a destination and a width. To reach this goal is it possible to define the computation as a pure function 
+%     over fields that exploits and composes the following functions:
+%     i) \texttt{gradient}, which takes as input a field of Booleans and computes in output a field of Integers with the 
+%         mininum distance, for each point, from a given source represented by the values set to true in the input;
+%     ii) \texttt{distance}, which computes the distance between two sources, and
+%     iii) \texttt{dilate}, which takes as input a field of Booleans and stretches the source by a given width.
+
+% \begin{figure}[h!]
+%     \centering
+%     \includegraphics[width=0.7\textwidth]{figures/channel.png}
+%     \caption{A ScaFi AC program example. This algorithm representation is obtained from the code in \Cref{lst:channel}}.
+%     \label{fig:channel}
+% \end{figure}
+
+% \begin{lstlisting}[caption={A ScaFi AC program example. The algorithm implements a channel between a source and a destination.}, label={lst:channel}]
+% def channel(
+%     source: Boolean, 
+%     destination: Boolean, 
+%     width: Double
+% ): Double {
+%     dilate(gradient(source) + gradient(destination) 
+%         <= distance(source, destination), width)
+% }
+% \end{lstlisting}
 
 %
 \section{Reinforcement Learning}
