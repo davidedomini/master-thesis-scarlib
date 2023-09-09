@@ -192,7 +192,7 @@ A key aspect of FC is that the program (or specification) \textbf{P} can be inte
          neighborhood and sensors,
     ii) \emph{program execution}, each device executes the aggregate program on the local context, and
     iii) \emph{export sharing}, each device shares the export with the neighborhood.
-    When a device completes a round, it is said ``\emph{the device $\phi$ fires}".
+    When a device completes a round, it is said ``\emph{the device fires}".
     Globally, on the other hand, a given expression \textsf{e} specifies a mapping that associates, 
     for each round of each device, the value \textsf{e} assumes at that specific space-time event.
     This dualism inherently enables the alignment of each device's individual behaviour with the 
@@ -269,6 +269,63 @@ Finally, there is the application layer, where the end-user can integrate their 
     such as a crowd monitoring system in a smart city.
 
 \paragraph{ScaFi}
+\emph{ScaFi} \cite{casadei2022scafi} is a toolkit for the Scala language that provides a domain-specific language, libraries, 
+    a simulation environment and runtime support for developing aggregate computing based systems.
+
+\begin{figure*}[t]
+    \centering
+    \includegraphics[width=0.8\textwidth]{figures/scafi-arc.png}
+    \caption{ScaFi toolkit high level architecture.}
+    \label{fig:scafi-arc}
+\end{figure*}
+
+The architecture of ScaFi consists of various modules (\Cref{fig:scafi-arc}), the main ones being:
+    i) \texttt{scafi-core}, which contains the DSL and a standard library of reusable functions 
+        (e.g., Gradients, BlockG and BlockS),
+    ii) \texttt{scafi-stdlib-ext}, which provides a set of additional functions; as these require external dependencies, 
+        it is kept separate from the core,
+    iii)\texttt{scafi-simulator}, which offers support for simulating aggregate systems,
+    iv) \texttt{scafi-simulator-gui}, which provides a GUI for visualizing and interacting with the simulation,
+    v) \texttt{spala}, which provides an actor-based middleware for AC based on Akka,
+    vi) \texttt{scala-distributed}, which provides an integration layer for spala in ScaFi.
+
+An example of how ScaFi works is shown in \Cref{fig:channel} and \Cref{lst:channel}, the goal is create a channel given 
+    a source, a destination and a width. To reach this goal is it possible to define the computation as a pure function 
+    over fields that exploits and composes the following functions:
+    i) \texttt{gradient}, which takes as input a field of Booleans and computes in output a field of Integers with the 
+        mininum distance, for each point, from a given source represented by the values set to true in the input;
+    ii) \texttt{distance}, which computes the distance between two sources, and
+    iii) \texttt{dilate}, which takes as input a field of Booleans and stretches the source by a given width.
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.7\textwidth]{figures/channel.png}
+    \caption{A ScaFi AC program example. This algorithm representation is obtained from the code in \Cref{lst:channel}}.
+    \label{fig:channel}
+\end{figure}
+
+\begin{lstlisting}[caption={A ScaFi AC program example. The algorithm implements a channel between a source and a destination.}, label={lst:channel}]
+def channel(
+    source: Boolean, 
+    destination: Boolean, 
+    width: Double
+): Double {
+    dilate(gradient(source) + gradient(destination) 
+        <= distance(source, destination), width)
+}
+\end{lstlisting}
+
+
+% L'architttura di scafi è composta da vari moduli (Figura 2.5), i principali sono: 
+%     i) scafi-core, contiene il DSL e una "libreria standard" di funzioni riusabili 
+%         (e.g., Gradients, BlockG, BlockS, e altre),
+%     ii) scafi-stdlib-ext, fornisce una serie di funzioni aggiuntive, siccome queste richiedono dipendenze
+%         esterne è tenuta separata dal core,
+%     iii) scafi-simulator, fornisce un supporto per simulare sistemi aggregati, 
+%     iv) scafi-simulator-gui, fornisce una gui per visualizzare ed interagire con la simulazione,
+%     v) spala, fornsice un middleware actor-based per AC fondato su Akka
+%     vi) scala-distributed, fornisce un integration-layer per spala in ScaFi.
+
 
 % The advent of \emph{Collective Computing} and the proliferation of interconnected devices have given rise to novel 
 %     paradigms that aim to address the challenges posed by the distributed nature of computing
