@@ -236,6 +236,37 @@ One final important aspect of field calculus is its ability to formally demonstr
     \emph{space-time universality} \cite{audrito2018space}, and \emph{eventual consistency} \cite{beal2017self}.
 
 \paragraph{Agregate computing}
+\emph{Aggregate computing} \cite{AC} is a macro-programming model theoretically based on \emph{field calculus}, providing innovative solutions
+    to the issues previously mentioned. Like FC, it puts the collective of devices (i.e., the \emph{aggregate system})  at its core 
+    rather than individual devices. AC's objective is to reduce the complexity of designing, developing, 
+    and maintaining complex distributed systems, with focus on three fundamental aspects:
+    i) the composition of modules and subsystems must transparent,
+    ii) different subsystems needs different coordination mechanisms for different regions and times, and 
+    iii) the implementation details of coordination mechanisms should be hidden from programmers in order to facilitate ease of use.
+    To attain this objective, AC adopts a \emph{layer-based architecture} (\Cref{fig:ac-layers}) that, in addition to field calculus, 
+    includes two levels of abstraction to increase resilience and hide complexity. 
+
+
+\begin{figure*}[t]
+    \centering
+    \includegraphics[width=0.7\textwidth]{figures/AC-layers.pdf}
+    \caption{Aggregate programming abstraction layers.}
+    \label{fig:ac-layers}
+\end{figure*}
+
+The first additional layer, placed immediately above the FC layer, is crucial for hiding complexity and supporting the 
+    efficient engineering of distributed coordination systems. In practice, it introduces various operators that can 
+    be used by the subsequent levels as building blocks, namely:
+    i) \textbf{G} allows the spread of information from a source to a given distance,
+    ii) \textbf{C} is the inverse of G, allowing the collection of information,
+    iii) \textbf{T} allows to keep track of the time, and
+    iv) \textbf{S} allows the election of a set of leaders and the partition of the network according to those leaders. 
+The second-to-last layer comprises libraries and features tailored towards offering a simple interface for 
+    software developers. Furthermore, this layer encourages reusability, productivity, declarativeness, 
+    flexibility, and efficiency. An instance of a robust API is \emph{ScaFi} \cite{casadei2022scafi}, a Domain-Specific 
+    Language for implementing aggregate computing via the Scala programming language.
+Finally, there is the application layer, where the end-user can integrate their own services based on aggregate computing, 
+    such as a crowd monitoring system in a smart city.
 
 \paragraph{ScaFi}
 
