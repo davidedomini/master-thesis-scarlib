@@ -558,13 +558,21 @@ A second issue that can be observed is referred to as the \emph{moving target pr
 
 \paragraph{Categorization}
 
-Based on the reward function used by the agents, MARL can be divided into two categories: 
+Based on the reward function used by the agents, MARL can be divided into three categories (\Cref{fig:marl-tasks}): 
     i) \emph{cooperative}, where all the agents trying to maximize the same reward function (e.g., a group of robots
     trying to clean a room); 
     ii) \emph{competitive}, where, potentially, each agent has its own reward function that is conflictual with the other (e.g., a rock-paper-scissor game). 
+    iii) \emph{mixed}, where some agents are cooperative and others are competitive (e.g., a soccer game).
     Cooperative MARL, with respect to the policy, can be further divided into two additional categories, namely: 
     i) \emph{homogeneous}, where all the agents have the same capabilities, i.e., they use the same policy 
     ii) \emph{heterogeneous}, where each agent may have its own policy, in this case, each agent tries to maximize the local policy following the global shared goal.
+
+\begin{figure*}[t]
+    \centering
+    \includegraphics[width=0.8\textwidth]{figures/MARL-tasks.pdf}
+    \caption{MARL tasks.}
+    \label{fig:marl-tasks}
+\end{figure*}
 
 In this thesis, we focus on a subset of MARL, namely: \emph{Many Agent Reinforcement Learning}~\cite{yang2021many}. The only
     difference between the two approaches is in the number of agents involved. 
