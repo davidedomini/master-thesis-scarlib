@@ -943,7 +943,7 @@ Final refinements required include:
     iii) defining the size of the buffer in which the memory will be stored.
     Finally, everything can be combined to create the configuration of the learning system through the DSL 
     as follows:
-    \begin{lstlisting}
+\begin{lstlisting}
 val system = learningSystem {
     rewardFunction { new MyRewardFunction() }
     actions { CustomActionSpace.all}
@@ -954,7 +954,7 @@ val system = learningSystem {
         "it.unibo.scarlib.experiments.myEnvironment"
     }
 }
-    \end{lstlisting}
+\end{lstlisting}
 
 \subsection*{Alchemist-ScaFi}
 
@@ -1453,15 +1453,38 @@ To verify the \emph{homogenous policy} learned using the CTDE process, $16$ simu
     \label{fig:test}
     \end{figure*}
 
-%\section{GPU Cluster}
-% Describe how the experiments were run on the GPU cluster
-
 \section{Framework limitations}
+This section aims to highlight the main limitations present in the framework. These limitations are
+ present for various reasons, some due to the nature of the domain, others due to implementation choices. 
+ Furthermore, they provide a foundation for future improvements and expansion of the framework's capabilities.
+
+\paragraph{Performance} 
+Currently, a thorough and comprehensive performance benchmarking has not been carried out. This choice was made to 
+    favor a simpler, more modular, and flexible design and implementation, following the principle of:
+    ``Avoid premature optimization. First make it right, then make it fast" \cite{hyde2006fallacy}.
+    Nonetheless, this aspect is crucial and will undoubtedly be considered in future work to ensure the tool is 
+    fully prepared for community use.
+
+\paragraph{Training and execution model} 
+Currently, the framework offers solely two training and execution models, both among the most renowned in literature. 
+    While these models can address various problems, they are not exclusive and may limit functionality in certain scenarios. 
+    To facilitate user implementation and avoid the need to start from scratch, the framework must be expanded 
+    to include additional models.
+
+\paragraph{Scala-Python integration}
+The integration between the framework, which is based on the Scala language, and PyTorch deep learning framework, 
+    which is based on Python, is facilitated by the ScalaPy tool. However, despite the usefulness and potency of this tool, 
+    it remains in an experimental and research phase that imposes certain usability and configuration restrictions, particularly 
+    in non-Linux environments.
+
+\paragraph{Online learning}
 
 %----------------------------------------------------------------------------------------
 \chapter{\conclusionsname}
 \label{chap:conclusions}
 %----------------------------------------------------------------------------------------
+
+
 
 
 %----------------------------------------------------------------------------------------
