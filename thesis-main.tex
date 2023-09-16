@@ -41,7 +41,9 @@ Optional. Max a few lines.
 \end{dedication}
 
 \begin{acknowledgements}
-Optional. Max 1 page.
+First of all, I would like to express my gratitude towards ...
+
+
 \end{acknowledgements}
 
 %----------------------------------------------------------------------------------------
@@ -1481,9 +1483,28 @@ The integration between the framework, which is based on the Scala language, and
 \chapter{\conclusionsname}
 \label{chap:conclusions}
 %----------------------------------------------------------------------------------------
+The work conducted in this thesis has resulted in the creation of \emph{ScaRLib}. The primary objective of this framework is to minimize complexity 
+    in the design and building of multi-agent cyber-physical systems such as swarms of robots, IoT sensor networks, and various others. 
+    The primary objective is to exploit and merge the potential of the two established methods employed in developing these systems, 
+    namely: \emph{macro-programming} (i.e., aggregate computing) and \emph{artificial intelligence} (i.e., reinforcement learning).
+
+In order to achieve this goal, the framework has been designed in a modular and extensible way, which has two main advantages.
+    Firstly, users can effortlessly integrate fresh components including distinct simulators, various learning engines, and new learning algorithms or models.
+    Secondly, users can leverage solely the elements of the framework that are required for their 
+    specific project needs, without being duty-bound to use all of the modules.
+
+A key aspect was to create abstractions within the reference domain to allow a concise and unambiguous definition of a new experiment. 
+    Furthermore, standard training and execution models were specified (i.e., \emph{CTDE} and \emph{DTDE}), alongside a well-known learning algorithm (i,e., \emph{DQN}). 
+    Afterwards, the core framework was combined with two tools, \emph{Alchemist} and \emph{ScaFi}. Alchemist permits the simulation of highly complex
+    distributed systems whereas ScaFi enables the functional use of the aggregate computing paradigm through a Scala 
+    programming language API. Additionally, a \emph{Domain Specific Language} was developed to declaratively specify 
+    experiments and preemptively detect configuration errors during compile time, avoiding the need to wait for runtime occurrences.
 
 
+
+    
 \section{Future work}
+
 
 \paragraph{Performance}
 
