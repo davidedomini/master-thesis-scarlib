@@ -1484,8 +1484,8 @@ The integration between the framework, which is based on the Scala language, and
 \label{chap:conclusions}
 %----------------------------------------------------------------------------------------
 The work conducted in this thesis has resulted in the creation of \emph{ScaRLib}. The primary objective of this framework is to minimize complexity 
-    in the design and building of multi-agent cyber-physical systems such as swarms of robots, IoT sensor networks, and various others. 
-    The primary objective is to exploit and merge the potential of the two established methods employed in developing these systems, 
+    in the design and building of \emph{multi-agent cyber-physical systems} (such as swarms of robots, IoT sensor networks, and various others) 
+    exploiting and merging the potential of the two established methods employed in developing these systems, 
     namely: \emph{macro-programming} (i.e., aggregate computing) and \emph{artificial intelligence} (i.e., reinforcement learning).
 
 In order to achieve this goal, the framework has been designed in a modular and extensible way, which has two main advantages.
@@ -1494,25 +1494,53 @@ In order to achieve this goal, the framework has been designed in a modular and 
     specific project needs, without being duty-bound to use all of the modules.
 
 A key aspect was to create abstractions within the reference domain to allow a concise and unambiguous definition of a new experiment. 
-    Furthermore, standard training and execution models were specified (i.e., \emph{CTDE} and \emph{DTDE}), alongside a well-known learning algorithm (i,e., \emph{DQN}). 
+    Furthermore, standard training and execution models were pre-implemented (i.e., \emph{CTDE} and \emph{DTDE}), alongside a well-known learning algorithm (i,e., \emph{DQN}). 
     Afterwards, the core framework was combined with two tools, \emph{Alchemist} and \emph{ScaFi}. Alchemist permits the simulation of highly complex
     distributed systems whereas ScaFi enables the functional use of the aggregate computing paradigm through a Scala 
     programming language API. Additionally, a \emph{Domain Specific Language} was developed to declaratively specify 
     experiments and preemptively detect configuration errors during compile time, avoiding the need to wait for runtime occurrences.
 
+In our opinion, the framework serves as an excellent point of initiation for developing such systems with a hybrid method 
+    and streamlines the definition of complex new experiments. Our aim is to showcase the potential of this technique 
+    and inspire the scientific community to delve further into this realm.
 
-
-    
 \section{Future work}
 
+Despite the work that has been done, the reference domain is very broad, 
+    and many aspects still require further improvement. This section aims to outline the primary areas 
+    that need to be explored.
 
 \paragraph{Performance}
+The performance of the framework has only been assessed in relation to a small number of moderately 
+    challenging use cases. However, it is essential to conduct further research in order to detect 
+    potential bottlenecks and ensure that the minimum desired level of performance can be achieved, 
+    thus meeting the diverse needs of users.
 
 \paragraph{Execution model}
+Currently, ScaRLib has pre-implemented integration with the Alchemist simulator via a basic, single execution model. 
+    This model operates through each agent interacting with the environment at each timestep, followed by the
+    environment awaiting action collection before transition to a new state. While this configuration is typical 
+    in this field, it will be necessary to explore new solutions that enable the development of more specialised systems.
+
 
 \paragraph{Learning framework}
+The framework currently supports solely the PyTorch learning framework. However, it would be beneficial 
+    to include additional frameworks, such as TensorFlow \cite{abadi2016tensorflow} or DL4J, to provide users with 
+    a wider range of options.
+
+\paragraph{Scala-Pyhton integration}
+Currently, the framework utilises the ScalaPy tool to integrate Scala and Python programming languages. 
+    Despite its potential, the tool has inherent research tool limitations, necessitating a judicious evaluation 
+    of continuing its use or exploring alternative options, including custom bindings or third-party tools.
 
 \paragraph{Online learning}
+The inclusion of \emph{online learning} models in the framework, namely models that can continue learning after 
+    deployment, would provide significant value. However, this is a field with few existing solutions, 
+    made more complicated by the domain's multi-agent nature. We suggest leveraging 
+    \emph{federated learning} \cite{zhang2021survey, abdulrahman2020survey} as an interesting approach, 
+    enabling agents to exchange parts of their policy neural networks. 
+    This approach may have the potential to \emph{distribute knowledge} within the system. 
+    Nevertheless, additional research is required, and alternative options should also be taken into account.
 
 
 %----------------------------------------------------------------------------------------
