@@ -1391,7 +1391,7 @@ To verify the \emph{homogenous policy} learned using the CTDE process, $16$ simu
             \label{fig:cohesion-dcc}
         \end{subfigure}
     \caption{Cohesion and collision experiment results. The y-axis represents the reward value.
-    The x-axis represents the total number of episodes.
+    The x-axis represents the total number of timesteps.
     The first three graphs show the results of the CDTE learning process, while the last three show the results of the DTDE learning process.}
     \label{fig:cc-results}
     \end{figure*}
@@ -1470,6 +1470,132 @@ To verify the \emph{homogenous policy} learned using the CTDE process, $16$ simu
     }
     \label{fig:test}
     \end{figure*}
+
+\section{Follow the leader}
+
+\paragraph{Description}
+The aim of this experiment is to create a flock of drones with the task of avoiding \emph{collissions} while 
+    following a special agent, the \emph{leader}. The goal is to learn a policy that guides each agent's movement
+    based on the distances from neighbors and the leader. 
+
+In our study, we examine an unbounded 2D environment where each agent has a set number of neighbours 
+    (the five nearest, a hyper-parameter that is configurable), and can move in eight directions 
+    (the four cardinal points and the four diagonals). During training the leader is placed in a random position and 
+    cannot move, instead, during evaluation, the leader choose a random direction every $h$ time steps (a hyper-parameter that is configurable).
+
+The \emph{reward function} is composed of two components. The first component is the \emph{collision factor},
+    which is the same as the one used in the previous experiment, kicks in when the distance is less than 
+    a given target distance $\delta$:
+    \begin{equation}
+        \label{eq:ftl-collision-factor-eq}
+        \begin{split}
+            \text{collision} = \begin{cases}
+                0 & \text{if } d > \delta \\
+                \exp\left(-\frac{d}{\delta}\right) & \text{otherwise}
+            \end{cases}
+        \end{split}
+    \end{equation}
+    The second component aims to reduce the distance between each agent and the leader:
+    \begin{equation}
+        \label{eq:ftl-distance-factor-eq}
+        \text{distance to leader} = -d
+    \end{equation}
+    The overall reward function is defined as the sum of these two factors.
+
+\paragraph{Results}
+The experiment's training involved conducting $1000$ \emph{epochs}, each with $100$ \emph{episodes}, 
+    using $50$ \emph{agents}, an \emph{environment} measuring $50$x$50$ metres and a \emph{target distance} $\delta$ set to $2$ metres.
+    The training was conducted using a \emph{CTDE} process.
+
+\Cref{fig:ftl-results} shows the results of the training. The graphs show that the learning algorithm optimizes one signal 
+    at a time, with distance to leader tending towards zero and collision increasing. Nonetheless, after some epochs, 
+    it is possible to see that the system had already found a balance between these two factors.
+
+To verify the \emph{homogeneous policy} learned using the CTDE process, $16$ simulations were conducted, each with agents randomly
+    positioned and varying the seeds. Given the homogeneous nature of the policy learned with CTDE, we also varied the 
+    \emph{number of agents} by conducting simulations with $50$, $100$ and $200$ agents. According to our \emph{hypotheses}, this
+    should not impact the \emph{quality} of the learned policy and its \emph{performance}. \Cref{fig:ftl-simulation-snapshots} shows 
+    screenshots from a simulation with $50$ agents, illustrating how they gradually tend to get closer to the leader 
+    (who is represented by the agent with the blue circle). \Cref{fig:test-ftl} shows the performance of the learned policy with $50$,
+    $100$ and $200$ agents. From these graphs, it can be observed that the \emph{performance does not change significantly} with varying
+    numbers of agents.
+
+\begin{figure*}[t]
+    \centering
+    \begin{subfigure}[b]{0.9\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{figures/ftl-reward.png}
+        \caption{Total average reward}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.9\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{figures/ftl-collision.png}
+        \caption{Average collision factor}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.9\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{figures/ftl-distance-leader.png}
+        \caption{Average distance to leader factor}
+    \end{subfigure}
+\caption{Follow the leader training experiment results. The y-axis represents the reward value.
+The x-axis represents the total number of timesteps.}
+\label{fig:ftl-results}
+\end{figure*}
+
+\begin{figure*}[t]
+    \centering
+    \begin{subfigure}[b]{0.25\textwidth}
+        \centering
+        \fbox{\includegraphics[width=\textwidth]{figures/ftl-start.png}}
+        \caption{}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.25\textwidth}
+        \centering
+        \fbox{\includegraphics[width=\textwidth]{figures/ftl-middle.png}}
+        \caption{}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.25\textwidth}
+        \centering
+        \fbox{\includegraphics[width=\textwidth]{figures/ftl-end.png}}
+        \caption{}
+    \end{subfigure}
+\caption{Snapshots of the learned policy, the time flow is from left to right.}
+\label{fig:ftl-simulation-snapshots}
+\end{figure*}
+
+\begin{figure*}[h!]
+    \centering
+    \begin{subfigure}[b]{0.32\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{figures/data-ftl-50.pdf}
+        \caption{50 agents}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.32\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{figures/data-ftl-100.pdf}
+        \caption{100 agents}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.32\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{figures/data-ftl-200.pdf}
+        \caption{200 agents}
+    \end{subfigure}
+\caption{The performance of the learned policy. 
+The y-axis represents the distance between the agents.
+The x-axis represents the time.
+The green line is equal to $\delta$.
+In the charts, as the number of agents varies, the performance of the learned policy is similar.
+The blue line represents the average distance between the agents, while the orange line represents
+the average distance between each agent and the leader.
+}
+\label{fig:test-ftl}
+\end{figure*}
 
 \section{Framework limitations}
 This section aims to highlight the main limitations present in the framework. These limitations are
