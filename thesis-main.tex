@@ -39,10 +39,9 @@ The growing popularity of \emph{highly distributed IoT systems} has highlighted 
     such as \emph{Aggregate Computing} \cite{viroli2018field}, a macro-programming paradigm, 
     and \emph{Multi-Agent Reinforcement Learning} \cite{busoniu2008comprehensive, marlsurvey}, a machine learning paradigm.
 
-Both approaches have their pros and cons. This thesis proposes a \emph{hybrid approach} that maximises 
-    their potential by utilising aggregate computing to manage infrastructure-related aspects, like leader election, 
-    and reinforcement learning for acquiring complex behaviours that would be difficult to accomplish in a solely 
-    programmatic way.
+This thesis proposes a \emph{hybrid approach} that maximises their potential by utilising aggregate computing to manage 
+    infrastructure-related aspects, like leader election, and reinforcement learning for acquiring complex behaviours that 
+    would be difficult to accomplish in a solely programmatic way.
 
 To attain this objective, we present \emph{ScaRLib}, a framework designed to streamline the creation of these systems in 
     simulated settings and JVM-based platforms. ScaRLib focuses on reducing the complexity of development by providing 
@@ -80,8 +79,8 @@ First of all, I would like to express my gratitude towards ...
 
 Significant technological advancements have paved the way for the emergence of a field known as \emph{collective computing} 
     \cite{abowd2016beyond}, with \emph{Cyber-Physical Swarms (CPSW)} \cite{schranz2021swarm} as a noteworthy branch within it.
-    The latter consist of myriad devices that interact with the environment and exchange information among themselves,
-    examples of such systems include swarms of drones and large-scale IoT systems.
+    The latter consist of myriad devices that interact with the environment and exchange information among themselves
+    to reach a \emph{collective} outcome or behaviour. Examples of such systems include swarms of drones and large-scale IoT systems.
     A crucial aspect of these systems is that a more complex collective behavior emerges from the interaction between 
     individual agents that leads to the resolution of various tasks.
     Among all aspects related to CPSW, our focus lies on properties like \emph{collective intelligence} \cite{tumer2004survey} 
@@ -95,39 +94,38 @@ This progress has been driven by research in various related fields such as: mul
     swarm robotics \cite{brambilla2013swarm}, large-scale IoT systems \cite{uslu2023role}, and more.
 
 A crucial aspect to consider in CPSW is how individual devices are programmed and achieve coordination to perform assigned tasks. 
-Novel approaches -- like \emph{aggregate computing} \cite{viroli2018field} -- have focused on manually developing
-controllers from a global perspective. However, this approach has some drawbacks: it is highly challenging to write satisfactory 
-and efficient programs for complex tasks, they may be error-prone and lack of generality.
+    Novel approaches -- like \emph{aggregate computing} \cite{viroli2018field} -- have focused on manually developing
+    controllers from a global perspective. However, this approach has some drawbacks: it is highly challenging to write satisfactory 
+    and efficient programs for complex tasks, they may be error-prone and lack of generality.
 
 On the other hand, there exists approaches that leverage various artificial intelligence (AI) techniques, 
-such as \emph{Multi-Agent Reinforcement Learning} (MARL) \cite{busoniu2008comprehensive, marlsurvey},
-to enable devices to learn directly from experience and/or data. These approaches also present several challenges, including: non-stationarity 
-\cite{hernandez2017survey}, communication and scalability.
+    such as \emph{Multi-Agent Reinforcement Learning} (MARL) \cite{busoniu2008comprehensive, marlsurvey},
+    to enable devices to learn directly from experience and/or data. These approaches also present several challenges, including: 
+    communication, scalability and non-stationarity 
+    (i.e., agents learn concurrently in a shared environment; therefore, from an individual agent's perspective, the environment 
+    constantly changes due to the actions of other agents, making it challenging to distinguish whether this change is a result of 
+    stochasticity or another agent's action) \cite{hernandez2017survey}.
 
-The idea of this thesis is to be able to pursue a hybrid approach that succeeds in exploiting the potential of both 
-    of these approaches while trying to minimize drawbacks.
 %
 \paragraph{Thesis objectives}
-
-Starting from what was seen in the previous paragraph, the goal of this thesis is to lay the foundation for a \emph{hybrid} approach 
+The goal of this thesis is to lay the foundation for a \emph{hybrid} approach 
     that can succeed in exploiting the potential of both \emph{macro-programming} and \emph{artificial intelligence} approach.
     In order to achieve this goal, it is necessary to develop a \emph{toolchain} that allows these systems to be developed in an agile,
     fast and reusable way. 
-    \emph{ScaRLib}, whose development has already started in \cite{scarlib}, is the tool that for us forms the basis of this toolchain.
+    \emph{ScaRLib} \cite{scarlib}, is the tool that for us forms the basis of this toolchain.
     Its main purpose is to integrate \emph{ScaFi} \cite{casadei2022scafi} (an implementation of aggregate computing) 
     and \emph{Alchemist} \cite{pianini2013chemical} (a bio-chemical based simulator) with \emph{Reinforcement Learning} 
     to help the development of experiments in \emph{simulated} environments with \emph{offline learning}
-    (i.e., learning is done once and then the model is deployed).
+    (i.e., learning is done once and then the policy is deployed in real-case systems).
 
 %
 \paragraph{Thesis Structure} 
 
-The first two chapters aim to present a broad scope of the objectives, motivations, and theoretical concepts that serve as the foundation 
-    of this thesis. Subsequently, the project that has been developed is presented, starting with the requirements and domain analysis and 
-    then delving into the design, implementation, and development process management choices. 
-    Finally, two experiments carried out to validate the functionalities of the framework are presented, followed by the limitations 
+\Cref{chap:introduction,chap:background} aim to present a broad scope of the objectives, motivations, and theoretical concepts that serve as the foundation 
+    of this thesis. Subsequently, in \Cref{chap:requirements,chap:impl-design,chap:project}, the project that has been developed is presented, starting with 
+    the requirements and domain analysis and then delving into the design, implementation, and development process management choices. 
+    Finally, in \Cref{chap:validation,chap:conclusions}, two experiments carried out to validate the functionalities of the framework are presented, followed by the limitations 
     that emerged. These limitations are also translated into future work that will be necessary to complete the tool.
-
 
 %----------------------------------------------------------------------------------------
 \chapter{Background}
@@ -179,7 +177,7 @@ Swarms have been extensively studied due to a series of significant advantages, 
 
 \paragraph{Context}
 Over the last few years, there has been a definite trend in the development of computational devices: 
-    they have been getting smaller, more potent, and less expensive. We have moved from using a 
+    they have been getting smaller, powerful, and less expensive. We have moved from using a 
     single mainframe computer that is shared by an entire department at a company or university, 
     to using numerous individual devices like smartphones, smartwatches, and others, all interconnected
     with one another. This phenomenon has led to a range of opportunities, but it has also introduced 
@@ -188,7 +186,8 @@ Over the last few years, there has been a definite trend in the development of c
     \emph{modularity} and \emph{reusability}. For this reason, attempts have been made to introduce novel paradigms, including 
     macroprogramming, which shifts focus onto the \emph{collective of devices}, considering their neighbourhood 
     relations and interactions.
-    One such paradigm that has gained significant attention in recent years is \emph{aggregate computing (AC)} \cite{AC}.
+    Some paradigms that have gained significant attention in recent years are \emph{aggregate computing (AC)} \cite{AC}, 
+    \emph{tuple on the air (TOTA)} \cite{tota} and \emph{buzz} \cite{7498536}.
 
 \paragraph{Field calculus}
 \emph{Field calculus (FC)} \cite{fieldcalculus} has been designed to be a minimal core calculus aimed at capturing the essential 
@@ -203,9 +202,9 @@ Over the last few years, there has been a definite trend in the development of c
 
 \begin{figure*}[t]
     \centering
-    \includegraphics[width=0.7\textwidth]{figures/random-network-black.png}
+    \includegraphics[width=0.7\textwidth]{figures/scafi-web-example.png}
     \caption{A random network of devices generated using ScaFi Web. 
-        Each blue dot represents a device, and each line represents a neighbour relation.}
+        Each purple dot represents a device, and each line represents a neighbour relation.}
     \label{fig:random-network}
 \end{figure*}
 
@@ -214,9 +213,9 @@ A key aspect of FC is that the program (or specification) \textbf{P} can be inte
     an individual device, which is executed in asynchronous \emph{computational rounds}. 
     Each round consists of three phases:
     i) \emph{context building}, each device collects information from the 
-         neighborhood and sensors,
+         neighborhood and sensors and aggregates it to build its own local context,
     ii) \emph{program execution}, each device executes the aggregate program on the local context, and
-    iii) \emph{export sharing}, each device shares the export with the neighborhood.
+    iii) \emph{export sharing}, each device shares the result of the computation with the neighborhood.
     When a device completes a round, it is said ``\emph{the device fires}".
     Globally, on the other hand, a given expression \textsf{e} specifies a mapping that associates, 
     for each round of each device, the value \textsf{e} assumes at that specific space-time event.
@@ -257,8 +256,21 @@ In addition to the syntax explained for FC, there is an expanded version for \em
 
 One final important aspect of field calculus is its ability to formally demonstrate the 
     validity of significant properties, including:
-    \emph{global coherence}, \emph{self-stabilisation} \cite{viroli2018engineering}, 
-    \emph{space-time universality} \cite{audrito2018space}, and \emph{eventual consistency} \cite{beal2017self}.
+    \begin{itemize}
+        \item \emph{self-stabilisation} \cite{viroli2018engineering, dolev2000self,lafuente2015fixpoint}:
+        this feature serves to prevent the system from entering incorrect states. Firstly, it guarantees that, given a costant input, a program's 
+        execution will converge to a specific value in a finite time for each device. Secondly, it ensures that this value is solely 
+        dependent on the input and not on previous execution history.
+        \item \emph{global coherence}: this characteristic is assured by the field calculus, which ensures consistent alignment of the \emph{nbr}
+        operator across the network. However, achieving this isn't straightforward, as multiple requests for \emph{nbr} can occur, 
+        and the execution speed of functions can vary depending on the device. 
+        If global-local coherence isn't maintained, there may come a point where a subset of network devices loses 
+        synchronization with the entire network.
+        \item \emph{space-time universality} \cite{audrito2018space}: this property guarantees that field calculus is computationally 
+        universal (or Turing complete \cite{turing2009computing, turing1936computable}) and that it can be used to solve any computable problem.
+        \item \emph{eventual consistency} \cite{beal2017self}
+    \end{itemize}
+    
 
 \paragraph{Agregate computing}
 \emph{Aggregate computing} \cite{AC} is a macro-programming model theoretically based on \emph{field calculus}, providing innovative solutions
@@ -339,6 +351,33 @@ def channel(
         <= distance(source, destination), width)
 }
 \end{lstlisting}
+
+\begin{figure*}[h!]
+    \centering
+    \begin{subfigure}[b]{0.49\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{figures/channel1.png}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.49\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{figures/channel2.png}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.49\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{figures/channel3.png}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.49\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{figures/channel4.png}
+    \end{subfigure}
+\caption{Channel algorithm execution on ScafiWeb. The source is the red dot, the destination is the green dot, 
+    the time flows from left to right and from top to bottom.}
+\label{fig:channel-scafiweb}
+\end{figure*}
+
 
 %
 \section{Reinforcement Learning}
