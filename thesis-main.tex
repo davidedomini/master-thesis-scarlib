@@ -268,14 +268,15 @@ One final important aspect of field calculus is its ability to formally demonstr
         synchronization with the entire network.
         \item \emph{space-time universality} \cite{audrito2018space}: this property guarantees that field calculus is computationally 
         universal (or Turing complete \cite{turing2009computing, turing1936computable}) and that it can be used to solve any computable problem.
-        \item \emph{eventual consistency} \cite{beal2017self}
+        \item \emph{eventual consistency} \cite{beal2017self}: this property is closely related with self-stabilisation. It approximates the network of devices
+        as a continuous environment; a system is eventual consistent if the state it converges to is set by that continuous environment rather than 
+        the particulars of how devices are distributed through it.
     \end{itemize}
     
 
 \paragraph{Agregate computing}
 \emph{Aggregate computing} \cite{AC} is a macro-programming model theoretically based on \emph{field calculus}, providing innovative solutions
-    to the issues previously mentioned. Like FC, it puts the collective of devices (i.e., the \emph{aggregate system})  at its core 
-    rather than individual devices. AC's objective is to reduce the complexity of designing, developing, 
+    to the issues previously mentioned. AC's objective is to reduce the complexity of designing, developing, 
     and maintaining complex distributed systems, with focus on three fundamental aspects:
     i) the composition of modules and subsystems must transparent,
     ii) different subsystems needs different coordination mechanisms for different regions and times, and 
@@ -286,7 +287,7 @@ One final important aspect of field calculus is its ability to formally demonstr
 
 \begin{figure*}[t]
     \centering
-    \includegraphics[width=0.7\textwidth]{figures/AC-layers.pdf}
+    \includegraphics[width=0.8\textwidth]{figures/AC-layers.pdf}
     \caption{Aggregate programming abstraction layers.}
     \label{fig:ac-layers}
 \end{figure*}
@@ -377,7 +378,6 @@ def channel(
     the time flows from left to right and from top to bottom.}
 \label{fig:channel-scafiweb}
 \end{figure*}
-
 
 %
 \section{Reinforcement Learning}
@@ -498,7 +498,7 @@ An example of policy-based method is \emph{Proximal Policy Optimization (PPO)} \
 
 Another key aspect is how we can estimate the reward at the end of the process if we only know the current state 
     and action, without knowing the subsequent trajectory. To achieve this, the \emph{Bellman equation} can be used. 
-    This equation defines, for a given transition $<s_t, a_t, s_{t+1}, r_{t+1}>$, the value $Q(s,a)$ recursively 
+    This equation defines the value $Q(s,a)$ recursively 
     as the sum of the immediate reward and the maximum expected cumulative reward from the subsequent state:
     $$ Q(s_t,a_t) =  r_{t+1} + \gamma \cdot max_a Q(s_{t+1}, a)$$
 
@@ -607,7 +607,7 @@ A second issue that can be observed is referred to as the \emph{moving target pr
     $$ L = ( r_{t+1} + \gamma \cdot max_a \hat{Q}(s_{t+1}, a) - Q(s_t, a_t))^2 $$
 
 \section{Multi-Agent Reinforcement Learning}
-\emph{Multi-Agent Reinforcement Learning} is an extension of RL where multiple agents interact one another and 
+\emph{Multi-Agent Reinforcement Learning} is an extension of RL where multiple \emph{learning agents} interact one another and 
     with the environment. 
     Usually, MARL is modelled as a \emph{Markov Game} (or Stochastic Game $\mathcal{S}$)~\cite{LITTMAN1994157} in
     which we have:
@@ -676,21 +676,25 @@ Another point to pay attention to is the system by which the training and execut
 
 \paragraph{Challenges}
 
-MARL is a highly promising field that has been garnering increasing attention in recent years. Nevertheless, there are still several challenges that complicate its application in complex contexts. Some of these challenges include:
+MARL is a highly promising field that has been garnering increasing attention in recent years. Nevertheless, there are still several 
+    challenges that complicate its application in complex contexts. Some of these challenges include:
 \begin{enumerate}
-   
-
-    \item  \emph{Partially Observable Environments}: in environments of significant complexity, agents cannot have a complete representation of the surrounding environment nor access the state of other present agents.
-   
-    \item \emph{Non-Stationarity}: this issue arises due to multiple agents simultaneously learning and changing the environment. From the perspective of an individual agent, the environment becomes non-stationary.
-   
-    \item  \emph{Agent Communication}: communication among agents is a crucial feature in the literature. The problem not only addresses what an agent should communicate but also with whom and when.
-   
-    \item  \emph{Coordination}: coordination is essential in cooperative systems, as agents must reach a consensus on the actions to take. Failure to coordinate during learning can lead to suboptimal policies. Coordination can be achieved through communication or implicitly, with each agent constructing its own model of other agents' behavior to infer their next actions.
-   
-    \item  \emph{Credit Assignment Problem}: this refers to associating a reward with an action taken by a specific agent. This association is crucial for learning to understand the effectiveness of an action and maximizing the reward function over time.
-   
-    \item  \emph{Scalability}: the scalability of these systems is influenced by the challenges outlined in this section. Training a single agent is inherently challenging; as the number of agents in the system increases, the complexity grows exponentially. Additionally, scalability is determined by an agent's robustness in the face of changes in the behavior of other agents. Literature presents exploration techniques to enhance scalability, such as knowledge reuse, regularization, adversarial training, and others.
+    \item  \emph{Partially Observable Environments}: in environments of significant complexity, agents cannot have a complete 
+        representation of the surrounding environment nor access the state of other present agents.
+    \item \emph{Non-Stationarity}: this issue arises due to multiple agents simultaneously learning and changing the environment.
+        From the perspective of an individual agent, the environment becomes non-stationary.
+    \item  \emph{Agent Communication}: communication among agents is a crucial feature in the literature. The problem not only 
+        addresses what an agent should communicate but also with whom and when.
+    \item  \emph{Coordination}: coordination is essential in cooperative systems, as agents must reach a consensus on the actions 
+        to take. Failure to coordinate during learning can lead to suboptimal policies. Coordination can be achieved through communication 
+        or implicitly, with each agent constructing its own model of other agents' behavior to infer their next actions.
+    \item  \emph{Multi-Agent Credit Assignment Problem}: this refers to associating a reward with an action taken by a specific agent. 
+        This association is crucial for learning to understand the effectiveness of an action and maximizing the reward function over time.
+    \item  \emph{Scalability}: the scalability of these systems is influenced by the challenges outlined in this section. Training a single 
+        agent is inherently challenging; as the number of agents in the system increases, the complexity grows exponentially. 
+        Additionally, scalability is determined by an agent's robustness in the face of changes in the behavior of other agents. 
+        Literature presents exploration techniques to enhance scalability, such as knowledge reuse \cite{da2018autonomously}, 
+        regularization \cite{roy2020promoting, su2022divergence}, and others.
 \end{enumerate}
 
 \section{Simulation}
@@ -800,16 +804,6 @@ The \emph{environment} is the context in which \emph{agents} are immersed and op
 
 \section{Framework requirements}
 This section describes the requirements that the project must satisfy. 
-\begin{itemize}
-    \item \emph{Business Requirements}: specify the characteristics that the system must possess in order to be correct;
-    \item \emph{User Requirements}: express the needs of the users and describe the actions that the user should be able 
-        to perform while interacting with the system;
-    \item \emph{Functional Requirements}: concern the functionalities that the system must make available to the user. 
-        Their definition should be based on the user requirements extracted previously;
-    \item \emph{Non-Functional Requirements}: concern the functionalities that the system does not necessarily have 
-        to possess in order to be functional and correct.
-
-\end{itemize}
 
 \subsection*{Business requirements}
 The business requirements specify the characteristics that the system must have to be correct. Those identified for ScaRLib are:
