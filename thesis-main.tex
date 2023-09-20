@@ -34,16 +34,25 @@
 
 \begin{abstract}	
 
-The growing popularity of \emph{highly distributed IoT systems} has highlighted the need for new methods to develop these 
-    systems effectively and at scale. Numerous methods have been suggested over the years, 
-    such as \emph{Aggregate Computing} \cite{viroli2018field}, a macro-programming paradigm, 
+The growing popularity of \emph{highly distributed IoT} has highlighted the need for new methods to develop these 
+    systems effectively and at scale. 
+    Key distinguishing features of these systems include:
+    i) \emph{partial observability}: each entity/agent posses only a partial view of the environment in 
+        which it operates.
+    ii) \emph{edge computing}: there is no central entity that coordinates the entire system, as in 
+        traditional client-server architectures. Instead, computation takes place directly on the IoT 
+        device or on some edge devices distributed throughout the system, near the IoT devices.
+    iii) \emph{uncertainty}: each entity/agent is influenced by its interactions with the environment and with other 
+        agents, introducing a level of stochasticity into the system.
+
+Over the years, numerous methods have been suggested to address these challenges, including:
+    \emph{Aggregate Computing} \cite{viroli2018field}, a macro-programming paradigm, 
     and \emph{Multi-Agent Reinforcement Learning} \cite{busoniu2008comprehensive, marlsurvey}, a machine learning paradigm.
+This thesis proposes a \emph{hybrid approach} that aims to exploit the potential of both aggregate computing
+    and multi-agent reinforcement learning to develop systems capable of learning from experience and 
+    self-organizing in case of changes in the external environment.
 
-This thesis proposes a \emph{hybrid approach} that maximises their potential by utilising aggregate computing to manage 
-    infrastructure-related aspects, like leader election, and reinforcement learning for acquiring complex behaviours that 
-    would be difficult to accomplish in a solely programmatic way.
-
-To attain this objective, we present \emph{ScaRLib}, a framework designed to streamline the creation of these systems in 
+To attain this objective, we present \emph{ScaRLib} \cite{scarlib}, a framework designed to streamline the creation of these systems in 
     simulated settings and JVM-based platforms. ScaRLib focuses on reducing the complexity of development by providing 
     domain abstractions, integration with state-of-the-art tools for multiple subcomponents, 
     a modular and extensible architecture, and a domain-specific language (DSL) to facilitate the configuration of 
@@ -183,7 +192,10 @@ Over the last few years, there has been a definite trend in the development of c
     with one another. This phenomenon has led to a range of opportunities, but it has also introduced 
     new challenges when it comes to engineering these \emph{complex distributed systems}. It soon became clear 
     that conventional microprogramming approaches, which involve programming each device separately, lacked of 
-    \emph{modularity} and \emph{reusability}. For this reason, attempts have been made to introduce novel paradigms, including 
+    \emph{modularity} and \emph{reusability}. Another problem with microprogramming approaches concerns the 
+    difficulty of mapping local behavior of individual agents onto the global behavior of the overall system
+    (\emph{mapping local to gloabl problem}). 
+    For this reason, attempts have been made to introduce novel paradigms, including 
     macroprogramming, which shifts focus onto the \emph{collective of devices}, considering their neighbourhood 
     relations and interactions.
     Some paradigms that have gained significant attention in recent years are \emph{aggregate computing (AC)} \cite{AC}, 
@@ -543,7 +555,7 @@ Q(s_t,a_t) =
 
 Classical algorithms of reinforcement learning, when applied in \emph{real-world contexts}, suffer from the problem of \emph{state space explosion}.
     This arises from an exceedingly large number of possible states, making the resolution of a given task \emph{computationally intractable}. 
-    For instance, in the game of chess, there can be around $100^{100k}$ possible games, a number much larger than 
+    For instance, in the game of chess, there can be around $100^{120}$ possible typical games, a number much larger than 
     the count of sand grains on Earth ($\approx 10^{23}$) and the number of atoms in the observable universe 
     ($\approx 10^{81}$). 
     For this reason, \emph{deep reinforcement learning} has been introduced, which involves utilizing deep neural networks
@@ -646,10 +658,35 @@ In this thesis, we focus on a subset of MARL, namely: \emph{Many Agent Reinforce
 
 \paragraph{Training and execution model}
    
-Another point to pay attention to is the system by which the training and execution of the various agents are carried out. This can be primarily categorized into three types (\Cref{fig:exmod}):
-    i) \emph{Centralized Training Centralized Execution (CTCE)}, in this type of system, there is a higher-level agent called \emph{Learner}, with a global perspective, whose task is to perform training and compute actions to be undertaken. The remaining agents, therefore, transmit their local environmental perceptions (i.e., the local state) to the learner agent, which is responsible for merging these perceptions to reconstruct the global state. Once reconstructed, it selects the action to take in accordance with the current policy and evaluates the reward function for policy updates;
-    ii) \emph{Centralized Training Decentralized Execution (CTDE)}, in this type of system, a learner agent with a global perspective executes the training algorithm. Once the policy is updated, it is sent to each agent, which can interact with the environment and take actions in accordance with it;
-    iii) \emph{Decentralized Training Decentralized Execution (DTDE)}, in this type of system, each agent has its own local policy and can only observe a portion of the environment. Each agent, therefore, takes actions based on its perception of the environment and updates its own local reward function accordingly.
+Another point to pay attention to is the system by which the training and execution of the various agents are carried out. 
+    The main question is: \emph{what information is available to agents during training and after the 
+    learning of policies?}
+    Thus, MARL algorithms can be categorized into three types (\Cref{fig:exmod}):
+    \begin{enumerate}
+        \item \emph{Centralized Training Centralized Execution (CTCE)}, in this type of system, there is a higher-level agent called 
+            \emph{Learner}, with a global perspective, whose task is to perform training and compute actions to be undertaken. 
+            The remaining agents, therefore, transmit their local environmental perceptions (i.e., the local state) to the learner agent, 
+            which is responsible for merging these perceptions to reconstruct the global state. Once reconstructed, it selects the action to take 
+            in accordance with the current policy and evaluates the reward function for policy updates.
+            This system reduces the multi-agent game to a single-agent game using the history of observation of all agents, which can be useful 
+            in context with partial observability or where complex coordination between agents is required. 
+            However, there are three main drawbacks:
+            i) the central policy uses the joint action space, which usually grows exponentially with the number of agents,
+            ii) the environment assigns a collective reward to all agents, and it may prove challenging or  unfeasible to convert 
+                it into an individual reward for each agent, and
+            iii) as the agents are distributed, they may be unable to communicate with a central learner. 
+                For instance, transmitting all sensor and camera data in autonomous cars is unfeasible.
+        \item \emph{Decentralized Training Decentralized Execution (DTDE)}, in this type of system, each agent has its own local policy 
+            and can only observe a portion of the environment. Each agent, therefore, takes actions based on its perception of the environment 
+            and updates its own local reward function accordingly.
+            The primary advantage of this approach is its ability to prevent exponential growth of the action space, 
+            although it does have some disadvantages, including: 
+            i) as agents are trained concurrently, they may be significant affected by non-stationarity, and
+            ii) agents' policy cannot rely on shared information neither during training nor during execution.
+        \item \emph{Centralized Training Decentralized Execution (CTDE)}, in this type of system, a learner agent with a global perspective
+            executes the training algorithm. Once the policy is updated, it is sent to each agent, which can interact with the environment 
+            and take actions in accordance with it. This system combines the benefits of the previous two approaches.
+    \end{enumerate}
 
 \begin{figure*}[t]
     \begin{subfigure}[b]{0.32\textwidth}
@@ -912,7 +949,7 @@ The modularisation of the framework brings various benefits. On the one hand, th
 
 \begin{figure}
     \centering
-    \includegraphics[width=0.4\textwidth]{figures/scarlib-modules.png}
+    \includegraphics[width=0.4\textwidth]{figures/scarlib-modules.pdf}
     \caption{ScaRLib main modules.}
     \label{fig:mainmodules}
 \end{figure}
@@ -1048,7 +1085,8 @@ The \emph{interaction} among the various components depends on the selected \emp
 An important aspect to note regarding figures \ref{fig:ctde-sequence} and \ref{fig:dtde-sequence} is that they represent a simplification of what actually happens. 
     In fact, only one agent is illustrated, while in reality, the number of agents is much greater than $1$. Both systems manage agents \emph{concurrently}, 
     leveraging asynchronous programming to enable parallel execution. The environment, in order to compute the new state,
-     must wait to collect the actions of all agents for the current time step.
+    must wait to collect the actions of all agents for the current time step, thus following the model defined by
+    the \emph{markov games}\cite{LITTMAN1994157}. 
 
 \begin{figure*}[t]
     \centering
@@ -1104,7 +1142,7 @@ Originally, Scala was designed as a language intended for seamless interoperabil
     encouraging a more natural and manageable codebase.
 
 \subsection*{ScalaPy}
-\emph{ScalaPy} \footnote{\url{https://scalapy.dev/}} is a software tool that effectively integrates Python and Scala, 
+\emph{ScalaPy}\footnote{\url{https://scalapy.dev/}} is a software tool that effectively integrates Python and Scala, 
     two prominent programming languages. This bridge empowers developers to utilise the strengths of both languages 
     in a single project, offering flexibility and extensibility required for various tasks.
     At its heart, ScalaPy permits developers to utilise Python libraries and packages directly in Scala code, 
