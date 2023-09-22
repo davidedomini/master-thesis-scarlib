@@ -143,7 +143,7 @@ The goal of this thesis is to lay the foundation for a \emph{hybrid} approach
 
 \section{Cyber-Physical Swarms}
 
-\emph{Cyber-physical swarms (CPSW}) are an extension of swarm systems in which both logical and
+\emph{Cyber-physical swarms (CPSWs}) are an extension of swarm systems in which both logical and
     physical agents coexist. Swarms draw inspiration from \emph{natural systems} such as ant colonies 
     and bird flocks \cite{tan2013swarm, roy2014nature, bonabeau1999swarm}. In these systems a myriad devices (agents) interact among themselves and with the surrounding 
     environment to achieve a common goal. A fundamental characteristic of these systems is that the local 
@@ -204,7 +204,7 @@ Over the last few years, there has been a definite trend in the development of c
 \paragraph{Field calculus}
 \emph{Field calculus (FC)} \cite{fieldcalculus} has been designed to be a minimal core calculus aimed at capturing the essential 
     aspects of languages that make use of \emph{computational fields}, somewhat similarly to what $\lambda$-calculus does for 
-    representing the essence functional programming. 
+    representing the essence of functional programming. 
     The computational model of FC proposes that a program \textbf{P} is executed by a network of devices $\delta$, with a concept 
     of \emph{neighborhood relation} representing physical or logical proximity. An example of such a network is shown in \Cref{fig:random-network}. 
     This notion of neighborhood is used to represent devices capable of direct communication, such as sensors within a broadcast range. 
@@ -347,6 +347,8 @@ An example of how ScaFi works is shown in \Cref{fig:channel} and \Cref{lst:chann
     ii) \texttt{distance}, which computes the distance between two sources, and
     iii) \texttt{dilate}, which takes as input a field of Booleans and stretches the source by a given width.
 
+\Cref{fig:channel-scafiweb} shows the execution of the channel algorithm on ScaFiWeb.
+
 \begin{figure}[h!]
     \centering
     \includegraphics[width=0.7\textwidth]{figures/channel.png}
@@ -396,8 +398,7 @@ def channel(
 %
 
 ``\emph{Reinforcement Learning (RL)} is the science of decision making. It is about learning the optimal behavior 
-    in a environment to obtain maximum reward" 
-    \footnote{\url{https://www.synopsys.com/ai/what-is-reinforcement-learning.html}}.
+    in a environment to obtain maximum reward"\footnote{\url{https://www.synopsys.com/ai/what-is-reinforcement-learning.html}}.
     RL is a general framework, other than supervised and unsupervised learning, in which an \emph{agent} learns 
     to behave within an \emph{environment} by performing some \emph{actions} and seeing the result they produce.
     It is inspired by how humans and animals learn through the system of rewards and punishments: for each good action
@@ -419,7 +420,7 @@ Formally, a RL problem can be formulated as following \cite{RLSurvey}:
         Thereafter, the environment: takes in the action $a_t$, emits the new state $s_{t+1} \in \mathcal{S}$ 
         and returns the scalar reward $r_{t+1}$ (\Cref{fig:rl_schema}).
         Finally, the agent, based on the reward obtained updates its knwoledge.
-    This formulation stems from \emph{Markov Decision Processes}, which is a mathematical framework for \emph{sequential decision making}. A very important property that these systems must adhere to is the \emph{Markov property}, which states ``\emph{the future is independent of the past given the present.}" In other words, it implies that the state transition function does not require the entire past trajectory but only the last state, namely: 
+    This formulation stems from \emph{Markov Decision Processes} \cite{garcia2013markov, puterman1990markov}, which is a mathematical framework for \emph{sequential decision making}. A very important property that these systems must adhere to is the \emph{Markov property}, which states ``\emph{the future is independent of the past given the present.}" In other words, it implies that the state transition function does not require the entire past trajectory but only the last state, namely: 
     $$p(s_{t+1} | s_t, a_t, ..., s_0, a_0) = p(s_{t+1} | s_t, a_t)$$
     It is important to note that the concept of state can always be extended to satisfy this property.
 
