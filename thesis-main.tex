@@ -8,6 +8,7 @@
 \usepackage{subcaption}
 \usepackage{listings}
 \usepackage{tabularx}
+\usepackage{xcolor}
 \newcommand{\fonte}[1]{{\color{gray} \small \hypersetup{citecolor=gray} Source: #1}}
 
 \input{scala-def}
@@ -37,18 +38,19 @@
 The growing popularity of \emph{highly distributed IoT} has highlighted the need for new methods to develop these 
     systems effectively and at scale. 
     Key distinguishing features of these systems include:
-    i) \emph{partial observability}: each entity/agent posses only a partial view of the environment in 
-        which it operates, 
-    ii) \emph{edge computing}: there is no central entity that coordinates the entire system, as in 
-        traditional client-server architectures. Instead, computation takes place directly on the IoT 
-        device or on some edge devices distributed throughout the system, near the IoT devices, and
-    iii) \emph{uncertainty}: each entity/agent is influenced by its interactions with the environment and with other 
+    \begin{color}{red}
+    (i, \emph{partial observability}), each entity/agent posses only a partial view of the environment in 
+        which it operates;
+    (ii, \emph{full distribution}), there is no central entity that coordinates the entire system, as in 
+        traditional client-server architectures (instead, computation takes place directly on the IoT 
+        device or on some edge devices distributed throughout the system, near the IoT devices);
+    (iii, \emph{uncertainty}), each entity/agent is influenced by its interactions with the environment and with other 
         agents, introducing a level of stochasticity into the system.
-
+    \end{color}
 Over the years, numerous methods have been suggested to address these challenges, including:
     \emph{Aggregate Computing} \cite{viroli2018field}, a macro-programming paradigm, 
     and \emph{Multi-Agent Reinforcement Learning} \cite{busoniu2008comprehensive, marlsurvey}, a machine learning paradigm.
-This thesis proposes a \emph{hybrid approach} that aims to exploit the potential of both aggregate computing
+\begin{color}{red} This thesis proposes the starting point for a \emph{hybrid toolchain} \end{color} that aims to exploit the potential of both aggregate computing
     and multi-agent reinforcement learning to develop systems capable of learning from experience and 
     self-organizing in case of changes in the external environment.
 
@@ -58,6 +60,11 @@ To attain this objective, we present \emph{ScaRLib} \cite{scarlib}, a framework 
     a modular and extensible architecture, and a domain-specific language (DSL) to facilitate the configuration of 
     diverse experiments.
 
+\begin{color}{red}
+Finally, two experiments are also presented to validate the framework's functionalities by testing it in basic 
+    contexts specific to this domain. These experiments were beneficial in verifying the proper functioning 
+    of the tool and highlighting its strengths, as well as identifying areas for future work.
+\end{color}
 \end{abstract}
 
 \begin{dedication} 
