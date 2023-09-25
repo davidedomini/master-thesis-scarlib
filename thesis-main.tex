@@ -29,7 +29,7 @@
 
 \begin{document}
 	
-\frontmatter
+\frontmatter 
 
 \input{front.tex}
 
@@ -1725,7 +1725,7 @@ the average distance between each agent and the leader.
 \label{fig:test-ftl}
 \end{figure*}
 
-\section{Framework limitations}
+\section{Current state discussion}
 This section aims to highlight the main limitations present in the framework. These limitations are
  present for various reasons, some due to the nature of the domain, others due to implementation choices. 
  Furthermore, they provide a foundation for future improvements and expansion of the framework's capabilities.
@@ -1738,7 +1738,7 @@ Currently, a thorough and comprehensive performance benchmarking has not been ca
     fully prepared for community use.
 
 \paragraph{Training and execution model} 
-Currently, the framework offers solely two training and execution models, both among the most renowned in literature. 
+Currently, the framework offers two training and execution models, both among the most renowned in literature. 
     While these models can address various problems, they are not exclusive and may limit functionality in certain scenarios. 
     To facilitate user implementation and avoid the need to start from scratch, the framework must be expanded 
     to include additional models.
@@ -1770,7 +1770,7 @@ A key aspect was to create abstractions within the reference domain to allow a c
     programming language API. Additionally, a \emph{Domain Specific Language} was developed to declaratively specify 
     experiments and preemptively detect configuration errors during compile time, avoiding the need to wait for runtime occurrences.
 
-In our opinion, the framework serves as an excellent point of initiation for developing such systems with a hybrid method 
+In our opinion, the framework serves as an excellent starting point for developing such systems with a hybrid method 
     and streamlines the definition of complex new experiments. Our aim is to showcase the potential of this technique 
     and inspire the scientific community to delve further into this realm.
 
