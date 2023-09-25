@@ -909,22 +909,71 @@ The following non-functional requirements have been identified within the system
 \end{itemize}
 
 \section{Scenarios}
-
 This section aims to provide a \emph{reference context} for the use of the framework by attempting to illustrate, 
     through some practical examples, the key characteristics within the domain of CPSWs.
 
-The first scenario represents one of the simplest conceivable instances for CPSWs, in which the proposed hybrid 
+The first scenario (\Cref{fig:cpsw1}) represents one of the simplest conceivable instances for CPSWs, in which the proposed hybrid 
     approach can be beneficial. It involves a \emph{fleet of drones}, each drone having a predetermined \emph{set of neighbors}. 
     The objective for each drone is to maintain proximity to its neighbors (i.e., \emph{cohesion}), while avoiding \emph{collisions}.
+    Each drone can only observe a limited portion of the environment (i.e., \emph{partial observability}), which comprises only its 
+    neighboring drones and not the positions of the entire fleet.
 
-The second example also involves a fleet of drones but is more intricate than the previous one. In this case, 
+    The second example (\Cref{fig:cpsw2,fig:cpsw21}) also involves a fleet of drones but is more intricate than the previous one. In this case, 
     the fleet's purpose is to monitor a designated area of territory for \emph{adverse events} (e.g., fires). Once an adverse 
     event is identified, the fleet must \emph{coordinate} to determine the number of drones to intervene and their 
     respective \emph{strategies}.
 
-A final example entails the use of \emph{wearable devices} (e.g., smartwatches) for \emph{crowd management} during a public event 
-    (e.g., a conference or concert) in order to provide navigation directions to avoid congestion and to facilitate 
-    evacuation in case of emergencies.
+A final example (\Cref{fig:cpsw3}) entails the use of \emph{wearable devices} (e.g., smartwatches) for \emph{crowd management} during a public event 
+    (e.g., a conference or concert).
+    In this scenario, the agents constituting the swarm are the individuals themselves, as represented by their wearable devices. 
+    The goal is to prevent the formation of overly \emph{crowded} clusters and to determine the optimal routes 
+    for evacuating the area in the event of an emergency.
+
+\begin{figure*}[t]
+    \begin{subfigure}[b]{0.49\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{figures/cpsw-1.pdf}
+        \caption{Drones flocking \cite{drones2040033}.}
+        \label{fig:cpsw1}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.45\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{figures/cpsw-2.png}
+        \caption{Adversial events monitoring.}
+        \label{fig:cpsw2}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.49\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{figures/cpsw2-1.pdf}
+        \caption{Adversial events monitoring.}
+        %\fonte{\url{https://tinyurl.com/y33s6scu}}
+        \label{fig:cpsw21}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.49\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{figures/cpsw-3.png}
+        \caption{Crowd management.}
+        \label{fig:cpsw3}
+    \end{subfigure}
+    \caption{Some reference scenarios for CPSW.}\vspace{-10pt}
+    \label{fig:scenarios}
+\end{figure*}
+
+% This section aims to provide a \emph{reference context} for the use of the framework by attempting to illustrate, 
+%     through some practical examples, the key characteristics within the domain of CPSWs.
+
+% The first scenario represents one of the simplest conceivable instances for CPSWs, in which the proposed hybrid 
+%     approach can be beneficial. It involves a \emph{fleet of drones}, each drone having a predetermined \emph{set of neighbors}. 
+%     The objective for each drone is to maintain proximity to its neighbors (i.e., \emph{cohesion}), while avoiding \emph{collisions}.
+
+% The second example also involves a fleet of drones but is more intricate than the previous one. In this case, 
+%     the fleet's purpose is to monitor a designated area of territory for \emph{adverse events} (e.g., fires). Once an adverse 
+%     event is identified, the fleet must \emph{coordinate} to determine the number of drones to intervene and their 
+%     respective \emph{strategies}.
+
+% A final example entails the use of \emph{wearable devices} (e.g., smartwatches) for \emph{crowd management} during a public event 
+%     (e.g., a conference or concert) in order to provide navigation directions to avoid congestion and to facilitate 
+%     evacuation in case of emergencies.
 
 
 %----------------------------------------------------------------------------------------
