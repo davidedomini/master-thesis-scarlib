@@ -163,8 +163,8 @@ The goal of this thesis \begin{color}{red}is to start the design of a \emph{hybr
     physical agents coexist. Swarms draw inspiration from \emph{natural systems} such as ant colonies 
     and bird flocks \cite{tan2013swarm, roy2014nature, bonabeau1999swarm}. In these systems a myriad devices (agents) interact among themselves and with the surrounding 
     environment to achieve a common goal. A fundamental characteristic of these systems is that the local 
-    interaction among individual devices usually consists of simple behaviors, but from this emerges a more 
-    complex collective behavior that leads to the resolution of the given task. Examples of these systems (\Cref{fig:cpsw}) are a fleet of drones tasked with monitoring a park to 
+    interaction among individual devices usually consists of simple behaviors, \begin{color}{red}but from this a more 
+    complex collective behavior emerges that leads to the resolution of the given task. \end{color}Examples of these systems (\Cref{fig:cpsw}) are a fleet of drones tasked with monitoring a park to 
     oversee adverse events (e.g., fires), or a set of wearable devices to manage crowd congestion in a specific area during a public event.
 
 \begin{figure*}[t]
@@ -195,7 +195,6 @@ Swarms have been extensively studied due to a series of significant advantages, 
     iii) \emph{scalability}: the system can be easily scaled by adding or removing devices;
     iv) \emph{robustness}: the system can handle the loss of some devices;
     v) \emph{flexibility}: the same system can solve different tasks.
-
 
 %
 \section{Aggregate Computing}
@@ -303,7 +302,7 @@ One final important aspect of field calculus is its ability to formally demonstr
     
 
 \paragraph{Agregate computing}
-\emph{Aggregate computing} \cite{AC} is a macro-programming model theoretically based on \emph{field calculus}, providing innovative solutions
+\emph{Aggregate computing} \cite{AC} is a macro-programming model \begin{color}{red}whose theory is based on \emph{field calculus}, \end{color}providing innovative solutions
     to the issues previously mentioned. AC's objective is to reduce the complexity of designing, developing, 
     and maintaining complex distributed systems, with focus on three fundamental aspects:
     i) the composition of modules and subsystems must transparent,
@@ -350,7 +349,7 @@ The architecture of ScaFi consists of various modules (\Cref{fig:scafi-arc}), th
         (e.g., Gradients, BlockG and BlockS),
     ii) \texttt{scafi-stdlib-ext}, which provides a set of additional functions; as these require external dependencies, 
         it is kept separate from the core,
-    iii)\texttt{scafi-simulator}, which offers support for simulating aggregate systems,
+    iii) \texttt{scafi-simulator}, which offers support for simulating aggregate systems,
     iv) \texttt{scafi-simulator-gui}, which provides a GUI for visualizing and interacting with the simulation,
     v) \texttt{spala}, which provides an actor-based middleware for AC based on Akka \cite{hunt2014introduction},
     vi) \texttt{scala-distributed}, which provides an integration layer for spala in ScaFi.
