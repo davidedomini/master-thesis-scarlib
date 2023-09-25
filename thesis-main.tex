@@ -48,7 +48,7 @@ The growing popularity of \emph{highly distributed IoT} has highlighted the need
         agents, introducing a level of stochasticity into the system.
     \end{color}
 Over the years, numerous methods have been suggested to address these challenges, including:
-    \emph{Aggregate Computing} \cite{viroli2018field}, a macro-programming paradigm, 
+    \emph{Aggregate Computing} \cite{VIROLI2019100486}, a macro-programming paradigm, 
     and \emph{Multi-Agent Reinforcement Learning} \cite{busoniu2008comprehensive, marlsurvey}, a machine learning paradigm.
 \begin{color}{red} This thesis proposes the starting point for a \emph{hybrid toolchain} \end{color} that aims to exploit the potential of both aggregate computing
     and multi-agent reinforcement learning to develop systems capable of learning from experience and 
@@ -121,7 +121,7 @@ This progress has been driven by research in various related fields such as: mul
     swarm robotics \cite{brambilla2013swarm}, large-scale IoT systems \cite{uslu2023role}, and many more.
 
 A crucial aspect to consider in CPSWs is how individual devices are programmed and achieve coordination to the perform assigned tasks. 
-    Novel approaches -- like \emph{aggregate computing} \cite{viroli2018field} -- have focused on manually developing
+    Novel approaches -- like \emph{aggregate computing} \cite{VIROLI2019100486} -- have focused on manually developing
     controllers from a global perspective. However, this approach has some drawbacks: it is highly challenging to write satisfactory 
     and efficient programs for complex tasks, they may be error-prone and lack of generality.
 
@@ -217,7 +217,7 @@ Over the last few years, there has been a definite trend in the development of c
     \emph{tuple on the air (TOTA)} \cite{tota} and \emph{buzz} \cite{7498536}.
 
 \paragraph{Field calculus}
-\emph{Field calculus (FC)} \cite{fieldcalculus} has been designed to be a minimal core calculus aimed at capturing the essential 
+\emph{Field calculus (FC)} \cite{viroli2016higher} has been designed to be a minimal core calculus aimed at capturing the essential 
     aspects of languages that make use of \emph{computational fields}, somewhat similarly to what $\lambda$-calculus does for 
     representing the essence of functional programming. 
     The computational model of FC proposes that a program \textbf{P} is executed by a network of devices $\delta$, with a concept 
@@ -273,7 +273,7 @@ A key aspect of FC is that the program (or specification) \textbf{P} can be inte
     \begin{figure*}[t]
         \centering
         \includegraphics[width=0.8\textwidth]{figures/FC-abstract-syntax.png}
-        \caption{Field calculus abstract syntax. From \cite{fieldcalculus}.}
+        \caption{Field calculus abstract syntax. From \cite{viroli2016higher}.}
         \label{fig:fc-syntax}
     \end{figure*}
 
@@ -284,7 +284,7 @@ In addition to the syntax explained for FC, there is an expanded version for \em
 One final important aspect of field calculus is its ability to formally demonstrate the 
     validity of significant properties, including:
     \begin{itemize}
-        \item \emph{self-stabilisation} \cite{viroli2018engineering, dolev2000self,lafuente2015fixpoint}:
+        \item \emph{self-stabilisation} \cite{viroli2018engineering, viroli2014calculus, dolev2000self,lafuente2015fixpoint}:
         this feature serves to prevent the system from entering incorrect states. Firstly, it guarantees that, given a costant input, a program's 
         execution will converge to a specific value in a finite time for each device. Secondly, it ensures that this value is solely 
         dependent on the input and not on previous execution history.
@@ -760,7 +760,7 @@ In science and engineering, the use of \emph{simulators} plays a key role. These
 
 Alchemist is a \emph{meta-simulator} designed for simulating \emph{complex distributed systems} in a rich variety of scenarios 
     like swarm robotics \cite{Casadei2021}, large-scale sensor networks \cite{Aguzzi_2022},
-    crowd simulation \cite{Beal2015}, path planning, and even morphogenesis of multi-cellular systems.
+    crowd simulation \cite{AC}, path planning, and even morphogenesis of multi-cellular systems.
 
 This simulator is ``meta" \emph{by design}, this stems from the fact that it is based on general abstractions that
     can be mapped to specific use cases (i.e., \emph{incarnations}). The meta-model is inspired by biochemistry
@@ -1154,11 +1154,14 @@ An important aspect to note regarding figures \ref{fig:ctde-sequence} and \ref{f
 \end{figure*}
 
 %----------------------------------------------------------------------------------------
-\chapter{Project} 
+\begin{color}{red}
+\chapter{Technologies} 
 \label{chap:project}
+\end{color}
 %----------------------------------------------------------------------------------------
-\section{Technologies used in the project}
-
+\begin{color}{red}
+\section{Framework technologies}
+\end{color}
 \subsection*{Scala language}
 
 \emph{Scala} (short for \emph{Scalable Language}) is a general-purpose programming language. 
@@ -1222,7 +1225,9 @@ Originally, Scala was designed as a language intended for seamless interoperabil
     gradients for optimization algorithms based on gradients such as \emph{stochastic gradient descent} \cite{amari1993backpropagation}. 
     This characteristic streamlines the implementation of custom loss functions and intricate optimization strategies.
 
-\section{DevOps techniques}
+\begin{color}{red}
+\section{DevOps technologies}
+\end{color}
 
 \emph{DevOps} techniques are fundamental to the development of a project for several reasons. On the one hand, 
     they make it possible to improve code quality while keeping work organised, promoting testing and 
