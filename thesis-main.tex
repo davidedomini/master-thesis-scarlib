@@ -292,7 +292,7 @@ In addition to the syntax explained for FC, there is an expanded version for \em
 One final important aspect of field calculus is its ability to formally demonstrate the 
     validity of significant properties, including:
     \begin{itemize}
-        \item \emph{self-stabilisation} \cite{viroli2018engineering, viroli2014calculus, dolev2000self,lafuente2015fixpoint}:
+        \item \emph{self-stabilization} \cite{viroli2018engineering, viroli2014calculus, dolev2000self,lafuente2015fixpoint}:
         this feature serves to prevent the system from entering incorrect states. Firstly, it guarantees that, given a costant input, a program's 
         execution will converge to a specific value in a finite time for each device. Secondly, it ensures that this value is solely 
         dependent on the input and not on previous execution history.
@@ -303,7 +303,7 @@ One final important aspect of field calculus is its ability to formally demonstr
         synchronization with the entire network.
         \item \emph{space-time universality} \cite{audrito2018space}: this property guarantees that field calculus is computationally 
         universal (or Turing complete \cite{turing2009computing, turing1936computable}) and that it can be used to solve any computable problem.
-        \item \emph{eventual consistency} \cite{beal2017self}: this property is closely related with self-stabilisation. It approximates the network of devices
+        \item \emph{eventual consistency} \cite{beal2017self}: this property is closely related with self-stabilization. It approximates the network of devices
         as a continuous environment; a system is eventual consistent if the state it converges to is set by that continuous environment rather than 
         the particulars of how devices are distributed through it.
     \end{itemize}
@@ -1022,7 +1022,7 @@ The framework has been devised to aid the development of CMARL systems in JVM-ba
     It's worth noting that, if required, an alternative substitute module (e.g., DL4J \footnote{\url{https://deeplearning4j.konduit.ai/}})
     that has similar functionality can be used instead.
 
-The modularisation of the framework brings various benefits. On the one hand, the framework makes it possible 
+The modularization of the framework brings various benefits. On the one hand, the framework makes it possible 
     for the user to select only those components that are necessary for him. On the other hand, this makes it 
     easy to extend and modify the framework. For instance, ScaRLib, due to the actual need, has already 
     integrated the \texttt{alchemist-scafi} module. If a user wants to use another simulator instead of Alchemist 
@@ -1900,7 +1900,6 @@ class CohesionCollisionScafiAgent
     
 \end{color}
 
-
 \paragraph{Results}
 The experiment's training involved conducting $1000$ \emph{epochs}, each with $100$ \emph{episodes}, 
     using $50$ \emph{agents}, an \emph{environment} measuring $50$x$50$ metres and a \emph{target distance} $\delta$ set to $2$ metres.
@@ -1996,10 +1995,12 @@ the average distance between each agent and the leader.
 \label{fig:test-ftl}
 \end{figure*}
 
+\begin{color}{red}
 \section{Current state discussion}
-This section aims to highlight the main limitations present in the framework. These limitations are
- present for various reasons, some due to the nature of the domain, others due to implementation choices. 
- Furthermore, they provide a foundation for future improvements and expansion of the framework's capabilities.
+\end{color}
+ 
+This section discusses the current state of the framework, highlighting its strengths and weaknesses
+    that will shape future work in \Cref{chap:conclusions}.
 
 \paragraph{Performance} 
 Currently, a thorough and comprehensive performance benchmarking has not been carried out. This choice was made to 
@@ -2015,7 +2016,7 @@ Currently, the framework offers two training and execution models, both among th
     to include additional models.
 
 \paragraph{Scala-Python integration}
-The integration between the framework, which is based on the Scala language, and PyTorch deep learning framework, 
+The integration between ScaRLib, which is based on the Scala language, and the deep learning framework PyTorch, 
     which is based on Python, is facilitated by the ScalaPy tool. However, despite the usefulness and potency of this tool, 
     it remains in an experimental and research phase that imposes certain usability and configuration restrictions, particularly 
     in non-Linux environments.
