@@ -940,11 +940,20 @@ The first scenario (\Cref{fig:cpsw1}) represents one of the simplest conceivable
     The objective for each drone is to maintain proximity to its neighbors (i.e., \emph{cohesion}), while avoiding \emph{collisions}.
     Each drone can only observe a limited portion of the environment (i.e., \emph{partial observability}), which comprises only its 
     neighboring drones and not the positions of the entire fleet.
+    \begin{color}{red}
+    The goal is to define a policy that allows the fleet to form many clusters, in which each drone
+    has a mean distance from its neighbors that is as close as possible to a given threshold. 
+    This first scenario will be implemented in \Cref{chap:validation} to validate the framework.
+    \end{color}
 
     The second example (\Cref{fig:cpsw2,fig:cpsw21}) also involves a fleet of drones but is more intricate than the previous one. In this case, 
     the fleet's purpose is to monitor a designated area of territory for \emph{adverse events} (e.g., fires). Once an adverse 
     event is identified, the fleet must \emph{coordinate} to determine the number of drones to intervene and their 
     respective \emph{strategies}.
+    \begin{color}{red}
+    The goal is to define a policy that allows the fleet to identify the adverse event and coordinate to manage it within a 
+    given time frame.
+    \end{color}
 
 A final example (\Cref{fig:cpsw3}) entails the use of \emph{wearable devices} (e.g., smartwatches) for \emph{crowd management} during a public event 
     (e.g., a conference or concert).
@@ -1177,6 +1186,10 @@ An important aspect to note regarding figures \ref{fig:ctde-sequence} and \ref{f
 \end{color}
 %----------------------------------------------------------------------------------------
 \begin{color}{red}
+
+This chapter first presents the main technologies used to implement the framework, then it describes 
+    the process and devops techniques used to manage the development of the project.
+
 \section{Framework technologies}
 \end{color}
 \subsection*{Scala language}
