@@ -108,11 +108,11 @@ Significant technological advancements have paved the way for the emergence of a
     to reach a \emph{collective} outcome or behaviour. Examples of such systems include swarms of drones, 
     large-scale IoT systems and \begin{color}{red} networks of wearable devices \cite{10.1145/2800835.2809505, fortino2018wearable}\end{color}.
     A crucial aspect of these systems is that \begin{color}{red}a complex collective behavior emerges from the interaction between 
-    simpler individual agents leading to adaptive execution of various tasks. \end{color}
+    simpler individual agents leading to adaptive execution of various tasks. 
     Among all aspects related to CPSWs, our focus lies on properties like \emph{collective intelligence} \cite{tumer2004survey} 
-    and \emph{self-organization} \cite{schmeck2011organic}. This stems from the applications of these systems, leading us to 
+    and \emph{self-organization} \cite{schmeck2011organic}, leading us to 
     concentrate on their collective behavior to express autonomy, adaptability, and coordination of the devices 
-    that are part of them.
+    that are part of them. \end{color}
 
 This progress has been driven by research in various related fields such as: multi-agent systems \cite{dorri2018multi},
     coordination \cite{yang2022overview}, distributed artificial intelligence \cite{bond2014readings}, 
@@ -125,11 +125,14 @@ A crucial aspect to consider in CPSWs is how individual devices are programmed a
     controllers from a global perspective. However, this approach has some drawbacks: it is highly challenging to write satisfactory 
     and efficient programs for complex tasks, they may be error-prone and lack of generality.
 
+\begin{color}{red}
 On the other hand, approaches exists that leverage various artificial intelligence (AI) techniques, 
     such as \emph{Multi-Agent Reinforcement Learning} (MARL) \cite{busoniu2008comprehensive, marlsurvey},
-    to enable devices to learn directly from experience and/or data. These approaches also present several challenges, including: 
+    to enable devices to learn directly from experience and/or data. 
+    These approaches have proved to be fundamental to effectively express adaptive behaviors in complex environments
+    and to achieve high performance in a wide range of tasks. However, they also present several challenges, including: 
     communication, scalability and non-stationarity 
-    \begin{color}{red}(i.e.,the environment constantly changes)\end{color} \cite{hernandez2017survey}.
+    (i.e., the environment constantly changes) \cite{hernandez2017survey}. \end{color} 
 
 %
 \paragraph{Thesis objectives}
@@ -141,7 +144,12 @@ The goal of this thesis \begin{color}{red}is to start the design of a \emph{hybr
     \begin{color}{red}Its main purpose is to integrate \emph{ScaFi} \cite{casadei2022scafi} (an implementation of aggregate computing) 
     and \emph{Alchemist} \cite{pianini2013chemical} (a general purpose simulator for network oriented systems); 
     with \emph{Reinforcement Learning} used to help the development of experiments in \emph{simulated} environments with \emph{offline learning}
-    (i.e., learning is done once and then the policy is deployed in real-case systems). \end{color}
+    (i.e., learning is done once and then the policy is deployed in real-case systems). 
+    
+Finally, the last goal of this thesis is to validate the functionalities of the framework by implementing 
+    two common experiments in this domain, in this way it will be possible to understand the current state of the tool 
+    and the work that will be necessary to complete it. 
+\end{color}
 
 %
 \paragraph{Thesis Structure} 
