@@ -1519,7 +1519,6 @@ Secondly, it was necessary to define the state space:
 import it.unibo.scarlib.core.model.State
 import StateInfo.{neighborhood, encoding}
 
-
 case class CohesionCollisionState (
     positions: List[(Double, Double)], 
     agentId: Int
@@ -1549,9 +1548,12 @@ class CohesionCollisionRewardFunction extends RewardFunction {
         val distances = computeDistancesFromNeighborhood(s)
         val cohesion = cohesionFactor(distances)
         val collision = collisionFactor(distances)
-        AgentGlobalStore().put(s.agentId, "cohesion", cohesion)
-        AgentGlobalStore().put(s.agentId, "collision", collision)
-        AgentGlobalStore().put(s.agentId, "reward", collision + cohesion)
+        AgentGlobalStore()
+            .put(s.agentId, "cohesion", cohesion)
+        AgentGlobalStore()
+            .put(s.agentId, "collision", collision)
+        AgentGlobalStore()
+            .put(s.agentId, "reward", collision + cohesion)
         cohesion + collision
    }
 
@@ -1836,9 +1838,12 @@ class  FollowTheLeaderRewardFunction extends RewardFunction {
         val distances = computeDistancesFromNeighborhood(s)
         val collision = collisionFactor(distances)
         val distanceFactor = - s.distanceFromLeader
-        AgentGlobalStore().put(s.agentId, "distance", distanceFactor)
-        AgentGlobalStore().put(s.agentId, "collision", collision)
-        AgentGlobalStore().put(s.agentId, "reward", collision + distanceFactor)
+        AgentGlobalStore()
+            .put(s.agentId, "distance", distanceFactor)
+        AgentGlobalStore()
+            .put(s.agentId, "collision", collision)
+        AgentGlobalStore()
+            .put(s.agentId, "reward", collision + distanceFactor)
         distanceFactor + collision
     }
 
