@@ -39,18 +39,18 @@ The growing popularity of \emph{highly distributed IoT} has highlighted the need
     systems effectively and at scale. 
     Key distinguishing features of these systems include:
     \begin{color}{red}
-    (i, \emph{partial observability}), each entity/agent posses only a partial view of the environment in 
+    (\emph{partial observability}) each entity/agent posses only a partial view of the environment in 
         which it operates;
-    (ii, \emph{full distribution}), there is no central entity that coordinates the entire system, as in 
+    (\emph{full distribution}) there is no central entity that coordinates the entire system, as in 
         traditional client-server architectures (instead, computation takes place directly on the IoT 
         device or on some edge devices distributed throughout the system, near the IoT devices);
-    (iii, \emph{uncertainty}), each entity/agent is influenced by its interactions with the environment and with other 
+    (\emph{uncertainty}) each entity/agent is influenced by its interactions with the environment and with other 
         agents, introducing a level of stochasticity into the system.
     \end{color}
 Over the years, numerous methods have been suggested to address these challenges, including:
     \emph{Aggregate Computing} \cite{VIROLI2019100486}, a macro-programming paradigm, 
     and \emph{Multi-Agent Reinforcement Learning} \cite{busoniu2008comprehensive, marlsurvey}, a machine learning paradigm.
-\begin{color}{red} This thesis proposes the starting point for a \emph{hybrid toolchain} \end{color} that aims to exploit the potential of both aggregate computing
+    This thesis proposes the starting point for a \emph{hybrid toolchain} that aims to exploit the potential of both aggregate computing
     and multi-agent reinforcement learning to develop systems capable of learning from experience and 
     self-organizing in case of changes in the external environment.
 
@@ -60,11 +60,9 @@ To attain this objective, we present \emph{ScaRLib} \cite{scarlib}, a framework 
     a modular and extensible architecture, and a domain-specific language (DSL) to facilitate the configuration of 
     diverse experiments.
 
-\begin{color}{red}
-Finally, two experiments are also presented to validate the framework's functionalities by testing it in basic 
+Finally, two experiments are also presented to validate \begin{color}{red}the framework functionalities \end{color}by testing it in basic 
     contexts specific to this domain. These experiments were beneficial in verifying the proper functioning 
     of the tool and highlighting its strengths, as well as identifying areas for future work.
-\end{color}
 \end{abstract}
 
 \begin{dedication} 
@@ -106,17 +104,17 @@ Significant technological advancements have paved the way for the emergence of a
     \cite{abowd2016beyond}, with \emph{Cyber-Physical Swarms (CPSWs)} \cite{schranz2021swarm} as a noteworthy branch within it.
     The latter consist of myriad devices that interact with the environment and exchange information among themselves
     to reach a \emph{collective} outcome or behaviour. Examples of such systems include swarms of drones, 
-    large-scale IoT systems and \begin{color}{red} networks of wearable devices \cite{10.1145/2800835.2809505, fortino2018wearable}\end{color}.
-    A crucial aspect of these systems is that \begin{color}{red}a complex collective behavior emerges from the interaction between 
+    large-scale IoT systems and networks of wearable devices \cite{10.1145/2800835.2809505, fortino2018wearable}.
+    A crucial aspect of these systems is that a complex collective behavior emerges from the interaction between 
     simpler individual agents leading to adaptive execution of various tasks. 
     Among all aspects related to CPSWs, our focus lies on properties like \emph{collective intelligence} \cite{tumer2004survey} 
     and \emph{self-organization} \cite{schmeck2011organic}, leading us to 
     concentrate on their collective behavior to express autonomy, adaptability, and coordination of the devices 
-    that are part of them. \end{color}
+    that are part of them.
 
 This progress has been driven by research in various related fields such as: multi-agent systems \cite{dorri2018multi},
     coordination \cite{yang2022overview}, distributed artificial intelligence \cite{bond2014readings}, 
-    \begin{color}{red}autonomic computing \cite{parashar2004autonomic}\end{color} and many others. 
+    autonomic computing \cite{parashar2004autonomic} and many others. 
     Additionally, it has a profound impact on a wide range of applied domains, including: smart cities \cite{zedadra2019swarm}, 
     swarm robotics \cite{brambilla2013swarm}, large-scale IoT systems \cite{uslu2023role}, and many more.
 
@@ -126,30 +124,30 @@ A crucial aspect to consider in CPSWs is how individual devices are programmed a
     and efficient programs for complex tasks, they may be error-prone and lack of generality.
 
 \begin{color}{red}
-On the other hand, approaches exists that leverage various artificial intelligence (AI) techniques, 
+On the other hand, approaches exist \end{color}that leverage various artificial intelligence (AI) techniques, 
     such as \emph{Multi-Agent Reinforcement Learning} (MARL) \cite{busoniu2008comprehensive, marlsurvey},
     to enable devices to learn directly from experience and/or data. 
     These approaches have proved to be fundamental to effectively express adaptive behaviors in complex environments
     and to achieve high performance in a wide range of tasks. However, they also present several challenges, including: 
     communication, scalability and non-stationarity 
-    (i.e., the environment constantly changes) \cite{hernandez2017survey}. \end{color} 
+    (i.e., the environment constantly changes) \cite{hernandez2017survey}.
 
 %
 \paragraph{Thesis objectives}
-The goal of this thesis \begin{color}{red}is to start the design of a \emph{hybrid} approach \end{color}
+The goal of this thesis is to start the design of a \emph{hybrid} approach
     that can succeed in exploiting the potential of both \emph{macro-programming} and \emph{artificial intelligence} approach.
     In order to achieve this goal, it is necessary to develop a \emph{toolchain} that allows these systems to be developed in an agile,
     fast and reusable way. 
     \emph{ScaRLib} \cite{scarlib}, is the tool that for us forms the basis of this toolchain.
-    \begin{color}{red}Its main purpose is to integrate \emph{ScaFi} \cite{casadei2022scafi} (an implementation of aggregate computing) 
-    and \emph{Alchemist} \cite{pianini2013chemical} (a general purpose simulator for network oriented systems); 
-    with \emph{Reinforcement Learning} used to help the development of experiments in \emph{simulated} environments with \emph{offline learning}
+    Its main purpose is to integrate \emph{ScaFi} \cite{casadei2022scafi} (an implementation of aggregate computing) 
+    and \emph{Alchemist} \cite{pianini2013chemical} \begin{color}{red}(a general purpose simulator for network oriented systems), 
+    with \emph{Reinforcement Learning} \end{color}used to help the development of experiments in \emph{simulated} environments with \emph{offline learning}
     (i.e., learning is done once and then the policy is deployed in real-case systems). 
     
 Finally, the last goal of this thesis is to validate the functionalities of the framework by implementing 
-    two common experiments in this domain, in this way it will be possible to understand the current state of the tool 
+    two common experiments \begin{color}{red}in this domain; \end{color}in this way it will be possible to understand the current state of the tool 
     and the work that will be necessary to complete it. 
-\end{color}
+
 
 %
 \paragraph{Thesis Structure} 
@@ -158,7 +156,7 @@ Finally, the last goal of this thesis is to validate the functionalities of the 
     of this thesis. Subsequently, in \Cref{chap:requirements,chap:impl-design,chap:project}, the project that has been developed is presented, starting with 
     the requirements and domain analysis and then delving into the design, implementation, and development process management choices. 
     Finally, in \Cref{chap:validation,chap:conclusions}, two experiments carried out to validate the functionalities of the framework are presented,
-    \begin{color}{red}followed by a discussion of the current state of the project and future work that will be necessary to complete the tool. \end{color}
+    followed by a discussion of the current state of the project and future work that will be necessary to complete the tool.
 
 %----------------------------------------------------------------------------------------
 \chapter{Background}
@@ -171,8 +169,8 @@ Finally, the last goal of this thesis is to validate the functionalities of the 
     physical agents coexist. Swarms draw inspiration from \emph{natural systems} such as ant colonies 
     and bird flocks \cite{tan2013swarm, roy2014nature, bonabeau1999swarm}. In these systems a myriad devices (agents) interact among themselves and with the surrounding 
     environment to achieve a common goal. A fundamental characteristic of these systems is that the local 
-    interaction among individual devices usually consists of simple behaviors, \begin{color}{red}but from this a more 
-    complex collective behavior emerges that leads to the resolution of the given task. \end{color}Examples of these systems (\Cref{fig:cpsw}) are a fleet of drones tasked with monitoring a park to 
+    interaction among individual devices usually consists of simple behaviors, but from this a more 
+    complex collective behavior emerges that leads to the resolution of the given task. Examples of these systems (\Cref{fig:cpsw}) are a fleet of drones tasked with monitoring a park to 
     oversee adverse events (e.g., fires), or a set of wearable devices to manage crowd congestion in a specific area during a public event.
 
 \begin{figure*}[t]
@@ -310,7 +308,7 @@ One final important aspect of field calculus is its ability to formally demonstr
     
 
 \paragraph{Agregate computing}
-\emph{Aggregate computing} \cite{AC} is a macro-programming model \begin{color}{red}whose theory is based on \emph{field calculus}, \end{color}providing innovative solutions
+\emph{Aggregate computing} \cite{AC} is a macro-programming model \begin{color}{red}whose foundation is based on \emph{field calculus}, \end{color}providing innovative solutions
     to the issues previously mentioned. AC's objective is to reduce the complexity of designing, developing, 
     and maintaining complex distributed systems, with focus on three fundamental aspects:
     i) the composition of modules and subsystems must transparent,
@@ -539,7 +537,7 @@ Another key aspect is how we can estimate the reward at the end of the process i
     $$ Q(s_t,a_t) =  r_{t+1} + \gamma \cdot max_a Q(s_{t+1}, a)$$
 
 The main idea of Q-Learning is to \emph{iteratively approximate} the Q-values, using the Bellman equation, as follows:
-\begin{color}{red}
+
 \begin{equation}
 \begin{split}
 Q(s_t,a_t) = 
@@ -572,8 +570,6 @@ Q(s_t,a_t) =
     }^\text{Learned Value}
 \end{split}
 \end{equation}
-\end{color}
-
     Where $\alpha$ is the learning rate hyper-parameter that controls how much of the current Q-value and newly proposed
     Q-value is considered.
     At the beginning of the learning process, these Q-values will be practically random estimates and may be completely wrong. 
@@ -770,8 +766,9 @@ In science and engineering, the use of \emph{simulators} plays a key role. These
     environment in which to conduct tests, analyses, and in-depth studies rapidly, under controlled and 
     repeatable conditions (e.g., \cite{argun2021simulation, bagrodia1998parsec, choi2021use, cannon2009simulation}).
     \begin{color}{red}
-    Moreover, simulation is crucial in MARL with offline learning, enabling agents to learn a model in a controlled 
-    environment without relying on physical components, such as robots, that may be cost-prohibitive or unavailable.
+    Moreover, simulation is crucial in MARL with offline learning, enabling agents to learn a policy 
+    for a model of the environment without relying on physical components, such as robots, 
+    that may be cost-prohibitive or unavailable.
     \end{color}
     In this project, the \emph{Alchemist} \cite{alchemist} simulator has been taken as a reference.
 
@@ -927,13 +924,11 @@ The following non-functional requirements have been identified within the system
     \item The framework should provide an easy and clean API;
     \item The framework must be cross-platform, therefore it must be executable on any operating 
         system capable of supporting Java version 11 or later;
-    \begin{color}{red}
     \item The framework should be extensible and modular, allowing the user to customize some of its 
         components, along the following dimensions: 
         i) learning algorithms, 
         ii) simulators, and 
         iii) deep learning frameworks.
-    \end{color}
 \end{itemize}
 
 \section{Scenarios}
@@ -945,18 +940,16 @@ The first scenario (\Cref{fig:cpsw1}) represents one of the simplest conceivable
     The objective for each drone is to maintain proximity to its neighbors (i.e., \emph{cohesion}), while avoiding \emph{collisions}.
     Each drone can only observe a limited portion of the environment (i.e., \emph{partial observability}), which comprises only its 
     neighboring drones and not the positions of the entire fleet.
-    \begin{color}{red}
     The goal is to define a policy that allows the fleet to form many clusters, in which each drone
     has a mean distance from its neighbors that is as close as possible to a given threshold. 
     This first scenario will be implemented in \Cref{chap:validation} to validate the framework.
-    \end{color}
 
     The second example (\Cref{fig:cpsw2,fig:cpsw21}) also involves a fleet of drones but is more intricate than the previous one. In this case, 
     the fleet's purpose is to monitor a designated area of territory for \emph{adverse events} (e.g., fires). Once an adverse 
     event is identified, the fleet must \emph{coordinate} to determine the number of drones to intervene and their 
     respective \emph{strategies}.
     \begin{color}{red}
-    The goal is to define a policy that allows the fleet to identify the adverse event and coordinate to manage it within a 
+    The goal is to define a policy that allows the fleet to identify the adverse events and coordinate to handle them within a 
     given time frame.
     \end{color}
 
@@ -998,10 +991,8 @@ A final example (\Cref{fig:cpsw3}) entails the use of \emph{wearable devices} (e
 
 
 %----------------------------------------------------------------------------------------
-\begin{color}{red}
 \chapter{Design and implementation} 
 \label{chap:impl-design}
-\end{color}
 %----------------------------------------------------------------------------------------
 
 This chapter presents the design decisions for modelling the domain and implementing 
@@ -1185,18 +1176,14 @@ An important aspect to note regarding figures \ref{fig:ctde-sequence} and \ref{f
 \end{figure*}
 
 %----------------------------------------------------------------------------------------
-\begin{color}{red}
 \chapter{Technologies} 
 \label{chap:project}
-\end{color}
 %----------------------------------------------------------------------------------------
-\begin{color}{red}
 
 This chapter first presents the main technologies used to implement the framework, then it describes 
     the process and devops techniques used to manage the development of the project.
 
 \section{Framework technologies}
-\end{color}
 \subsection*{Scala language}
 
 \emph{Scala} (short for \emph{Scalable Language}) is a general-purpose programming language. 
@@ -1261,7 +1248,7 @@ Originally, Scala was designed as a language intended for seamless interoperabil
     This characteristic streamlines the implementation of custom loss functions and intricate optimization strategies.
 
 \begin{color}{red}
-\section{DevOps technologies}
+\section{DevOps technologies used}
 \end{color}
 
 \emph{DevOps} techniques are fundamental to the development of a project for several reasons. On the one hand, 
@@ -1494,7 +1481,6 @@ A crucial aspect of this task involves defining the \emph{reward function}.
         \label{fig:cc-rf}
     \end{figure}
 
-\begin{color}{red}
 \paragraph{Implementation}
 First of all, it was necessary to define the action space of the various agents, this can be done easily by leveraging the product types of Scala as follows:
 \begin{lstlisting}
@@ -1595,8 +1581,6 @@ class CohesionCollisionScafiAgent
     }
 }    
 \end{lstlisting}
-
-\end{color}
 
 \paragraph{Results}
 The experiment's training involved conducting 1000 \emph{epochs}, each with 100 \emph{episodes}, using 50 \emph{agents}, an 
@@ -1774,7 +1758,6 @@ The \emph{reward function} is composed of two components. The first component is
     \end{equation}
     The overall reward function is defined as the sum of these two factors.
 
-\begin{color}{red}
 \paragraph{Implementation}
 First of all, it was necessary to define the action space of the various agents, this can be done easily by leveraging the product types of Scala as follows:
 \begin{lstlisting}
@@ -1897,8 +1880,6 @@ class CohesionCollisionScafiAgent
     }
 }    
 \end{lstlisting}
-    
-\end{color}
 
 \paragraph{Results}
 The experiment's training involved conducting $1000$ \emph{epochs}, each with $100$ \emph{episodes}, 
@@ -1996,12 +1977,13 @@ the average distance between each agent and the leader.
 \end{figure*}
 
 \begin{color}{red}
-\section{Current state discussion}
+\section{Discussion}
 \end{color}
  
 This section discusses the current state of the framework, highlighting its strengths and weaknesses
     that will shape future work in \Cref{chap:conclusions}.
 
+    
 \paragraph{Performance} 
 Currently, a thorough and comprehensive performance benchmarking has not been carried out. This choice was made to 
     favor a simpler, more modular, and flexible design and implementation, following the principle of:
