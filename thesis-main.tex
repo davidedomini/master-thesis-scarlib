@@ -1493,6 +1493,7 @@ A crucial aspect of this task involves defining the \emph{reward function}.
         }
         \label{fig:cc-rf}
     \end{figure}
+
 \begin{color}{red}
 \paragraph{Implementation}
 First of all, it was necessary to define the action space of the various agents, this can be done easily by leveraging the product types of Scala as follows:
@@ -1770,6 +1771,130 @@ The \emph{reward function} is composed of two components. The first component is
         \text{distance to leader} = -d
     \end{equation}
     The overall reward function is defined as the sum of these two factors.
+
+\begin{color}{red}
+\paragraph{Implementation}
+First of all, it was necessary to define the action space of the various agents, this can be done easily by leveraging the product types of Scala as follows:
+\begin{lstlisting}
+import it.unibo.scarlib.core.model.Action
+
+object  FollowTheLeaderActionSpace {
+    final case object North extends Action
+    final case object South extends Action
+    final case object East extends Action
+    final case object West extends Action
+    final case object NorthEast extends Action
+    final case object NorthWest extends Action
+    final case object SouthWest extends Action
+    final case object SouthEast extends Action
+    final case object StandStill extends Action
+
+    def all(): Seq[Action] =
+        Seq(North, South, East, West, NorthEast, NorthWest, SouthWest, SouthEast, StandStill)
+    
+    def sample(): Action = 
+        Random.shuffle(all().take(all().size - 1)).head
+}
+\end{lstlisting}
+Secondly, it was necessary to define the state space:
+\begin{lstlisting}
+import it.unibo.scarlib.core.model.State
+import StateInfo.{neighborhood, encoding}
+
+
+case class  FollowTheLeaderState (
+    directionToLeader: (Double, Double),
+    positions: List[(Double, Double)], 
+    distanceFromLeader: Double,
+    agentId: Int
+) extends State {
+    
+    override def elements(): Int = neighborhood * encoding
+
+    override def toSeq(): Seq[Double] = {
+        val fill = List.fill(elements())(0.0)
+        (positions
+            .flatMap { case (l, r) => List(l, r) } 
+            ++ List(directionToLeader._1, directionToLeader._2) 
+            ++ fill)
+            .take(elements()) 
+    }
+
+    override def isEmpty(): Boolean = false
+}
+\end{lstlisting}
+Then, it was necessary to define the reward function:
+\begin{lstlisting}
+import it.unibo.scarlib.core.model.{Action, RewardFunction, State}
+import it.unibo.scarlib.core.util.AgentGlobalStore
+
+class  FollowTheLeaderRewardFunction extends RewardFunction {
+
+    private val targetDistance = 0.2
+
+    override def compute(currentState: State, action: Action, nextState: State): Double = {
+        val distances = computeDistancesFromNeighborhood(s)
+        val collision = collisionFactor(distances)
+        val distanceFactor = - s.distanceFromLeader
+        AgentGlobalStore().put(s.agentId, "distance", distanceFactor)
+        AgentGlobalStore().put(s.agentId, "collision", collision)
+        AgentGlobalStore().put(s.agentId, "reward", collision + distanceFactor)
+        distanceFactor + collision
+    }
+
+    private def collissionFactor(distances: Seq[Double]): Double = {
+        val min: Double = distances.min
+        if (min < targetDistance) {
+            2 * math.log(min / targetDistance)
+        } else {
+            0.0
+        }
+    }
+}
+\end{lstlisting}
+Finally, it was necessary to define the aggregate program used to reconstruct the state of each agent:
+\begin{lstlisting}
+
+import it.unibo.scafi.ScafiProgram
+
+class CohesionCollisionScafiAgent 
+    extends ScafiProgram with FieldUtils {
+
+    private val leader = sense[Int]("leaderId") == mid()
+
+    override protected def computeState(): State = {
+        val potentialToLeader = classicGradient(leader, nbrRange)
+        val nearestToLeader = includingSelf
+            .reifyField((nbr(potentialToLeader), nbrVector()))
+            .minBy(_._2._1)._2._2
+        val positions = excludingSelf
+            .reifyField(nbrVector())
+            .toList
+            .sortBy(_._2.distance(Point3D.Zero))
+            .map(_._2)
+            .map(point => (point.x, point.y))
+            .take(5)
+        val leaderNode = alchemistEnvironment
+            .getNodes
+            .get(leaderId)
+        val myself = alchemistEnvironment
+            .getNodes
+            .get(mid())
+        val distance = alchemistEnvironment
+            .getDistanceBetweenNodes(myself, leaderNode)
+
+        FollowTheLeaderState(
+            (nearestToLeader.x, nearestToLeader.y), 
+            positions, 
+            distance, 
+            mid()
+        )
+    }
+}    
+\end{lstlisting}
+    
+\end{color}
+
 
 \paragraph{Results}
 The experiment's training involved conducting $1000$ \emph{epochs}, each with $100$ \emph{episodes}, 
