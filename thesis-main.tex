@@ -38,7 +38,6 @@
 The growing popularity of \emph{highly distributed IoT} has highlighted the need for new methods to develop these 
     systems effectively and at scale. 
     Key distinguishing features of these systems include:
-    \begin{color}{red}
     (\emph{partial observability}) each entity/agent posses only a partial view of the environment in 
         which it operates;
     (\emph{full distribution}) there is no central entity that coordinates the entire system, as in 
@@ -46,7 +45,6 @@ The growing popularity of \emph{highly distributed IoT} has highlighted the need
         device or on some edge devices distributed throughout the system, near the IoT devices);
     (\emph{uncertainty}) each entity/agent is influenced by its interactions with the environment and with other 
         agents, introducing a level of stochasticity into the system.
-    \end{color}
 Over the years, numerous methods have been suggested to address these challenges, including:
     \emph{Aggregate Computing} \cite{VIROLI2019100486}, a macro-programming paradigm, 
     and \emph{Multi-Agent Reinforcement Learning} \cite{busoniu2008comprehensive, marlsurvey}, a machine learning paradigm.
@@ -60,7 +58,7 @@ To attain this objective, we present \emph{ScaRLib} \cite{scarlib}, a framework 
     a modular and extensible architecture, and a domain-specific language (DSL) to facilitate the configuration of 
     diverse experiments.
 
-Finally, two experiments are also presented to validate \begin{color}{red}the framework functionalities \end{color}by testing it in basic 
+Finally, two experiments are also presented to validate the framework functionalities by testing it in basic 
     contexts specific to this domain. These experiments were beneficial in verifying the proper functioning 
     of the tool and highlighting its strengths, as well as identifying areas for future work.
 \end{abstract}
@@ -108,9 +106,9 @@ Significant technological advancements have paved the way for the emergence of a
     A crucial aspect of these systems is that a complex collective behavior emerges from the interaction between 
     simpler individual agents leading to adaptive execution of various tasks. 
     Among all aspects related to CPSWs, our focus lies on properties like \emph{collective intelligence} \cite{tumer2004survey} 
-    and \emph{self-organization} \cite{schmeck2011organic}: \begin{color}{red}hence we shall
+    and \emph{self-organization} \cite{schmeck2011organic}: hence we shall
     concentrate on their collective behavior to express autonomy, adaptability, and coordination of the devices 
-    that are part of them. \end{color}
+    that are part of them.
 
 This progress has been driven by research in various related fields such as: multi-agent systems \cite{dorri2018multi},
     coordination \cite{yang2022overview}, distributed artificial intelligence \cite{bond2014readings}, 
@@ -123,8 +121,7 @@ A crucial aspect to consider in CPSWs is how individual devices are programmed a
     controllers from a global perspective. However, this approach has some drawbacks: it is highly challenging to write satisfactory 
     and efficient programs for complex tasks, they may be error-prone and lack of generality.
 
-\begin{color}{red}
-On the other hand, approaches exist \end{color}that leverage various artificial intelligence (AI) techniques, 
+On the other hand, approaches exist that leverage various artificial intelligence (AI) techniques, 
     such as \emph{Multi-Agent Reinforcement Learning} (MARL) \cite{busoniu2008comprehensive, marlsurvey},
     to enable devices to learn directly from experience and/or data. 
     These approaches have proved to be fundamental to effectively express adaptive behaviors in complex environments
@@ -140,12 +137,12 @@ The goal of this thesis is to start the design of a \emph{hybrid} approach
     fast and reusable way. 
     \emph{ScaRLib} \cite{scarlib}, is the tool that for us forms the basis of this toolchain.
     Its main purpose is to integrate \emph{ScaFi} \cite{casadei2022scafi} (an implementation of aggregate computing) 
-    and \emph{Alchemist} \cite{pianini2013chemical} \begin{color}{red}(a general purpose simulator for network oriented systems), 
-    with \emph{Reinforcement Learning} \end{color}used to help the development of experiments in \emph{simulated} environments with \emph{offline learning}
+    and \emph{Alchemist} \cite{pianini2013chemical} (a general purpose simulator for network oriented systems), 
+    with \emph{Reinforcement Learning} used to help the development of experiments in \emph{simulated} environments with \emph{offline learning}
     (i.e., learning is done once and then the policy is deployed in real-case systems). 
     
 Finally, the last goal of this thesis is to validate the functionalities of the framework by implementing 
-    two common experiments \begin{color}{red}in this domain; \end{color}in this way it will be possible to understand the current state of the tool 
+    two common experiments in this domain; in this way it will be possible to understand the current state of the tool 
     and the work that will be necessary to complete it. 
 
 
@@ -308,7 +305,7 @@ One final important aspect of field calculus is its ability to formally demonstr
     
 
 \paragraph{Agregate computing}
-\emph{Aggregate computing} \cite{AC} is a macro-programming model \begin{color}{red}whose foundation is based on \emph{field calculus}, \end{color}providing innovative solutions
+\emph{Aggregate computing} \cite{AC} is a macro-programming model whose foundation is based on \emph{field calculus}, providing innovative solutions
     to the issues previously mentioned. AC's objective is to reduce the complexity of designing, developing, 
     and maintaining complex distributed systems, with focus on three fundamental aspects:
     i) the composition of modules and subsystems must transparent,
@@ -765,11 +762,9 @@ In science and engineering, the use of \emph{simulators} plays a key role. These
     with complex and expensive systems (such as cyber-physical swarms), offering a virtual 
     environment in which to conduct tests, analyses, and in-depth studies rapidly, under controlled and 
     repeatable conditions (e.g., \cite{argun2021simulation, bagrodia1998parsec, choi2021use, cannon2009simulation}).
-    \begin{color}{red}
     Moreover, simulation is crucial in MARL with offline learning, enabling agents to learn a policy 
     for a model of the environment without relying on physical components, such as robots, 
     that may be cost-prohibitive or unavailable.
-    \end{color}
     In this project, the \emph{Alchemist} \cite{alchemist} simulator has been taken as a reference.
 
 Alchemist is a \emph{meta-simulator} designed for simulating \emph{complex distributed systems} in a rich variety of scenarios 
@@ -948,10 +943,8 @@ The first scenario (\Cref{fig:cpsw1}) represents one of the simplest conceivable
     the fleet's purpose is to monitor a designated area of territory for \emph{adverse events} (e.g., fires). Once an adverse 
     event is identified, the fleet must \emph{coordinate} to determine the number of drones to intervene and their 
     respective \emph{strategies}.
-    \begin{color}{red}
     The goal is to define a policy that allows the fleet to identify the adverse events and coordinate to handle them within a 
     given time frame.
-    \end{color}
 
 A final example (\Cref{fig:cpsw3}) entails the use of \emph{wearable devices} (e.g., smartwatches) for \emph{crowd management} during a public event 
     (e.g., a conference or concert).
@@ -1247,9 +1240,7 @@ Originally, Scala was designed as a language intended for seamless interoperabil
     gradients for optimization algorithms based on gradients such as \emph{stochastic gradient descent} \cite{amari1993backpropagation}. 
     This characteristic streamlines the implementation of custom loss functions and intricate optimization strategies.
 
-\begin{color}{red}
 \section{DevOps technologies used}
-\end{color}
 
 \emph{DevOps} techniques are fundamental to the development of a project for several reasons. On the one hand, 
     they make it possible to improve code quality while keeping work organised, promoting testing and 
@@ -1976,9 +1967,7 @@ the average distance between each agent and the leader.
 \label{fig:test-ftl}
 \end{figure*}
 
-\begin{color}{red}
 \section{Discussion}
-\end{color}
  
 This section discusses the current state of the framework, highlighting its strengths and weaknesses
     that will shape future work in \Cref{chap:conclusions}.
